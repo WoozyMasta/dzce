@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<eventposdef>
+    <event name="StaticTrain">
+        <zone smin="0" smax="0" dmin="1" dmax="2" r="20" />
+        <pos x="5587.466" z="2063.353" a="0" y="7.75" group="Train_Abandoned_Cherno" />
+    </event>
+</eventposdef>

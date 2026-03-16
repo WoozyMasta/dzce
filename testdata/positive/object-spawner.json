@@ -1,0 +1,20 @@
+{
+    "Objects": [
+        {
+            "name": "Land_Wall_Gate_FenR",
+            "pos": [
+                8406.501953125,
+                107.73682403564453,
+                12782.3388671875
+            ],
+            "ypr": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "scale": 1.0,
+            "enableCEPersistency": true,
+            "customString": "demo"
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<messages>
+    <message>
+        <delay>5</delay>
+        <repeat>30</repeat>
+        <onconnect>1</onconnect>
+        <text>Welcome to server #name</text>
+    </message>
+</messages>

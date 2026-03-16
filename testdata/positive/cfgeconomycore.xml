@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<economycore>
+    <classes>
+        <rootclass name="Inventory_Base" />
+        <rootclass name="CarScript" act="car" reportMemoryLOD="no" />
+    </classes>
+    <defaults>
+        <default name="dyn_radius" value="30" />
+    </defaults>
+    <ce folder="my_mod">
+        <file name="types_patch.xml" type="types" />
+    </ce>
+</economycore>

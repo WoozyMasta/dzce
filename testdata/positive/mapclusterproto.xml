@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prototype>
+    <clusters>
+        <export name="AppleTree1" shape="dz\plants\tree\t_malusDomestica_1s.p3d" />
+    </clusters>
+    <cluster name="AppleTree1" lootmax="2" maxinstances="150">
+        <de name="TrajectoryApple" />
+        <container name="branch" lootmax="1">
+            <point pos="-1.86 -2.40 0.12" range="0.55" height="1.63" flags="32" />
+        </container>
+    </cluster>
+</prototype>

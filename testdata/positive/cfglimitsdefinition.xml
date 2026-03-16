@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lists>
+    <categories>
+        <category name="tools"/>
+    </categories>
+    <tags>
+        <tag name="floor"/>
+    </tags>
+    <usageflags>
+        <usage name="Military"/>
+    </usageflags>
+    <valueflags>
+        <value name="Tier1"/>
+    </valueflags>
+</lists>

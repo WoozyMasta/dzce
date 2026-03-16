@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<variables>
+    <var name="AnimalMaxCount" type="0" value="200"/>
+    <var name="LootDamageMax" type="1" value="0.82"/>
+    <var name="ExampleString" type="2" value="abc"/>
+</variables>

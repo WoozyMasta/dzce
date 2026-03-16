@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<env>
+    <territories>
+        <file path="env/hare_territories.xml" />
+        <territory type="Ambient" name="AmbientHare" behavior="DZAmbientLifeGroupBeh">
+            <file usable="hare_territories" />
+            <agent type="Male" chance="1">
+                <spawn configName="Animal_LepusEuropaeus" chance="1" />
+            </agent>
+            <item name="zoneTouchDisableEditPeriodSec" val="300" />
+        </territory>
+    </territories>
+</env>

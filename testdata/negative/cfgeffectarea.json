@@ -1,0 +1,13 @@
+{
+    "Areas": [
+        {
+            "AreaName": "BrokenArea",
+            "Type": "GeyserArea",
+            "TriggerType": "GeyserTrigger",
+            "Data": {
+                "Pos": [8906, 0, 10913],
+                "Radius": 2,
+            }
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<economycore>
+    <ce folder="mod_x">
+        <file name="custom_payload.txt" type="mystery" />
+    </ce>
+</economycore>

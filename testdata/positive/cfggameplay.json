@@ -1,0 +1,48 @@
+{
+    "version": 123,
+    "GeneralData": {
+        "disableBaseDamage": false,
+        "disableContainerDamage": false,
+        "disableRespawnDialog": false,
+        "disableRespawnInUnconsciousness": false
+    },
+    "PlayerData": {
+        "disablePersonalLight": false,
+        "StaminaData": {
+            "staminaMax": 100.0,
+            "holdBreathStaminaModifier": 1.0
+        },
+        "WeaponObstructionData": {
+            "staticMode": 1,
+            "dynamicMode": 1
+        }
+    },
+    "WorldsData": {
+        "lightingConfig": 2,
+        "objectSpawnersArr": ["spawnerData.json"],
+        "environmentMinTemps": [-6.5, -9.5],
+        "environmentMaxTemps": [-3.0, -5.0],
+        "wetnessWeightModifiers": [1.0, 1.0, 1.33, 1.66, 2.0],
+        "playerRestrictedAreaFiles": ["pra/warheadstorage.json"]
+    },
+    "BaseBuildingData": {
+        "HologramData": {
+            "disableIsCollidingBBoxCheck": false,
+            "disableColdAreaPlacementCheck": false,
+            "disallowedTypesInUnderground": ["FenceKit", "TerritoryFlagKit"]
+        }
+    },
+    "UIData": {
+        "use3DMap": false,
+        "HitIndicationData": {
+            "hitDirectionStyle": 0,
+            "hitDirectionIndicatorColorStr": "0xffbb0a1e"
+        }
+    },
+    "MapData": {
+        "displayNavInfo": true
+    },
+    "VehicleData": {
+        "boatDecayMultiplier": 1
+    }
+}

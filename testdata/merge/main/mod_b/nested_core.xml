@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<economycore>
+    <ce folder="nested">
+        <file name="types_more.xml" type="types" />
+        <file name="messages_more.xml" type="messages" />
+    </ce>
+</economycore>

@@ -1,0 +1,41 @@
+[
+    {
+        "name": "Starter",
+        "spawnWeight": 2,
+        "characterTypes": [
+            "SurvivorM_Mirek",
+            "SurvivorF_Eva"
+        ],
+        "attachmentSlotItemSets": [
+            {
+                "slotName": "Body",
+                "discreteItemSets": [
+                    {
+                        "itemType": "TShirt_Blue",
+                        "spawnWeight": 1,
+                        "attributes": {
+                            "healthMin": 0.45,
+                            "healthMax": 0.65
+                        },
+                        "quickBarSlot": -1
+                    }
+                ]
+            }
+        ],
+        "discreteUnsortedItemSets": [
+            {
+                "name": "Cargo",
+                "spawnWeight": 1,
+                "attributes": {
+                    "quantityMin": 1.0,
+                    "quantityMax": 1.0
+                },
+                "simpleChildrenTypes": [
+                    "BandageDressing",
+                    "Apple"
+                ],
+                "simpleChildrenUseDefaultAttributes": false
+            }
+        ]
+    }
+]

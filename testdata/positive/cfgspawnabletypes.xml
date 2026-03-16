@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<spawnabletypes>
+    <type name="Barrel_Blue">
+        <hoarder />
+    </type>
+    <type name="FirstAidKit">
+        <tag name="shelves" />
+        <damage min="0.0" max="0.32" />
+        <attachments chance="0.85">
+            <item name="BandageDressing" chance="1.00" />
+        </attachments>
+        <cargo chance="1">
+            <item name="VitaminBottle" />
+        </cargo>
+    </type>
+</spawnabletypes>

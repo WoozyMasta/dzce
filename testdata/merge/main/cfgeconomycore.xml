@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<economycore>
+    <ce folder="mod_a">
+        <file name="types_patch.xml" type="types" />
+        <file name="events_patch.xml" type="events" />
+    </ce>
+    <ce folder="mod_b">
+        <file name="nested_core.xml" type="economycore" />
+        <file name="messages_patch.xml" type="messages" />
+    </ce>
+</economycore>

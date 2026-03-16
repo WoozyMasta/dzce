@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prototype>
+    <defaults>
+        <default name="group" lootmax="6" />
+    </defaults>
+    <group name="Land_Shed_M1" lootmax="2">
+        <usage name="Industrial" />
+        <container name="lootFloor" lootmax="2">
+            <category name="tools" />
+            <tag name="floor" />
+            <point pos="0.5 -1.1 0.8" range="0.58" height="1.46" flags="32" />
+        </container>
+    </group>
+</prototype>

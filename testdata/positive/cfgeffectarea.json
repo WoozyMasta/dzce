@@ -1,0 +1,28 @@
+{
+    "Areas": [
+        {
+            "AreaName": "Cluster1Geyser1",
+            "Type": "GeyserArea",
+            "TriggerType": "GeyserTrigger",
+            "Data": {
+                "Pos": [8906, 0, 10913],
+                "Radius": 2,
+                "PosHeight": 20,
+                "NegHeight": 5,
+                "EffectInterval": 7200,
+                "EffectDuration": 180
+            }
+        },
+        {
+            "AreaName": "Cluster1Area1A",
+            "Type": "HotSpringArea",
+            "TriggerType": "HotSpringTrigger",
+            "Data": {
+                "Pos": [8906, 0, 10913],
+                "Radius": 12,
+                "PosHeight": 5,
+                "NegHeight": 5
+            }
+        }
+    ]
+}

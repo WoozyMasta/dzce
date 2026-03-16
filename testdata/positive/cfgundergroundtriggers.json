@@ -1,0 +1,24 @@
+{
+    "Triggers": [
+        {
+            "Position": [9663.464844, 211.883530, 8466.494141],
+            "Orientation": [45, 0, 0],
+            "Size": [30, 8, 20],
+            "EyeAccommodation": 1,
+            "UseLinePointFade": 1,
+            "AmbientSoundType": "caveBig",
+            "Breadcrumbs": [
+                {
+                    "Position": [9674.978516, 213.507248, 8469.383789],
+                    "EyeAccommodation": 1,
+                    "UseRaycast": 0,
+                    "Radius": -1
+                },
+                {
+                    "Position": [9672.067383, 213.062958, 8467.806641],
+                    "EyeAccommodation": 0.7
+                }
+            ]
+        }
+    ]
+}

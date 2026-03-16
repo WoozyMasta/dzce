@@ -1,0 +1,10 @@
+{
+    "Triggers": [
+        {
+            "Position": "bad-position-type",
+            "Orientation": [45, 0, 0],
+            "Size": [30, 8, 20],
+            "EyeAccommodation": 1
+        }
+    ]
+}

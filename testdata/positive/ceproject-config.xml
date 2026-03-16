@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zg-config>
+    <selected row="1"/>
+    <global>
+        <background file="map.png" rgba="16777215"/>
+        <layer size="8"/>
+        <world size="80"/>
+    </global>
+    <areas>
+        <usages>
+            <usage name="Military"/>
+            <usage name="Police"/>
+        </usages>
+        <values>
+            <value name="Tier1"/>
+            <value name="Tier2"/>
+            <value name="Tier3"/>
+        </values>
+    </areas>
+    <layers>
+        <layer usage_flags="2" value_flags="1" color="4294967295" visible="1" name="Military"/>
+        <layer usage_flags="4" value_flags="2" color="4294967295" visible="0" name="Police"/>
+    </layers>
+    <territory-type-list>
+        <territory-type name="zombie_territories">
+            <territory name="City" visible="1" color="4281913127">
+                <zone name="City" smin="0" smax="0" dmin="2" dmax="4" x="10" z="20" r="30" d="25"/>
+            </territory>
+        </territory-type>
+    </territory-type-list>
+</zg-config>

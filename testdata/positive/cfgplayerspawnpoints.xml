@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playerspawnpoints>
+    <fresh>
+        <spawn_params>
+            <min_dist_infected>30</min_dist_infected>
+            <max_dist_infected>70</max_dist_infected>
+            <min_dist_player>65</min_dist_player>
+            <max_dist_player>150</max_dist_player>
+        </spawn_params>
+        <generator_posbubbles>
+            <group name="Zones">
+                <pos x="6063.018555" z="1931.907227" />
+            </group>
+        </generator_posbubbles>
+    </fresh>
+</playerspawnpoints>
