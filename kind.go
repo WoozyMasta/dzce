@@ -134,7 +134,8 @@ func KindFromEconomyCoreType(value string) Kind {
 
 // DetectKind returns CE file kind by file base name.
 func DetectKind(path string) Kind {
-	base := strings.ToLower(filepath.Base(path))
+	normalizedPath := strings.ReplaceAll(path, "\\", "/")
+	base := strings.ToLower(filepath.Base(normalizedPath))
 
 	switch base {
 	case "types.xml":
