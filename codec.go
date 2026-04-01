@@ -11,8 +11,8 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"path/filepath"
-	"strings"
+
+	"github.com/woozymasta/bimime"
 )
 
 // defaultRegistry stores built-in CE formats.
@@ -220,23 +220,13 @@ func SaveFile(path string, value any) error {
 
 // detectKindByContent detects known dynamic-name CE formats by payload.
 func detectKindByContent(path string, data []byte) Kind {
-	ext := strings.ToLower(filepath.Ext(path))
-	switch ext {
-	case ".xml":
-		root, err := detectXMLRootElement(data)
-		if err != nil {
-			return KindUnknown
-		}
+	result := bimime.Analyze(bimime.AnalyzeOptions{
+		Path:        path,
+		Prefix:      data,
+		DefaultPlan: bimime.PlanNormal(),
+	})
 
-		switch root {
-		case "zg-config":
-			return KindCEProjectConfig
-		default:
-			return KindUnknown
-		}
-	default:
-		return KindUnknown
-	}
+	return kindFromTypeID(result.Probe.Resolved.ID)
 }
 
 // detectKindByValue detects known dynamic-name CE formats by value type.
@@ -248,21 +238,6 @@ func detectKindByValue(value any) Kind {
 		return KindAreaFlagsMap
 	default:
 		return KindUnknown
-	}
-}
-
-// detectXMLRootElement returns lower-cased root element local name.
-func detectXMLRootElement(data []byte) (string, error) {
-	decoder := xml.NewDecoder(bytes.NewReader(data))
-	for {
-		token, err := decoder.Token()
-		if err != nil {
-			return "", err
-		}
-
-		if start, ok := token.(xml.StartElement); ok {
-			return strings.ToLower(strings.TrimSpace(start.Name.Local)), nil
-		}
 	}
 }
 

@@ -5,8 +5,9 @@
 package dzce
 
 import (
-	"path/filepath"
 	"strings"
+
+	"github.com/woozymasta/bimime"
 )
 
 const (
@@ -14,93 +15,93 @@ const (
 	KindUnknown Kind = ""
 
 	// KindTypes maps to db/types.xml.
-	KindTypes Kind = "types"
+	KindTypes Kind = "bi.ce.db.types"
 
 	// KindEvents maps to db/events.xml.
-	KindEvents Kind = "events"
+	KindEvents Kind = "bi.ce.db.events"
 
 	// KindEconomy maps to db/economy.xml.
-	KindEconomy Kind = "economy"
+	KindEconomy Kind = "bi.ce.db.economy"
 
 	// KindGlobals maps to db/globals.xml.
-	KindGlobals Kind = "globals"
+	KindGlobals Kind = "bi.ce.db.globals"
 
 	// KindMessages maps to db/messages.xml.
-	KindMessages Kind = "messages"
+	KindMessages Kind = "bi.ce.db.messages"
 
 	// KindSpawnableTypes maps to cfgspawnabletypes.xml.
-	KindSpawnableTypes Kind = "spawnabletypes"
+	KindSpawnableTypes Kind = "bi.ce.cfgspawnabletypes"
 
 	// KindRandomPresets maps to cfgrandompresets.xml.
-	KindRandomPresets Kind = "randompresets"
+	KindRandomPresets Kind = "bi.ce.cfgrandompresets"
 
 	// KindEconomyCore maps to cfgeconomycore.xml.
-	KindEconomyCore Kind = "economycore"
+	KindEconomyCore Kind = "bi.ce.cfgeconomycore"
 
 	// KindEnvironment maps to cfgenvironment.xml.
-	KindEnvironment Kind = "environment"
+	KindEnvironment Kind = "bi.ce.cfgenvironment"
 
 	// KindEventSpawns maps to cfgeventspawns.xml.
-	KindEventSpawns Kind = "eventspawns"
+	KindEventSpawns Kind = "bi.ce.cfgeventspawns"
 
 	// KindEventGroups maps to cfgeventgroups.xml.
-	KindEventGroups Kind = "eventgroups"
+	KindEventGroups Kind = "bi.ce.cfgeventgroups"
 
 	// KindPlayerSpawnPoints maps to cfgplayerspawnpoints.xml.
-	KindPlayerSpawnPoints Kind = "playerspawnpoints"
+	KindPlayerSpawnPoints Kind = "bi.ce.cfgplayerspawnpoints"
 
 	// KindWeather maps to cfgweather.xml.
-	KindWeather Kind = "weather"
+	KindWeather Kind = "bi.ce.cfgweather"
 
 	// KindLimitsDefinition maps to cfglimitsdefinition.xml.
-	KindLimitsDefinition Kind = "limitsdefinition"
+	KindLimitsDefinition Kind = "bi.ce.cfglimitsdefinition"
 
 	// KindLimitsDefinitionUser maps to cfglimitsdefinitionuser.xml.
-	KindLimitsDefinitionUser Kind = "limitsdefinitionuser"
+	KindLimitsDefinitionUser Kind = "bi.ce.cfglimitsdefinitionuser"
 
 	// KindIgnoreList maps to cfgignorelist.xml.
-	KindIgnoreList Kind = "ignorelist"
+	KindIgnoreList Kind = "bi.ce.cfgignorelist"
 
 	// KindTerritories maps to env/*_territories.xml files.
-	KindTerritories Kind = "territories"
+	KindTerritories Kind = "bi.ce.env.territories"
 
 	// KindUndergroundTriggers maps to cfgundergroundtriggers.json.
-	KindUndergroundTriggers Kind = "undergroundtriggers"
+	KindUndergroundTriggers Kind = "bi.ce.cfgundergroundtriggers"
 
 	// KindEffectArea maps to cfgeffectarea.json.
-	KindEffectArea Kind = "effectarea"
+	KindEffectArea Kind = "bi.ce.cfgeffectarea"
 
 	// KindGameplay maps to cfggameplay.json.
-	KindGameplay Kind = "gameplay"
+	KindGameplay Kind = "bi.ce.cfggameplay"
 
 	// KindGameplayGearPresets maps to JSON payloads listed in
 	// `cfggameplay.json -> PlayerData.spawnGearPresetFiles`.
-	KindGameplayGearPresets Kind = "gameplaygearpresets"
+	KindGameplayGearPresets Kind = "bi.ce.gameplay-gear-presets"
 
 	// KindObjectSpawner maps to JSON payloads listed in
 	// `cfggameplay.json -> WorldsData.objectSpawnersArr`.
-	KindObjectSpawner Kind = "objectspawner"
+	KindObjectSpawner Kind = "bi.ce.object-spawner"
 
 	// KindCEProjectConfig maps to CEProject `mapname.xml` (`<zg-config>`).
-	KindCEProjectConfig Kind = "ceprojectconfig"
+	KindCEProjectConfig Kind = "bi.ce.ceproject-config"
 
 	// KindAreaFlagsMap maps to `areaflags.map` binary payload.
-	KindAreaFlagsMap Kind = "areaflagsmap"
+	KindAreaFlagsMap Kind = "bi.world.areaflags-map"
 
 	// KindMapGroupProto maps to mapgroupproto.xml.
-	KindMapGroupProto Kind = "mapgroupproto"
+	KindMapGroupProto Kind = "bi.ce.mapgroupproto"
 
 	// KindMapClusterProto maps to mapclusterproto.xml.
-	KindMapClusterProto Kind = "mapclusterproto"
+	KindMapClusterProto Kind = "bi.ce.mapclusterproto"
 
 	// KindMapGroupPos maps to mapgrouppos.xml.
-	KindMapGroupPos Kind = "mapgrouppos"
+	KindMapGroupPos Kind = "bi.ce.mapgrouppos"
 
 	// KindMapGroupDirt maps to mapgroupdirt.xml.
-	KindMapGroupDirt Kind = "mapgroupdirt"
+	KindMapGroupDirt Kind = "bi.ce.mapgroupdirt"
 
 	// KindMapGroupCluster maps to mapgroupcluster*.xml.
-	KindMapGroupCluster Kind = "mapgroupcluster"
+	KindMapGroupCluster Kind = "bi.ce.mapgroupcluster"
 )
 
 // Kind describes supported CE configuration file kind.
@@ -134,70 +135,23 @@ func KindFromEconomyCoreType(value string) Kind {
 
 // DetectKind returns CE file kind by file base name.
 func DetectKind(path string) Kind {
-	normalizedPath := strings.ReplaceAll(path, "\\", "/")
-	base := strings.ToLower(filepath.Base(normalizedPath))
-
-	switch base {
-	case "types.xml":
-		return KindTypes
-	case "events.xml":
-		return KindEvents
-	case "economy.xml":
-		return KindEconomy
-	case "globals.xml":
-		return KindGlobals
-	case "messages.xml":
-		return KindMessages
-	case "cfgspawnabletypes.xml":
-		return KindSpawnableTypes
-	case "cfgrandompresets.xml":
-		return KindRandomPresets
-	case "cfgeconomycore.xml":
-		return KindEconomyCore
-	case "cfgenvironment.xml":
-		return KindEnvironment
-	case "cfgeventspawns.xml":
-		return KindEventSpawns
-	case "cfgeventgroups.xml":
-		return KindEventGroups
-	case "cfgplayerspawnpoints.xml":
-		return KindPlayerSpawnPoints
-	case "cfgweather.xml":
-		return KindWeather
-	case "cfglimitsdefinition.xml":
-		return KindLimitsDefinition
-	case "cfglimitsdefinitionuser.xml":
-		return KindLimitsDefinitionUser
-	case "cfgignorelist.xml":
-		return KindIgnoreList
-	case "cfgundergroundtriggers.json":
-		return KindUndergroundTriggers
-	case "cfgeffectarea.json":
-		return KindEffectArea
-	case "cfggameplay.json":
-		return KindGameplay
-	case "areaflags.map":
-		return KindAreaFlagsMap
-	case "mapgroupproto.xml":
-		return KindMapGroupProto
-	case "mapclusterproto.xml":
-		return KindMapClusterProto
-	case "mapgrouppos.xml":
-		return KindMapGroupPos
-	case "mapgroupdirt.xml":
-		return KindMapGroupDirt
-	case "mapgroupcluster.xml":
-		return KindMapGroupCluster
-	default:
-		if strings.HasPrefix(base, "mapgroupcluster") &&
-			strings.HasSuffix(base, ".xml") {
-			return KindMapGroupCluster
-		}
-
-		if strings.HasSuffix(base, "_territories.xml") {
-			return KindTerritories
-		}
-
+	typ, ok := bimime.DetectByExtension(path)
+	if !ok {
 		return KindUnknown
 	}
+
+	return kindFromTypeID(typ.ID)
+}
+
+// kindFromTypeID resolves dzce Kind from bimime type id.
+func kindFromTypeID(typeID string) Kind {
+	kind := Kind(strings.ToLower(strings.TrimSpace(typeID)))
+	if kind == KindUnknown {
+		return KindUnknown
+	}
+	if _, ok := DefaultRegistry().Get(kind); !ok {
+		return KindUnknown
+	}
+
+	return kind
 }
