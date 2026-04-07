@@ -13,6 +13,19 @@ and this project adheres to [Semantic Versioning][].
 ### Removed
 -->
 
+## [0.2.0][] - 2026-04-07
+
+### Added
+
+* Linting support via `lintkit` for CE configuration.
+
+### Changed
+
+* File kind detection now uses `bimime` as primary source
+  (extension/path and content-aware detection).
+
+[0.2.0]: https://github.com/WoozyMasta/dzce/compare/v0.1.0...v0.2.0
+
 ## [0.1.0][] - 2026-03-17
 
 ### Added
