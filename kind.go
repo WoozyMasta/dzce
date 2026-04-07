@@ -107,30 +107,69 @@ const (
 // Kind describes supported CE configuration file kind.
 type Kind string
 
+var (
+	// economyCoreIncludeKinds stores strict include type mapping from economycore.
+	economyCoreIncludeKinds = map[string]Kind{
+		"types":             KindTypes,
+		"events":            KindEvents,
+		"economy":           KindEconomy,
+		"globals":           KindGlobals,
+		"messages":          KindMessages,
+		"spawnabletypes":    KindSpawnableTypes,
+		"cfgspawnabletypes": KindSpawnableTypes,
+		"economycore":       KindEconomyCore,
+		"cfgeconomycore":    KindEconomyCore,
+	}
+
+	// kindAliases stores relaxed user-facing kind aliases to canonical kind ids.
+	kindAliases = map[string]Kind{
+		"types":                KindTypes,
+		"events":               KindEvents,
+		"economy":              KindEconomy,
+		"globals":              KindGlobals,
+		"messages":             KindMessages,
+		"spawnabletypes":       KindSpawnableTypes,
+		"cfgspawnabletypes":    KindSpawnableTypes,
+		"randompresets":        KindRandomPresets,
+		"economycore":          KindEconomyCore,
+		"cfgeconomycore":       KindEconomyCore,
+		"environment":          KindEnvironment,
+		"eventspawns":          KindEventSpawns,
+		"eventgroups":          KindEventGroups,
+		"playerspawnpoints":    KindPlayerSpawnPoints,
+		"weather":              KindWeather,
+		"limitsdefinition":     KindLimitsDefinition,
+		"limitsdefinitionuser": KindLimitsDefinitionUser,
+		"ignorelist":           KindIgnoreList,
+		"territories":          KindTerritories,
+		"undergroundtriggers":  KindUndergroundTriggers,
+		"effectarea":           KindEffectArea,
+		"gameplay":             KindGameplay,
+		"gameplaygearpresets":  KindGameplayGearPresets,
+		"objectspawner":        KindObjectSpawner,
+		"ceprojectconfig":      KindCEProjectConfig,
+		"areaflagsmap":         KindAreaFlagsMap,
+		"mapgroupproto":        KindMapGroupProto,
+		"mapclusterproto":      KindMapClusterProto,
+		"mapgrouppos":          KindMapGroupPos,
+		"mapgroupdirt":         KindMapGroupDirt,
+		"mapgroupcluster":      KindMapGroupCluster,
+	}
+)
+
 // KindFromEconomyCoreType maps `<file type="...">` from economycore to Kind.
 //
 // According to DayZ CE wiki mission file modding docs, include `type` values
 // are limited to: types, spawnabletypes, globals, economy, events, messages.
 // `economycore` is additionally accepted for recursive include expansion.
 func KindFromEconomyCoreType(value string) Kind {
-	switch strings.ToLower(strings.TrimSpace(value)) {
-	case "types":
-		return KindTypes
-	case "events":
-		return KindEvents
-	case "economy":
-		return KindEconomy
-	case "globals":
-		return KindGlobals
-	case "messages":
-		return KindMessages
-	case "spawnabletypes", "cfgspawnabletypes":
-		return KindSpawnableTypes
-	case "economycore", "cfgeconomycore":
-		return KindEconomyCore
-	default:
+	key := lowerTrim(value)
+	kind, ok := economyCoreIncludeKinds[key]
+	if !ok {
 		return KindUnknown
 	}
+
+	return kind
 }
 
 // DetectKind returns CE file kind by file base name.
@@ -145,7 +184,7 @@ func DetectKind(path string) Kind {
 
 // kindFromTypeID resolves dzce Kind from bimime type id.
 func kindFromTypeID(typeID string) Kind {
-	kind := Kind(strings.ToLower(strings.TrimSpace(typeID)))
+	kind := normalizeKindAlias(typeID)
 	if kind == KindUnknown {
 		return KindUnknown
 	}
@@ -154,4 +193,24 @@ func kindFromTypeID(typeID string) Kind {
 	}
 
 	return kind
+}
+
+// normalizeKindAlias resolves one raw token to canonical kind id or unknown.
+func normalizeKindAlias(value string) Kind {
+	key := lowerTrim(value)
+	if key == "" {
+		return KindUnknown
+	}
+
+	kind, ok := kindAliases[key]
+	if ok {
+		return kind
+	}
+
+	return Kind(key)
+}
+
+// lowerTrim normalizes string token for maps and comparisons.
+func lowerTrim(value string) string {
+	return strings.ToLower(strings.TrimSpace(value))
 }

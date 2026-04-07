@@ -16,10 +16,10 @@ type TypeDef struct {
 	Restock *int `xml:"restock,omitempty" json:"restock,omitempty" yaml:"restock,omitempty"`
 	// Min is minimum amount target.
 	Min *int `xml:"min,omitempty" json:"min,omitempty" yaml:"min,omitempty"`
-	// QuantMin is item minimum quantity percent.
-	QuantMin *int `xml:"quantmin,omitempty" json:"quantmin,omitempty" yaml:"quantmin,omitempty"`
-	// QuantMax is item maximum quantity percent.
-	QuantMax *int `xml:"quantmax,omitempty" json:"quantmax,omitempty" yaml:"quantmax,omitempty"`
+	// QuantityMin is item minimum quantity percent.
+	QuantityMin *int `xml:"quantmin,omitempty" json:"quantmin,omitempty" yaml:"quantmin,omitempty"`
+	// QuantityMax is item maximum quantity percent.
+	QuantityMax *int `xml:"quantmax,omitempty" json:"quantmax,omitempty" yaml:"quantmax,omitempty"`
 	// Cost is respawn cost weight.
 	Cost *int `xml:"cost,omitempty" json:"cost,omitempty" yaml:"cost,omitempty"`
 	// Flags controls count/crafted/deloot semantics.

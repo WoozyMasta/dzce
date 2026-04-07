@@ -182,73 +182,7 @@ func resolveIncludeKind(
 
 // parseRegisteredKind resolves raw kind string if registry has such kind.
 func parseRegisteredKind(value string) Kind {
-	normalized := strings.ToLower(strings.TrimSpace(value))
-	if normalized == "" {
-		return KindUnknown
-	}
-
-	switch normalized {
-	case "types":
-		normalized = string(KindTypes)
-	case "events":
-		normalized = string(KindEvents)
-	case "economy":
-		normalized = string(KindEconomy)
-	case "globals":
-		normalized = string(KindGlobals)
-	case "messages":
-		normalized = string(KindMessages)
-	case "spawnabletypes":
-		normalized = string(KindSpawnableTypes)
-	case "randompresets":
-		normalized = string(KindRandomPresets)
-	case "economycore":
-		normalized = string(KindEconomyCore)
-	case "environment":
-		normalized = string(KindEnvironment)
-	case "eventspawns":
-		normalized = string(KindEventSpawns)
-	case "eventgroups":
-		normalized = string(KindEventGroups)
-	case "playerspawnpoints":
-		normalized = string(KindPlayerSpawnPoints)
-	case "weather":
-		normalized = string(KindWeather)
-	case "limitsdefinition":
-		normalized = string(KindLimitsDefinition)
-	case "limitsdefinitionuser":
-		normalized = string(KindLimitsDefinitionUser)
-	case "ignorelist":
-		normalized = string(KindIgnoreList)
-	case "territories":
-		normalized = string(KindTerritories)
-	case "undergroundtriggers":
-		normalized = string(KindUndergroundTriggers)
-	case "effectarea":
-		normalized = string(KindEffectArea)
-	case "gameplay":
-		normalized = string(KindGameplay)
-	case "gameplaygearpresets":
-		normalized = string(KindGameplayGearPresets)
-	case "objectspawner":
-		normalized = string(KindObjectSpawner)
-	case "ceprojectconfig":
-		normalized = string(KindCEProjectConfig)
-	case "areaflagsmap":
-		normalized = string(KindAreaFlagsMap)
-	case "mapgroupproto":
-		normalized = string(KindMapGroupProto)
-	case "mapclusterproto":
-		normalized = string(KindMapClusterProto)
-	case "mapgrouppos":
-		normalized = string(KindMapGroupPos)
-	case "mapgroupdirt":
-		normalized = string(KindMapGroupDirt)
-	case "mapgroupcluster":
-		normalized = string(KindMapGroupCluster)
-	}
-
-	kind := Kind(normalized)
+	kind := normalizeKindAlias(value)
 	if kind == KindUnknown {
 		return KindUnknown
 	}

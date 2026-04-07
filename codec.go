@@ -11,6 +11,8 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
+	"strings"
 
 	"github.com/woozymasta/bimime"
 )
@@ -226,7 +228,16 @@ func detectKindByContent(path string, data []byte) Kind {
 		DefaultPlan: bimime.PlanNormal(),
 	})
 
-	return kindFromTypeID(result.Probe.Resolved.ID)
+	kind := kindFromTypeID(result.Probe.Resolved.ID)
+	if kind != KindUnknown {
+		return kind
+	}
+
+	if strings.ToLower(filepath.Ext(path)) != ".xml" {
+		return KindUnknown
+	}
+
+	return detectKindByXMLRoot(data)
 }
 
 // detectKindByValue detects known dynamic-name CE formats by value type.
@@ -236,6 +247,59 @@ func detectKindByValue(value any) Kind {
 		return KindCEProjectConfig
 	case *AreaFlagsMapFile:
 		return KindAreaFlagsMap
+	default:
+		return KindUnknown
+	}
+}
+
+// detectKindByXMLRoot maps XML root tag to CE kind for dynamic file names.
+func detectKindByXMLRoot(data []byte) Kind {
+	var root struct {
+		// XMLName stores parsed XML root tag.
+		XMLName xml.Name
+	}
+
+	if err := xml.Unmarshal(data, &root); err != nil {
+		return KindUnknown
+	}
+
+	switch strings.ToLower(strings.TrimSpace(root.XMLName.Local)) {
+	case "types":
+		return KindTypes
+	case "events":
+		return KindEvents
+	case "economy":
+		return KindEconomy
+	case "variables":
+		return KindGlobals
+	case "messages":
+		return KindMessages
+	case "spawnabletypes":
+		return KindSpawnableTypes
+	case "randompresets":
+		return KindRandomPresets
+	case "economycore":
+		return KindEconomyCore
+	case "env":
+		return KindEnvironment
+	case "eventposdef":
+		return KindEventSpawns
+	case "eventgroupdef":
+		return KindEventGroups
+	case "playerspawnpoints":
+		return KindPlayerSpawnPoints
+	case "weather":
+		return KindWeather
+	case "lists":
+		return KindLimitsDefinition
+	case "user_lists":
+		return KindLimitsDefinitionUser
+	case "ignore":
+		return KindIgnoreList
+	case "territory-type":
+		return KindTerritories
+	case "zg-config":
+		return KindCEProjectConfig
 	default:
 		return KindUnknown
 	}

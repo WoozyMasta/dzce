@@ -3,6 +3,7 @@ LINTER      ?= golangci-lint
 ALIGNER     ?= betteralign
 VULNCHECK   ?= govulncheck
 BENCHSTAT   ?= benchstat
+LINTKIT     ?= lintkit
 BENCH_COUNT ?= 6
 BENCH_REF   ?= bench_baseline.txt
 
@@ -12,7 +13,9 @@ BENCH_REF   ?= bench_baseline.txt
 	release-notes
 
 check: verify vulncheck tidy fmt vet lint-fix align-fix test
+check: diag-doc
 ci: download tools-ci verify vulncheck tidy-check fmt-check vet lint align test
+ci: diag-doc-check
 
 fmt:
 	gofmt -w .
@@ -90,7 +93,9 @@ vulncheck:
 	$(VULNCHECK) ./...
 
 tools: tool-golangci-lint tool-betteralign tool-govulncheck tool-benchstat
+tools: tool-lintkit
 tools-ci: tool-golangci-lint tool-betteralign tool-govulncheck
+tools-ci: tool-lintkit
 
 tool-golangci-lint:
 	$(GO) install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
@@ -103,6 +108,9 @@ tool-govulncheck:
 
 tool-benchstat:
 	$(GO) install golang.org/x/perf/cmd/benchstat@latest
+
+tool-lintkit:
+	$(GO) install github.com/woozymasta/lintkit/cmd/lintkit@latest
 
 release-notes:
 	@awk '\
@@ -120,3 +128,11 @@ release-notes:
 	function flush() { if (buf != "") { print buf; buf = "" } } \
 	END { flush() } \
 	' CHANGELOG.md
+
+diag-doc:
+	$(LINTKIT) snapshot -f yaml rules.yaml
+	$(LINTKIT) doc -t table -w 76 rules.yaml RULES.md
+
+diag-doc-check:
+	$(LINTKIT) snapshot -cf yaml rules.yaml
+	$(LINTKIT) doc -ct table -w 76 rules.yaml RULES.md

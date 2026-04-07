@@ -4,7 +4,11 @@
 
 package dzce
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/woozymasta/lintkit/lint"
+)
 
 var (
 	// ErrUnsupportedKind reports an unsupported CE file kind.
@@ -42,4 +46,7 @@ var (
 
 	// ErrEmptyTerritoryDirPath reports an empty territory directory path.
 	ErrEmptyTerritoryDirPath = errors.New("empty territory directory path")
+
+	// ErrNilLintRuleRegistrar indicates nil lint rule registrar in registration.
+	ErrNilLintRuleRegistrar = lint.ErrNilRuleRegistrar
 )

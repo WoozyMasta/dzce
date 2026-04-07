@@ -181,8 +181,8 @@ func mergeTypeDef(current TypeDef, incoming TypeDef) TypeDef {
 	replaceIfNonNil(&merged.Lifetime, incoming.Lifetime)
 	replaceIfNonNil(&merged.Restock, incoming.Restock)
 	replaceIfNonNil(&merged.Min, incoming.Min)
-	replaceIfNonNil(&merged.QuantMin, incoming.QuantMin)
-	replaceIfNonNil(&merged.QuantMax, incoming.QuantMax)
+	replaceIfNonNil(&merged.QuantityMin, incoming.QuantityMin)
+	replaceIfNonNil(&merged.QuantityMax, incoming.QuantityMax)
 	replaceIfNonNil(&merged.Cost, incoming.Cost)
 	replaceIfNonNil(&merged.Flags, incoming.Flags)
 
