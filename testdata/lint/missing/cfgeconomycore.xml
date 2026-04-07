@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<economycore>
+    <defaults>
+        <default name="unknown_key" value="1" />
+        <default name="log_ce_startup" value="maybe" />
+    </defaults>
+    <ce folder="db">
+        <file name="" type="types" />
+    </ce>
+</economycore>

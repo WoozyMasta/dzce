@@ -15,6 +15,9 @@ const (
 	// StageParse marks XML/JSON parsing diagnostics.
 	StageParse lint.Stage = "parse"
 
+	// StageValidate marks XML shape and primitive validation diagnostics.
+	StageValidate lint.Stage = "validate"
+
 	// StageSemantic marks CE semantic validation diagnostics.
 	StageSemantic lint.Stage = "semantic"
 
@@ -34,6 +37,38 @@ const (
 )
 
 const (
+	// CodeValidateMissingRequiredAttr reports missing required XML attributes.
+	CodeValidateMissingRequiredAttr lint.Code = 2001
+
+	// CodeValidateEmptyRequiredAttr reports empty required XML attributes.
+	CodeValidateEmptyRequiredAttr lint.Code = 2002
+
+	// CodeValidateInvalidBool reports invalid boolean-like values.
+	CodeValidateInvalidBool lint.Code = 2003
+
+	// CodeValidateInvalidIntRange reports invalid integer ranges.
+	CodeValidateInvalidIntRange lint.Code = 2004
+
+	// CodeValidateUnknownEnum reports unsupported enum values.
+	CodeValidateUnknownEnum lint.Code = 2005
+)
+
+const (
+	// CodeTypesDuplicateName reports duplicate type names in one types.xml.
+	CodeTypesDuplicateName lint.Code = 3001
+
+	// CodeTypesNominalNegative reports negative nominal in types.xml.
+	CodeTypesNominalNegative lint.Code = 3002
+
+	// CodeTypesMinGreaterThanNominal reports min larger than nominal.
+	CodeTypesMinGreaterThanNominal lint.Code = 3003
+
+	// CodeEventsInvalidLimitWindow reports potentially invalid min/max windows.
+	CodeEventsInvalidLimitWindow lint.Code = 3004
+
+	// CodeSpawnableDuplicateChild reports duplicate child entries.
+	CodeSpawnableDuplicateChild lint.Code = 3005
+
 	// CodeGlobalsInvalidTypeTag reports unsupported globals type tag.
 	CodeGlobalsInvalidTypeTag lint.Code = 3102
 
@@ -46,17 +81,17 @@ const (
 	// CodeEconomyCoreDuplicateDefaultName reports duplicate default name.
 	CodeEconomyCoreDuplicateDefaultName lint.Code = 3202
 
+	// CodeEconomyCoreDefaultInvalidBool reports invalid bool default value.
+	CodeEconomyCoreDefaultInvalidBool lint.Code = 3203
+
 	// CodeEconomyCoreDefaultOutOfRange reports invalid numeric default value.
 	CodeEconomyCoreDefaultOutOfRange lint.Code = 3204
 
 	// CodeEconomyIncompleteSection reports incomplete economy section flags.
 	CodeEconomyIncompleteSection lint.Code = 3301
 
-	// CodeTypesDuplicateName reports duplicate type names in one types.xml.
-	CodeTypesDuplicateName lint.Code = 3001
-
-	// CodeTypesNominalNegative reports negative nominal in types.xml.
-	CodeTypesNominalNegative lint.Code = 3002
+	// CodeTypesFlagsIncomplete reports incomplete `flags` block in types.xml.
+	CodeTypesFlagsIncomplete lint.Code = 3302
 
 	// CodeTypesQuantityRange reports invalid quantmin/quantmax values.
 	CodeTypesQuantityRange lint.Code = 3303
@@ -81,6 +116,12 @@ const (
 
 	// CodeEventsUnknownLimit reports unsupported event limit token.
 	CodeEventsUnknownLimit lint.Code = 3606
+
+	// CodeRandomPresetsDuplicateName reports duplicate preset name in file.
+	CodeRandomPresetsDuplicateName lint.Code = 3702
+
+	// CodeRandomPresetsEmptyItems reports preset without items.
+	CodeRandomPresetsEmptyItems lint.Code = 3703
 
 	// CodeCrossRefMissingType reports unresolved type reference.
 	CodeCrossRefMissingType lint.Code = 4001

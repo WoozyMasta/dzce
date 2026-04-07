@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spawnabletypes>
+    <type name="ExampleType">
+        <cargo chance="1">
+            <item name="Rag" chance="1" />
+            <item name="Rag" chance="1" />
+        </cargo>
+    </type>
+</spawnabletypes>

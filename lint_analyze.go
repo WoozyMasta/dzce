@@ -5,6 +5,7 @@
 package dzce
 
 import (
+	"bytes"
 	"encoding/xml"
 	"fmt"
 	"strconv"
@@ -155,6 +156,13 @@ var (
 		"mixed":  {},
 		"parent": {},
 	}
+
+	// economyCoreBoolDefaults stores known bool-like economycore defaults.
+	economyCoreBoolDefaults = map[string]struct{}{
+		"log_ce_startup":      {},
+		"save_events_startup": {},
+		"save_types_startup":  {},
+	}
 )
 
 // AnalyzeLintContent runs first-pass CE lint checks for one file payload.
@@ -169,37 +177,49 @@ func AnalyzeLintContent(path string, data []byte) []lint.Diagnostic {
 		return analyzeUnknownKindXML(normalizedPath, data)
 	}
 
+	diagnostics := make([]lint.Diagnostic, 0, 16)
+	if isXMLKind(kind) {
+		diagnostics = append(
+			diagnostics,
+			checkRequiredAttributes(normalizedPath, kind, data)...,
+		)
+	}
+
 	value, err := Decode(kind, data)
 	if err != nil {
 		if !isXMLKind(kind) {
-			return nil
+			return diagnostics
 		}
 
-		return []lint.Diagnostic{
+		return append(diagnostics, []lint.Diagnostic{
 			newDiagnostic(
 				CodeParseInvalidXML,
 				normalizedPath,
 				fmt.Sprintf("failed to decode XML kind %s: %v", kind, err),
 			),
-		}
+		}...)
 	}
 
 	switch typed := value.(type) {
 	case *TypesFile:
-		return analyzeTypesFile(normalizedPath, typed)
+		diagnostics = append(diagnostics, analyzeTypesFile(normalizedPath, typed)...)
 	case *EventsFile:
-		return analyzeEventsFile(normalizedPath, typed)
+		diagnostics = append(diagnostics, analyzeEventsFile(normalizedPath, typed)...)
 	case *GlobalsFile:
-		return analyzeGlobalsFile(normalizedPath, typed)
+		diagnostics = append(diagnostics, analyzeGlobalsFile(normalizedPath, typed)...)
 	case *EconomyCoreFile:
-		return analyzeEconomyCoreFile(normalizedPath, typed)
+		diagnostics = append(diagnostics, analyzeEconomyCoreFile(normalizedPath, typed)...)
 	case *EconomyFile:
-		return analyzeEconomyFile(normalizedPath, typed)
+		diagnostics = append(diagnostics, analyzeEconomyFile(normalizedPath, typed)...)
 	case *SpawnableTypesFile:
-		return analyzeSpawnableTypesFile(normalizedPath, typed)
+		diagnostics = append(diagnostics, analyzeSpawnableTypesFile(normalizedPath, typed)...)
+	case *RandomPresetsFile:
+		diagnostics = append(diagnostics, analyzeRandomPresetsFile(normalizedPath, typed)...)
 	default:
-		return nil
+		return diagnostics
 	}
+
+	return diagnostics
 }
 
 // analyzeUnknownKindXML tries to classify unknown XML payload parse issues.
@@ -262,6 +282,67 @@ func analyzeTypesFile(path string, file *TypesFile) []lint.Diagnostic {
 				path,
 				fmt.Sprintf("type %q has negative nominal=%d", item.Name, *item.Nominal),
 			))
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeValidateInvalidIntRange,
+				path,
+				fmt.Sprintf("type %q has nominal=%d outside expected range", item.Name, *item.Nominal),
+			))
+		}
+
+		if item.Min != nil && *item.Min < 0 {
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeValidateInvalidIntRange,
+				path,
+				fmt.Sprintf("type %q has min=%d outside expected range", item.Name, *item.Min),
+			))
+		}
+
+		if item.Min != nil && item.Nominal != nil && *item.Min > *item.Nominal {
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeTypesMinGreaterThanNominal,
+				path,
+				fmt.Sprintf(
+					"type %q has min=%d greater than nominal=%d",
+					item.Name,
+					*item.Min,
+					*item.Nominal,
+				),
+			))
+		}
+
+		if item.Flags != nil {
+			if isTypeFlagsIncomplete(item.Flags) {
+				diagnostics = append(diagnostics, newDiagnostic(
+					CodeTypesFlagsIncomplete,
+					path,
+					fmt.Sprintf("type %q has incomplete flags block", item.Name),
+				))
+			}
+
+			diagnostics = append(
+				diagnostics,
+				checkTypeFlag(path, item.Name, "count_in_cargo", item.Flags.CountInCargo)...,
+			)
+			diagnostics = append(
+				diagnostics,
+				checkTypeFlag(path, item.Name, "count_in_hoarder", item.Flags.CountInHoarder)...,
+			)
+			diagnostics = append(
+				diagnostics,
+				checkTypeFlag(path, item.Name, "count_in_map", item.Flags.CountInMap)...,
+			)
+			diagnostics = append(
+				diagnostics,
+				checkTypeFlag(path, item.Name, "count_in_player", item.Flags.CountInPlayer)...,
+			)
+			diagnostics = append(
+				diagnostics,
+				checkTypeFlag(path, item.Name, "crafted", item.Flags.Crafted)...,
+			)
+			diagnostics = append(
+				diagnostics,
+				checkTypeFlag(path, item.Name, "deloot", item.Flags.Deloot)...,
+			)
 		}
 
 		diagnostics = append(
@@ -288,6 +369,11 @@ func checkTypeQuantity(
 			path,
 			fmt.Sprintf("type %q has invalid quantmin=%d", typeName, *quantityMin),
 		))
+		diagnostics = append(diagnostics, newDiagnostic(
+			CodeValidateInvalidIntRange,
+			path,
+			fmt.Sprintf("type %q has quantmin=%d outside expected range", typeName, *quantityMin),
+		))
 	}
 
 	if quantityMax != nil && !isValidQuantityValue(*quantityMax) {
@@ -295,6 +381,11 @@ func checkTypeQuantity(
 			CodeTypesQuantityRange,
 			path,
 			fmt.Sprintf("type %q has invalid quantmax=%d", typeName, *quantityMax),
+		))
+		diagnostics = append(diagnostics, newDiagnostic(
+			CodeValidateInvalidIntRange,
+			path,
+			fmt.Sprintf("type %q has quantmax=%d outside expected range", typeName, *quantityMax),
 		))
 	}
 
@@ -348,6 +439,11 @@ func analyzeEventsFile(path string, file *EventsFile) []lint.Diagnostic {
 				path,
 				fmt.Sprintf("event %q has non-canonical active=%d", item.Name, *item.Active),
 			))
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeValidateInvalidBool,
+				path,
+				fmt.Sprintf("event %q has invalid bool active=%d", item.Name, *item.Active),
+			))
 		}
 
 		if item.Flags != nil {
@@ -374,6 +470,11 @@ func analyzeEventsFile(path string, file *EventsFile) []lint.Diagnostic {
 						path,
 						fmt.Sprintf("event %q has unknown position=%q", item.Name, *item.Position),
 					))
+					diagnostics = append(diagnostics, newDiagnostic(
+						CodeValidateUnknownEnum,
+						path,
+						fmt.Sprintf("event %q has unknown enum position=%q", item.Name, *item.Position),
+					))
 				}
 			}
 		}
@@ -387,8 +488,39 @@ func analyzeEventsFile(path string, file *EventsFile) []lint.Diagnostic {
 						path,
 						fmt.Sprintf("event %q has unknown limit=%q", item.Name, *item.Limit),
 					))
+					diagnostics = append(diagnostics, newDiagnostic(
+						CodeValidateUnknownEnum,
+						path,
+						fmt.Sprintf("event %q has unknown enum limit=%q", item.Name, *item.Limit),
+					))
 				}
 			}
+		}
+
+		if item.Min != nil && item.Nominal != nil && *item.Min > *item.Nominal {
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeEventsInvalidLimitWindow,
+				path,
+				fmt.Sprintf(
+					"event %q has min=%d greater than nominal=%d",
+					item.Name,
+					*item.Min,
+					*item.Nominal,
+				),
+			))
+		}
+
+		if item.Min != nil && item.Max != nil && *item.Max < *item.Min {
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeEventsInvalidLimitWindow,
+				path,
+				fmt.Sprintf(
+					"event %q has max=%d less than min=%d",
+					item.Name,
+					*item.Max,
+					*item.Min,
+				),
+			))
 		}
 	}
 
@@ -412,6 +544,16 @@ func checkEventFlag(
 			path,
 			fmt.Sprintf(
 				"event %q has non-canonical flags.%s=%d",
+				eventName,
+				flagName,
+				*value,
+			),
+		),
+		newDiagnostic(
+			CodeValidateInvalidBool,
+			path,
+			fmt.Sprintf(
+				"event %q has invalid bool flags.%s=%d",
 				eventName,
 				flagName,
 				*value,
@@ -519,6 +661,15 @@ func analyzeSpawnableTypesFile(
 			if item.Cargo[cargoIndex].Chance != nil {
 				chanceValues = append(chanceValues, *item.Cargo[cargoIndex].Chance)
 			}
+			diagnostics = append(
+				diagnostics,
+				checkSpawnableDuplicateItems(
+					path,
+					item.Name,
+					"cargo",
+					item.Cargo[cargoIndex].Items,
+				)...,
+			)
 
 			for childIndex := range item.Cargo[cargoIndex].Items {
 				if item.Cargo[cargoIndex].Items[childIndex].Chance != nil {
@@ -537,6 +688,15 @@ func analyzeSpawnableTypesFile(
 					*item.Attachments[attachmentIndex].Chance,
 				)
 			}
+			diagnostics = append(
+				diagnostics,
+				checkSpawnableDuplicateItems(
+					path,
+					item.Name,
+					"attachments",
+					item.Attachments[attachmentIndex].Items,
+				)...,
+			)
 
 			for childIndex := range item.Attachments[attachmentIndex].Items {
 				if item.Attachments[attachmentIndex].Items[childIndex].Chance != nil {
@@ -550,6 +710,68 @@ func analyzeSpawnableTypesFile(
 	}
 
 	diagnostics = append(diagnostics, checkSpawnableChance(path, chanceValues)...)
+
+	return diagnostics
+}
+
+// analyzeRandomPresetsFile runs cfgrandompresets.xml semantic checks.
+func analyzeRandomPresetsFile(path string, file *RandomPresetsFile) []lint.Diagnostic {
+	if file == nil {
+		return nil
+	}
+
+	diagnostics := make([]lint.Diagnostic, 0, 8)
+	diagnostics = append(
+		diagnostics,
+		checkRandomPresetGroup(path, "cargo", file.Cargo)...,
+	)
+	diagnostics = append(
+		diagnostics,
+		checkRandomPresetGroup(path, "attachments", file.Attachments)...,
+	)
+
+	return diagnostics
+}
+
+// checkRandomPresetGroup validates one random preset group.
+func checkRandomPresetGroup(
+	path string,
+	group string,
+	presets []RandomPreset,
+) []lint.Diagnostic {
+	seen := make(map[string]struct{}, len(presets))
+	diagnostics := make([]lint.Diagnostic, 0, 4)
+
+	for index := range presets {
+		nameKey := strings.ToLower(strings.TrimSpace(presets[index].Name))
+		if nameKey != "" {
+			if _, exists := seen[nameKey]; exists {
+				diagnostics = append(diagnostics, newDiagnostic(
+					CodeRandomPresetsDuplicateName,
+					path,
+					fmt.Sprintf(
+						"randompresets %s has duplicate preset name %q",
+						group,
+						presets[index].Name,
+					),
+				))
+			} else {
+				seen[nameKey] = struct{}{}
+			}
+		}
+
+		if len(presets[index].Items) == 0 {
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeRandomPresetsEmptyItems,
+				path,
+				fmt.Sprintf(
+					"randompresets %s preset %q has no items",
+					group,
+					presets[index].Name,
+				),
+			))
+		}
+	}
 
 	return diagnostics
 }
@@ -711,6 +933,19 @@ func analyzeEconomyCoreFile(path string, file *EconomyCoreFile) []lint.Diagnosti
 		nameKey := strings.ToLower(strings.TrimSpace(name))
 		if nameKey == "" {
 			continue
+		}
+
+		if _, boolLike := economyCoreBoolDefaults[nameKey]; boolLike &&
+			!isBoolToken(value) {
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeEconomyCoreDefaultInvalidBool,
+				path,
+				fmt.Sprintf(
+					"cfgeconomycore default %q has invalid bool value %q",
+					name,
+					value,
+				),
+			))
 		}
 
 		if _, exists := seen[nameKey]; exists {
@@ -947,9 +1182,198 @@ func checkEconomySectionFlags(
 				*item.value,
 			),
 		))
+		diagnostics = append(diagnostics, newDiagnostic(
+			CodeValidateInvalidBool,
+			path,
+			fmt.Sprintf(
+				"economy section <%s> has invalid bool @%s=%d",
+				sectionName,
+				item.name,
+				*item.value,
+			),
+		))
 	}
 
 	return diagnostics
+}
+
+// checkRequiredAttributes validates required XML attributes by element.
+func checkRequiredAttributes(path string, kind Kind, data []byte) []lint.Diagnostic {
+	decoder := xml.NewDecoder(bytes.NewReader(data))
+	diagnostics := make([]lint.Diagnostic, 0, 4)
+
+	for {
+		token, err := decoder.Token()
+		if err != nil {
+			break
+		}
+
+		start, ok := token.(xml.StartElement)
+		if !ok {
+			continue
+		}
+
+		required := requiredAttrsForElement(kind, strings.ToLower(start.Name.Local))
+		if len(required) == 0 {
+			continue
+		}
+
+		attributes := make(map[string]string, len(start.Attr))
+		for index := range start.Attr {
+			attributes[strings.ToLower(start.Attr[index].Name.Local)] = strings.TrimSpace(start.Attr[index].Value)
+		}
+
+		for index := range required {
+			value, exists := attributes[required[index]]
+			if !exists {
+				diagnostics = append(diagnostics, newDiagnostic(
+					CodeValidateMissingRequiredAttr,
+					path,
+					fmt.Sprintf(
+						"<%s> is missing required attribute @%s",
+						start.Name.Local,
+						required[index],
+					),
+				))
+				continue
+			}
+
+			if value == "" {
+				diagnostics = append(diagnostics, newDiagnostic(
+					CodeValidateEmptyRequiredAttr,
+					path,
+					fmt.Sprintf(
+						"<%s> has empty required attribute @%s",
+						start.Name.Local,
+						required[index],
+					),
+				))
+			}
+		}
+	}
+
+	return diagnostics
+}
+
+// requiredAttrsForElement returns required attributes for one kind/element.
+func requiredAttrsForElement(kind Kind, element string) []string {
+	switch kind {
+	case KindTypes:
+		if element == "type" {
+			return []string{"name"}
+		}
+	case KindEvents:
+		if element == "event" {
+			return []string{"name"}
+		}
+	case KindGlobals:
+		if element == "var" {
+			return []string{"name", "type", "value"}
+		}
+	case KindSpawnableTypes:
+		if element == "type" || element == "item" {
+			return []string{"name"}
+		}
+	case KindRandomPresets:
+		if element == "cargo" || element == "attachments" || element == "item" {
+			return []string{"name"}
+		}
+	case KindEconomyCore:
+		if element == "default" {
+			return []string{"name", "value"}
+		}
+
+		if element == "file" {
+			return []string{"name", "type"}
+		}
+	}
+
+	return nil
+}
+
+// checkTypeFlag validates one `<flags />` value in types.xml.
+func checkTypeFlag(
+	path string,
+	typeName string,
+	flagName string,
+	value *int,
+) []lint.Diagnostic {
+	if value == nil || isCanonicalBool(*value) {
+		return nil
+	}
+
+	return []lint.Diagnostic{
+		newDiagnostic(
+			CodeValidateInvalidBool,
+			path,
+			fmt.Sprintf(
+				"type %q has invalid bool flags.%s=%d",
+				typeName,
+				flagName,
+				*value,
+			),
+		),
+	}
+}
+
+// isTypeFlagsIncomplete reports whether at least one flags attr is missing.
+func isTypeFlagsIncomplete(flags *TypeFlags) bool {
+	if flags == nil {
+		return false
+	}
+
+	return flags.CountInCargo == nil ||
+		flags.CountInHoarder == nil ||
+		flags.CountInMap == nil ||
+		flags.CountInPlayer == nil ||
+		flags.Crafted == nil ||
+		flags.Deloot == nil
+}
+
+// checkSpawnableDuplicateItems finds duplicated item names in one child list.
+func checkSpawnableDuplicateItems(
+	path string,
+	typeName string,
+	branch string,
+	items []SpawnableItem,
+) []lint.Diagnostic {
+	seen := make(map[string]struct{}, len(items))
+	diagnostics := make([]lint.Diagnostic, 0, 2)
+
+	for index := range items {
+		nameKey := strings.ToLower(strings.TrimSpace(items[index].Name))
+		if nameKey == "" {
+			continue
+		}
+
+		if _, exists := seen[nameKey]; exists {
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeSpawnableDuplicateChild,
+				path,
+				fmt.Sprintf(
+					"type %q has duplicate %s item %q",
+					typeName,
+					branch,
+					items[index].Name,
+				),
+			))
+			continue
+		}
+
+		seen[nameKey] = struct{}{}
+	}
+
+	return diagnostics
+}
+
+// isBoolToken reports whether value is canonical bool string token.
+func isBoolToken(value string) bool {
+	switch strings.ToLower(strings.TrimSpace(value)) {
+	case "0", "1", "true", "false":
+		return true
+	default:
+		return false
+	}
 }
 
 // isXMLKind reports whether one CE kind is XML-based.

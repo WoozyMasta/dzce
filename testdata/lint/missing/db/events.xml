@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<events>
+    <event name="" active="2">
+        <nominal>1</nominal>
+        <min>2</min>
+        <max>1</max>
+        <position>invalid-position</position>
+        <limit>invalid-limit</limit>
+        <flags deletable="2" init_random="1" remove_damaged="0" />
+    </event>
+</events>

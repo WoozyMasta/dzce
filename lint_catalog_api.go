@@ -14,6 +14,7 @@ var diagnosticCodeCatalogHandle = lint.NewCodeCatalogHandle(
 		ModuleDescription: "Lint rules for DayZ central economy configuration files.",
 		ScopeDescriptions: map[lint.Stage]string{
 			StageParse:    "Parse diagnostics for CE input payloads.",
+			StageValidate: "Validation diagnostics for CE XML shape and values.",
 			StageSemantic: "Semantic validation diagnostics for decoded CE models.",
 			StageCrossref: "Cross-file reference diagnostics for merged CE trees.",
 			StageMerge:    "Include graph and merge diagnostics for economycore trees.",

@@ -194,6 +194,203 @@ func TestAnalyzeLintContentSpawnableRules(t *testing.T) {
 	}
 }
 
+func TestAnalyzeLintContentValidateRequiredAttrs(t *testing.T) {
+	t.Parallel()
+
+	content := []byte(
+		`<?xml version="1.0"?>
+<types>
+	<type>
+		<nominal>1</nominal>
+	</type>
+</types>`,
+	)
+
+	diagnostics := AnalyzeLintContent("db/types.xml", content)
+	if !hasCode(diagnostics, CodeValidateMissingRequiredAttr) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeValidateMissingRequiredAttr),
+		)
+	}
+}
+
+func TestAnalyzeLintContentNewSemanticRules(t *testing.T) {
+	t.Parallel()
+
+	content := []byte(
+		`<?xml version="1.0"?>
+<types>
+	<type name="ExampleType">
+		<nominal>1</nominal>
+		<min>2</min>
+		<flags count_in_cargo="1"/>
+	</type>
+</types>`,
+	)
+
+	diagnostics := AnalyzeLintContent("db/types.xml", content)
+	if !hasCode(diagnostics, CodeTypesMinGreaterThanNominal) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeTypesMinGreaterThanNominal),
+		)
+	}
+	if !hasCode(diagnostics, CodeTypesFlagsIncomplete) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeTypesFlagsIncomplete),
+		)
+	}
+}
+
+func TestAnalyzeLintContentEconomyCoreUnknownAndBool(t *testing.T) {
+	t.Parallel()
+
+	content := []byte(
+		`<?xml version="1.0"?>
+<economycore>
+	<defaults>
+		<default name="log_ce_startup" value="maybe"/>
+	</defaults>
+</economycore>`,
+	)
+
+	diagnostics := AnalyzeLintContent("cfgeconomycore.xml", content)
+	if !hasCode(diagnostics, CodeEconomyCoreDefaultInvalidBool) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeEconomyCoreDefaultInvalidBool),
+		)
+	}
+}
+
+func TestAnalyzeLintContentEventsLimitWindow(t *testing.T) {
+	t.Parallel()
+
+	content := []byte(
+		`<?xml version="1.0"?>
+<events>
+	<event name="E1">
+		<nominal>1</nominal>
+		<min>2</min>
+		<max>1</max>
+	</event>
+</events>`,
+	)
+
+	diagnostics := AnalyzeLintContent("db/events.xml", content)
+	if !hasCode(diagnostics, CodeEventsInvalidLimitWindow) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeEventsInvalidLimitWindow),
+		)
+	}
+}
+
+func TestAnalyzeLintContentSpawnableDuplicateChild(t *testing.T) {
+	t.Parallel()
+
+	content := []byte(
+		`<?xml version="1.0"?>
+<spawnabletypes>
+	<type name="T1">
+		<cargo chance="1">
+			<item name="Rag" chance="1"/>
+			<item name="Rag" chance="1"/>
+		</cargo>
+	</type>
+</spawnabletypes>`,
+	)
+
+	diagnostics := AnalyzeLintContent("cfgspawnabletypes.xml", content)
+	if !hasCode(diagnostics, CodeSpawnableDuplicateChild) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeSpawnableDuplicateChild),
+		)
+	}
+}
+
+func TestAnalyzeLintContentValidateCodes(t *testing.T) {
+	t.Parallel()
+
+	eventsContent := []byte(
+		`<?xml version="1.0"?>
+<events>
+	<event name="" active="2">
+		<position>bad</position>
+		<limit>bad</limit>
+		<flags deletable="2"/>
+	</event>
+</events>`,
+	)
+	eventsDiagnostics := AnalyzeLintContent("db/events.xml", eventsContent)
+	if !hasCode(eventsDiagnostics, CodeValidateEmptyRequiredAttr) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeValidateEmptyRequiredAttr),
+		)
+	}
+	if !hasCode(eventsDiagnostics, CodeValidateInvalidBool) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeValidateInvalidBool),
+		)
+	}
+	if !hasCode(eventsDiagnostics, CodeValidateUnknownEnum) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeValidateUnknownEnum),
+		)
+	}
+
+	typesContent := []byte(
+		`<?xml version="1.0"?>
+<types>
+	<type name="A">
+		<nominal>-1</nominal>
+	</type>
+</types>`,
+	)
+	typesDiagnostics := AnalyzeLintContent("db/types.xml", typesContent)
+	if !hasCode(typesDiagnostics, CodeValidateInvalidIntRange) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeValidateInvalidIntRange),
+		)
+	}
+}
+
+func TestAnalyzeLintContentRandomPresetsRules(t *testing.T) {
+	t.Parallel()
+
+	content := []byte(
+		`<?xml version="1.0"?>
+<randompresets>
+	<cargo name="p1">
+		<item name="Rag" chance="1"/>
+	</cargo>
+	<cargo name="p1"/>
+	<attachments name="a1"/>
+</randompresets>`,
+	)
+
+	diagnostics := AnalyzeLintContent("cfgrandompresets.xml", content)
+	if !hasCode(diagnostics, CodeRandomPresetsDuplicateName) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeRandomPresetsDuplicateName),
+		)
+	}
+	if !hasCode(diagnostics, CodeRandomPresetsEmptyItems) {
+		t.Fatalf(
+			"expected %s code in diagnostics",
+			codeToken(CodeRandomPresetsEmptyItems),
+		)
+	}
+}
+
 // hasCode checks whether diagnostic list contains one numeric code.
 func hasCode(diagnostics []lint.Diagnostic, code lint.Code) bool {
 	needle := codeToken(code)

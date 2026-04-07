@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<randompresets>
+    <cargo name="preset_a">
+        <item name="Rag" chance="1" />
+    </cargo>
+    <cargo name="preset_a" />
+    <attachments name="preset_b" />
+</randompresets>

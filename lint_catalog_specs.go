@@ -31,6 +31,46 @@ var diagnosticCatalog = []lint.CodeSpec{
 		"XML is valid, but root tag is not a supported CE file model for this check set. Use a supported CE root or exclude this file from CE lint input.",
 	),
 	withDescription(
+		lint.ErrorCodeSpec(
+			CodeValidateMissingRequiredAttr,
+			StageValidate,
+			"missing required attribute",
+		),
+		"Required XML attribute is missing. Add the attribute so CE can interpret this element deterministically.",
+	),
+	withDescription(
+		lint.ErrorCodeSpec(
+			CodeValidateEmptyRequiredAttr,
+			StageValidate,
+			"empty required attribute",
+		),
+		"Required XML attribute is present but empty. Provide a non-empty value.",
+	),
+	withDescription(
+		lint.WarningCodeSpec(
+			CodeValidateInvalidBool,
+			StageValidate,
+			"invalid bool value",
+		),
+		"Boolean-like field uses a non-canonical value. Use 0 or 1 for CE XML boolean fields.",
+	),
+	withDescription(
+		lint.WarningCodeSpec(
+			CodeValidateInvalidIntRange,
+			StageValidate,
+			"invalid integer range",
+		),
+		"Integer value is outside expected range for this field.",
+	),
+	withDescription(
+		lint.WarningCodeSpec(
+			CodeValidateUnknownEnum,
+			StageValidate,
+			"unknown enum value",
+		),
+		"Enum field contains unsupported token for this CE context.",
+	),
+	withDescription(
 		lint.WarningCodeSpec(
 			CodeTypesDuplicateName,
 			StageSemantic,
@@ -45,6 +85,30 @@ var diagnosticCatalog = []lint.CodeSpec{
 			"type nominal is negative",
 		),
 		"`types.xml` has `<nominal>` below zero. In CE this value is usually expected to be 0 or greater.",
+	),
+	withDescription(
+		lint.NoticeCodeSpec(
+			CodeTypesMinGreaterThanNominal,
+			StageSemantic,
+			"type min is greater than nominal",
+		),
+		"`types.xml` has `<min>` larger than `<nominal>`. This can be intentional in some setups, but often indicates inconsistent balancing values.",
+	),
+	withDescription(
+		lint.NoticeCodeSpec(
+			CodeEventsInvalidLimitWindow,
+			StageSemantic,
+			"event limit window looks inconsistent",
+		),
+		"`events.xml` has potentially inconsistent numeric window values (for example min > nominal or max < min). Review this event configuration.",
+	),
+	withDescription(
+		lint.NoticeCodeSpec(
+			CodeSpawnableDuplicateChild,
+			StageSemantic,
+			"duplicate spawnable child entry",
+		),
+		"`cfgspawnabletypes.xml` contains duplicate child item names in the same parent block. Remove duplicates unless intentional weighted duplication is required.",
 	),
 	withDescription(
 		lint.ErrorCodeSpec(
@@ -79,6 +143,14 @@ var diagnosticCatalog = []lint.CodeSpec{
 		"`cfgeconomycore.xml` `<defaults>` contains duplicate default@name keys. Keep one value per key to avoid ambiguous CE runtime defaults.",
 	),
 	withDescription(
+		lint.ErrorCodeSpec(
+			CodeEconomyCoreDefaultInvalidBool,
+			StageSemantic,
+			"economycore bool default is invalid",
+		),
+		"`cfgeconomycore.xml` bool-like default key uses non-bool value. Use true/false or 0/1.",
+	),
+	withDescription(
 		lint.WarningCodeSpec(
 			CodeEconomyCoreDefaultOutOfRange,
 			StageSemantic,
@@ -93,6 +165,14 @@ var diagnosticCatalog = []lint.CodeSpec{
 			"economy section flags are invalid",
 		),
 		"`economy.xml` section is missing required CE flags or uses invalid values. Each section should define init/load/respawn/save as 0 or 1.",
+	),
+	withDescription(
+		lint.NoticeCodeSpec(
+			CodeTypesFlagsIncomplete,
+			StageSemantic,
+			"type flags block is incomplete",
+		),
+		"`types.xml` `<flags>` block does not define all commonly paired attributes. This can cause implicit inheritance/merge side effects.",
 	),
 	withDescription(
 		lint.WarningCodeSpec(
@@ -149,6 +229,22 @@ var diagnosticCatalog = []lint.CodeSpec{
 			"unsupported event limit",
 		),
 		"`events.xml` limit uses an unsupported CE value. Supported values: child, custom, mixed, parent.",
+	),
+	withDescription(
+		lint.ErrorCodeSpec(
+			CodeRandomPresetsDuplicateName,
+			StageSemantic,
+			"duplicate random preset name",
+		),
+		"`cfgrandompresets.xml` contains duplicate preset names in one section. Keep preset names unique inside cargo and attachments blocks.",
+	),
+	withDescription(
+		lint.WarningCodeSpec(
+			CodeRandomPresetsEmptyItems,
+			StageSemantic,
+			"random preset has no items",
+		),
+		"`cfgrandompresets.xml` preset is declared without `<item>` entries and has no effect during generation.",
 	),
 	withDescription(
 		lint.ErrorCodeSpec(
