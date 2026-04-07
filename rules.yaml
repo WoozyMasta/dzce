@@ -1,0 +1,277 @@
+modules:
+  - id: dzce
+    name: DayZ CE
+    description: Lint rules for DayZ central economy configuration files.
+rules:
+  - id: dzce.crossref.missing-type-reference
+    module: dzce
+    scope: crossref
+    scope_description: Cross-file reference diagnostics for merged CE trees.
+    code: DZCE4001
+    message: missing type reference
+    description: A merged CE event child references a type missing in final merged `types.xml`. Add the missing type definition or fix the reference.
+    default_severity: error
+  - id: dzce.crossref.missing-event-reference
+    module: dzce
+    scope: crossref
+    scope_description: Cross-file reference diagnostics for merged CE trees.
+    code: DZCE4002
+    message: missing event reference
+    description: A merged `events.xml` event.secondary references an event name missing in final merged `events.xml`.
+    default_severity: warning
+  - id: dzce.merge.include-cycle-detected
+    module: dzce
+    scope: merge
+    scope_description: Include graph and merge diagnostics for economycore trees.
+    code: DZCE4003
+    message: include cycle detected
+    description: '`cfgeconomycore.xml` include graph has a recursive cycle. Break the cycle to get deterministic CE merge order.'
+    default_severity: error
+  - id: dzce.merge.include-file-not-found
+    module: dzce
+    scope: merge
+    scope_description: Include graph and merge diagnostics for economycore trees.
+    code: DZCE4004
+    message: include file not found
+    description: '`cfgeconomycore.xml` references an include file that cannot be found at resolved path. Fix CE include folder/name/type or restore the file.'
+    default_severity: error
+  - id: dzce.merge.duplicate-type-override-across-includes
+    module: dzce
+    scope: merge
+    scope_description: Include graph and merge diagnostics for economycore trees.
+    code: DZCE4005
+    message: duplicate type override across includes
+    description: The same CE type name is defined in multiple included `types.xml` files. This can be intentional override behavior, but verify final include priority/order.
+    default_severity: notice
+  - id: dzce.parse.xml-decode-failed
+    module: dzce
+    scope: parse
+    scope_description: Parse diagnostics for CE input payloads.
+    code: DZCE1001
+    message: xml decode failed
+    description: CE XML file is malformed and cannot be parsed. Check broken tags, invalid attributes, and XML syntax.
+    default_severity: error
+  - id: dzce.parse.unsupported-xml-root
+    module: dzce
+    scope: parse
+    scope_description: Parse diagnostics for CE input payloads.
+    code: DZCE1002
+    message: unsupported xml root
+    description: XML is valid, but root tag is not a supported CE file model for this check set. Use a supported CE root or exclude this file from CE lint input.
+    default_severity: error
+  - id: dzce.semantic.duplicate-type-name
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3001
+    message: duplicate type name
+    description: '`types.xml` contains multiple `<type>` entries with the same name. Keep one canonical CE type definition, or verify override order is intentional.'
+    default_severity: warning
+  - id: dzce.semantic.type-nominal-is-negative
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3002
+    message: type nominal is negative
+    description: '`types.xml` has `<nominal>` below zero. In CE this value is usually expected to be 0 or greater.'
+    default_severity: warning
+  - id: dzce.semantic.type-min-is-greater-than-nominal
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3003
+    message: type min is greater than nominal
+    description: '`types.xml` has `<min>` larger than `<nominal>`. This can be intentional in some setups, but often indicates inconsistent balancing values.'
+    default_severity: notice
+  - id: dzce.semantic.event-limit-window-looks-inconsistent
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3004
+    message: event limit window looks inconsistent
+    description: '`events.xml` has potentially inconsistent numeric window values (for example min > nominal or max < min). Review this event configuration.'
+    default_severity: notice
+  - id: dzce.semantic.duplicate-spawnable-child-entry
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3005
+    message: duplicate spawnable child entry
+    description: '`cfgspawnabletypes.xml` contains duplicate child item names in the same parent block. Remove duplicates unless intentional weighted duplication is required.'
+    default_severity: notice
+  - id: dzce.semantic.globals-var-type-tag-is-invalid
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3102
+    message: globals var type tag is invalid
+    description: '`globals.xml` var@type uses an unsupported CE type tag. Allowed values are 0, 1, 2.'
+    default_severity: error
+  - id: dzce.semantic.globals-value-type-mismatch
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3103
+    message: globals value type mismatch
+    description: '`globals.xml` var@value does not match declared var@type. Fix CE value format so it matches the selected type tag.'
+    default_severity: error
+  - id: dzce.semantic.globals-value-is-out-of-range
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3104
+    message: globals value is out of range
+    description: '`globals.xml` value is outside recommended CE range for this variable. Review gameplay impact and adjust if not intentional.'
+    default_severity: warning
+  - id: dzce.semantic.duplicate-economycore-default-name
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3202
+    message: duplicate economycore default name
+    description: '`cfgeconomycore.xml` `<defaults>` contains duplicate default@name keys. Keep one value per key to avoid ambiguous CE runtime defaults.'
+    default_severity: warning
+  - id: dzce.semantic.economycore-bool-default-is-invalid
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3203
+    message: economycore bool default is invalid
+    description: '`cfgeconomycore.xml` bool-like default key uses non-bool value. Use true/false or 0/1.'
+    default_severity: error
+  - id: dzce.semantic.economycore-default-is-out-of-range
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3204
+    message: economycore default is out of range
+    description: A numeric default in `cfgeconomycore.xml` is outside expected CE limits. This may lead to unstable CE behavior.
+    default_severity: warning
+  - id: dzce.semantic.economy-section-flags-are-invalid
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3301
+    message: economy section flags are invalid
+    description: '`economy.xml` section is missing required CE flags or uses invalid values. Each section should define init/load/respawn/save as 0 or 1.'
+    default_severity: warning
+  - id: dzce.semantic.type-flags-block-is-incomplete
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3302
+    message: type flags block is incomplete
+    description: '`types.xml` `<flags>` block does not define all commonly paired attributes. This can cause implicit inheritance/merge side effects.'
+    default_severity: notice
+  - id: dzce.semantic.invalid-type-quantity-range
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3303
+    message: invalid type quantity range
+    description: '`types.xml` quantity range (quantmin/quantmax) is invalid for CE. Allowed values are -1 or 0..100, and quantmin must not exceed quantmax.'
+    default_severity: warning
+  - id: dzce.semantic.invalid-spawnable-damage-range
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3304
+    message: invalid spawnable damage range
+    description: '`cfgspawnabletypes.xml` damage range is invalid for CE spawn rules. Use values in 0..1 and ensure min is not greater than max.'
+    default_severity: warning
+  - id: dzce.semantic.invalid-spawnable-chance-range
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3305
+    message: invalid spawnable chance range
+    description: '`cfgspawnabletypes.xml` chance values are inconsistent for CE spawn rules. Use one mode consistently: normalized 0..1 or percent 0..100.'
+    default_severity: warning
+  - id: dzce.semantic.duplicate-event-name
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3601
+    message: duplicate event name
+    description: '`events.xml` contains duplicate `<event>` names. Keep CE event names unique to avoid ambiguous merge and spawn behavior.'
+    default_severity: error
+  - id: dzce.semantic.event-flags-are-not-0-1
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3604
+    message: event flags are not 0/1
+    description: '`events.xml` active/flag attributes use non-canonical CE values. Use 0 or 1.'
+    default_severity: warning
+  - id: dzce.semantic.unsupported-event-position
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3605
+    message: unsupported event position
+    description: '`events.xml` position uses an unsupported CE value. Supported values: fixed, player, uniform.'
+    default_severity: warning
+  - id: dzce.semantic.unsupported-event-limit
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3606
+    message: unsupported event limit
+    description: '`events.xml` limit uses an unsupported CE value. Supported values: child, custom, mixed, parent.'
+    default_severity: warning
+  - id: dzce.semantic.duplicate-random-preset-name
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3702
+    message: duplicate random preset name
+    description: '`cfgrandompresets.xml` contains duplicate preset names in one section. Keep preset names unique inside cargo and attachments blocks.'
+    default_severity: error
+  - id: dzce.semantic.random-preset-has-no-items
+    module: dzce
+    scope: semantic
+    scope_description: Semantic validation diagnostics for decoded CE models.
+    code: DZCE3703
+    message: random preset has no items
+    description: '`cfgrandompresets.xml` preset is declared without `<item>` entries and has no effect during generation.'
+    default_severity: warning
+  - id: dzce.validate.missing-required-attribute
+    module: dzce
+    scope: validate
+    scope_description: Validation diagnostics for CE XML shape and values.
+    code: DZCE2001
+    message: missing required attribute
+    description: Required XML attribute is missing. Add the attribute so CE can interpret this element deterministically.
+    default_severity: error
+  - id: dzce.validate.empty-required-attribute
+    module: dzce
+    scope: validate
+    scope_description: Validation diagnostics for CE XML shape and values.
+    code: DZCE2002
+    message: empty required attribute
+    description: Required XML attribute is present but empty. Provide a non-empty value.
+    default_severity: error
+  - id: dzce.validate.invalid-bool-value
+    module: dzce
+    scope: validate
+    scope_description: Validation diagnostics for CE XML shape and values.
+    code: DZCE2003
+    message: invalid bool value
+    description: Boolean-like field uses a non-canonical value. Use 0 or 1 for CE XML boolean fields.
+    default_severity: warning
+  - id: dzce.validate.invalid-integer-range
+    module: dzce
+    scope: validate
+    scope_description: Validation diagnostics for CE XML shape and values.
+    code: DZCE2004
+    message: invalid integer range
+    description: Integer value is outside expected range for this field.
+    default_severity: warning
+  - id: dzce.validate.unknown-enum-value
+    module: dzce
+    scope: validate
+    scope_description: Validation diagnostics for CE XML shape and values.
+    code: DZCE2005
+    message: unknown enum value
+    description: Enum field contains unsupported token for this CE context.
+    default_severity: warning
