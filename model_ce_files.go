@@ -146,9 +146,9 @@ type WeatherFile struct {
 	// Storm configures when storms can occur and how long their thunder effects remain active.
 	Storm *WeatherStorm `json:"storm,omitempty" yaml:"storm,omitempty" xml:"storm,omitempty"`
 	// Reset determines whether mission startup replaces persisted weather with the values configured in this file.
-	Reset WeatherToggle `json:"reset" yaml:"reset" xml:"reset,attr"`
+	Reset WeatherToggle `json:"reset" yaml:"reset" xml:"reset,attr" jsonschema:"enum=0,enum=1,example=0"`
 	// Enable determines whether the server runs the configured weather simulation.
-	Enable WeatherToggle `json:"enable" yaml:"enable" xml:"enable,attr"`
+	Enable WeatherToggle `json:"enable" yaml:"enable" xml:"enable,attr" jsonschema:"enum=0,enum=1,example=0"`
 	// XMLName identifies the required `<weather>` document root.
 	XMLName struct{} `json:"weather" yaml:"weather" xml:"weather"`
 }
@@ -252,5 +252,5 @@ type MapGroupClusterFile struct {
 // MapGroupInclude identifies another map group cluster file to load.
 type MapGroupInclude struct {
 	// File is the referenced file name without its `.xml` extension.
-	File string `json:"file" yaml:"file" xml:"file,attr"`
+	File string `json:"file" yaml:"file" xml:"file,attr" jsonschema:"example=mapgroupcluster01"`
 }

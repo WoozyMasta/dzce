@@ -13,11 +13,19 @@
           "description": "ExternalValueController makes the point's contribution depend on a script-controlled value, such as the state of a door."
         },
         "EyeAccommodation": {
-          "description": "EyeAccommodation is the visibility target contributed by this point.",
+          "description": "EyeAccommodation is the visibility target contributed by this point, from 0 (darkness) to 1 (normal visibility).",
+          "examples": [
+            1
+          ],
+          "maximum": 1,
+          "minimum": 0,
           "type": "number"
         },
         "LightLerp": {
           "description": "LightLerp controls world-light interpolation for line-point fade mode.",
+          "examples": [
+            0
+          ],
           "type": "number"
         },
         "Position": {
@@ -25,14 +33,26 @@
           "items": {
             "type": "number"
           },
+          "maxItems": 3,
+          "minItems": 3,
           "type": "array"
         },
         "Radius": {
           "description": "Radius is the point's influence radius in meters. A value of -1 uses the engine's default radius.",
+          "examples": [
+            -1
+          ],
           "type": "number"
         },
         "UseRaycast": {
           "description": "UseRaycast requires a successful line-of-sight check from the player to this point before it contributes to the transition.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         }
       },
@@ -51,6 +71,9 @@
         },
         "Type": {
           "description": "Type identifies the controller implementation that reads the external condition.",
+          "examples": [
+            "DoorState"
+          ],
           "type": "string"
         }
       },
@@ -62,10 +85,16 @@
       "properties": {
         "AmbientSoundSet": {
           "description": "AmbientSoundSet selects a sound set for ambient audio played in the trigger volume.",
+          "examples": [
+            "Underground_SoundSet"
+          ],
           "type": "string"
         },
         "AmbientSoundType": {
           "description": "AmbientSoundType selects an engine-provided ambient sound controller.",
+          "examples": [
+            "caveBig"
+          ],
           "type": "string"
         },
         "Breadcrumbs": {
@@ -77,6 +106,9 @@
         },
         "Comment": {
           "description": "Comment is a human-readable label for identifying the trigger in mission data and diagnostic tools.",
+          "examples": [
+            "HWTunnel_EastEntrance_Outter"
+          ],
           "type": "string"
         },
         "CustomSpawn": {
@@ -84,10 +116,18 @@
         },
         "EyeAccommodation": {
           "description": "EyeAccommodation is the target eye-adaptation level inside the volume: 0 represents darkness and 1 represents normal visibility.",
+          "examples": [
+            1
+          ],
+          "maximum": 1,
+          "minimum": 0,
           "type": "number"
         },
         "InterpolationSpeed": {
           "description": "InterpolationSpeed controls how quickly eye accommodation approaches the trigger's target value,\nespecially for outer and inner triggers that do not use breadcrumb points.",
+          "examples": [
+            1
+          ],
           "type": "number"
         },
         "Orientation": {
@@ -95,6 +135,8 @@
           "items": {
             "type": "number"
           },
+          "maxItems": 3,
+          "minItems": 3,
           "type": "array"
         },
         "ParentNetworkId": {
@@ -109,6 +151,8 @@
           "items": {
             "type": "number"
           },
+          "maxItems": 3,
+          "minItems": 3,
           "type": "array"
         },
         "Size": {
@@ -116,10 +160,19 @@
           "items": {
             "type": "number"
           },
+          "maxItems": 3,
+          "minItems": 3,
           "type": "array"
         },
         "UseLinePointFade": {
           "description": "UseLinePointFade enables a linear fade along the configured breadcrumb path, which is useful for tunnels and corridors.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         }
       },

@@ -13,6 +13,9 @@
         },
         "name": {
           "description": "Name is the identifier matched by the event spawn's `group` attribute.",
+          "examples": [
+            "Train_Abandoned_Cherno"
+          ],
           "type": "string"
         }
       },
@@ -27,38 +30,65 @@
       "properties": {
         "a": {
           "description": "A is the object's yaw rotation in degrees.",
+          "examples": [
+            "78.123"
+          ],
           "type": "string"
         },
         "deloot": {
           "description": "Deloot sets the amount of dynamic-event loot requested for this object, overriding the default amount.",
+          "examples": [
+            "0"
+          ],
           "type": "string"
         },
         "lootmax": {
           "description": "LootMax is the maximum number of random items requested for this event child.",
+          "examples": [
+            "3"
+          ],
           "type": "string"
         },
         "lootmin": {
           "description": "LootMin is the minimum number of random items requested for this event child.",
+          "examples": [
+            "1"
+          ],
           "type": "string"
         },
         "spawnsecondary": {
           "description": "SpawnSecondary controls whether spawning this object starts its secondary infected event.",
+          "examples": [
+            "false"
+          ],
           "type": "string"
         },
         "type": {
           "description": "Type is the game class spawned as this object in the composition.",
+          "examples": [
+            "StaticObj_Wreck_Train_742_Red_DE"
+          ],
           "type": "string"
         },
         "x": {
           "description": "X is the horizontal X offset from the event spawn position.",
+          "examples": [
+            "0"
+          ],
           "type": "string"
         },
         "y": {
           "description": "Y is the vertical offset from the event spawn position.",
+          "examples": [
+            "1.9"
+          ],
           "type": "string"
         },
         "z": {
           "description": "Z is the horizontal Z offset from the event spawn position.",
+          "examples": [
+            "0"
+          ],
           "type": "string"
         }
       },

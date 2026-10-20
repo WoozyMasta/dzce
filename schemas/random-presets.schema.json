@@ -6,6 +6,11 @@
       "properties": {
         "chance": {
           "description": "Chance is the probability, from 0 to 1, that this preset is selected when it is one of the candidates.",
+          "examples": [
+            0.15
+          ],
+          "maximum": 1,
+          "minimum": 0,
           "type": "number"
         },
         "item": {
@@ -17,6 +22,9 @@
         },
         "name": {
           "description": "Name is the identifier referenced by a spawn rule's `preset` attribute.",
+          "examples": [
+            "foodHermit"
+          ],
           "type": "string"
         }
       },
@@ -59,6 +67,11 @@
       "properties": {
         "chance": {
           "description": "Chance is the probability, from 0 to 1, that this attachment rule is selected.",
+          "examples": [
+            0.2
+          ],
+          "maximum": 1,
+          "minimum": 0,
           "type": "number"
         },
         "item": {
@@ -70,6 +83,9 @@
         },
         "preset": {
           "description": "Preset names an attachment preset from cfgrandompresets.xml.\nWhen set, the preset provides the candidate items for this attachment rule.",
+          "examples": [
+            "headtorches"
+          ],
           "type": "string"
         }
       },
@@ -81,6 +97,11 @@
       "properties": {
         "chance": {
           "description": "Chance is the probability, from 0 to 1, that this cargo rule is selected.",
+          "examples": [
+            0.6
+          ],
+          "maximum": 1,
+          "minimum": 0,
           "type": "number"
         },
         "item": {
@@ -92,6 +113,9 @@
         },
         "preset": {
           "description": "Preset names a cargo preset from cfgrandompresets.xml.\nWhen set, the preset provides the candidate items for this cargo rule.",
+          "examples": [
+            "mixArmy"
+          ],
           "type": "string"
         }
       },
@@ -117,6 +141,11 @@
         },
         "chance": {
           "description": "Chance is this candidate's probability, from 0 to 1, within its parent list.",
+          "examples": [
+            0.11
+          ],
+          "maximum": 1,
+          "minimum": 0,
           "type": "number"
         },
         "damage": {
@@ -125,6 +154,9 @@
         },
         "name": {
           "description": "Name is the game class name of the candidate item.",
+          "examples": [
+            "TunaCan"
+          ],
           "type": "string"
         }
       },
@@ -139,10 +171,16 @@
       "properties": {
         "max": {
           "description": "Max is the inclusive upper bound for the generated property.",
+          "examples": [
+            0.32
+          ],
           "type": "number"
         },
         "min": {
           "description": "Min is the inclusive lower bound for the generated property.",
+          "examples": [
+            0
+          ],
           "type": "number"
         }
       },

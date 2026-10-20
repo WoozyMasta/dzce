@@ -6,14 +6,23 @@
       "properties": {
         "actual": {
           "description": "Actual is the initial target value for the channel, within its Limits.",
+          "examples": [
+            "0.45"
+          ],
           "type": "string"
         },
         "duration": {
           "description": "Duration is how long the channel holds Actual after reaching it, in seconds.",
+          "examples": [
+            "240"
+          ],
           "type": "string"
         },
         "time": {
           "description": "Time is how long the channel takes to reach Actual, in seconds.",
+          "examples": [
+            "120"
+          ],
           "type": "string"
         }
       },
@@ -25,6 +34,13 @@
       "properties": {
         "enable": {
           "description": "Enable determines whether the server runs the configured weather simulation.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "fog": {
@@ -41,6 +57,13 @@
         },
         "reset": {
           "description": "Reset determines whether mission startup replaces persisted weather with the values configured in this file.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "snowfall": {
@@ -79,10 +102,16 @@
       "properties": {
         "max": {
           "description": "Max is the upper bound or maximum transition value.",
+          "examples": [
+            "1.0"
+          ],
           "type": "string"
         },
         "min": {
           "description": "Min is the lower bound or minimum transition value.",
+          "examples": [
+            "0.0"
+          ],
           "type": "string"
         }
       },
@@ -121,14 +150,23 @@
       "properties": {
         "density": {
           "description": "Density controls lightning strike density on a scale from 0 to 1.",
+          "examples": [
+            "1.0"
+          ],
           "type": "string"
         },
         "threshold": {
           "description": "Threshold is the overcast value, from 0 to 1, above which lightning may appear.",
+          "examples": [
+            "0.9"
+          ],
           "type": "string"
         },
         "timeout": {
           "description": "Timeout is the delay between lightning strikes, in seconds.",
+          "examples": [
+            "45"
+          ],
           "type": "string"
         }
       },
@@ -140,14 +178,23 @@
       "properties": {
         "end": {
           "description": "End is how long, in seconds, the dependent channel takes to stop after the controlling value leaves the allowed range.",
+          "examples": [
+            "60"
+          ],
           "type": "string"
         },
         "max": {
           "description": "Max is the maximum controlling-channel value that permits this channel.",
+          "examples": [
+            "1.0"
+          ],
           "type": "string"
         },
         "min": {
           "description": "Min is the minimum controlling-channel value that permits this channel.",
+          "examples": [
+            "0.6"
+          ],
           "type": "string"
         }
       },

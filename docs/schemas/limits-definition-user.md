@@ -116,6 +116,7 @@ Name is the shorthand identifier referenced from an item definition.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `TownVillage` |
 
 ### LimitsUserBinding.usage
 
@@ -179,3 +180,4 @@ Name is the identifier referenced by the containing CE element.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `Bandage` |

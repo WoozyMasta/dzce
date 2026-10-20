@@ -30,6 +30,9 @@
       "properties": {
         "name": {
           "description": "Name is the shorthand identifier referenced from an item definition.",
+          "examples": [
+            "TownVillage"
+          ],
           "type": "string"
         },
         "usage": {
@@ -72,6 +75,9 @@
       "properties": {
         "name": {
           "description": "Name is the identifier referenced by the containing CE element.",
+          "examples": [
+            "Bandage"
+          ],
           "type": "string"
         }
       },

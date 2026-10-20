@@ -71,9 +71,9 @@ type EconomyCoreCEFile struct {
 // or refer to a reusable file declaration by its usable identifier.
 type EnvironmentTerritoryFile struct {
 	// Path is the direct path to a territory data file.
-	Path string `json:"path,omitempty" yaml:"path,omitempty" xml:"path,attr,omitempty"`
+	Path string `json:"path,omitempty" yaml:"path,omitempty" xml:"path,attr,omitempty" jsonschema:"example=env/cattle_territories.xml"`
 	// Usable references a reusable territory file declaration by its identifier.
-	Usable string `json:"usable,omitempty" yaml:"usable,omitempty" xml:"usable,attr,omitempty"`
+	Usable string `json:"usable,omitempty" yaml:"usable,omitempty" xml:"usable,attr,omitempty" jsonschema:"example=red_deer_territories"`
 }
 
 // NamedRef stores the name attribute used by CE reference elements
@@ -81,7 +81,7 @@ type EnvironmentTerritoryFile struct {
 // The parent element determines what the name refers to.
 type NamedRef struct {
 	// Name is the identifier referenced by the containing CE element.
-	Name string `json:"name" yaml:"name" xml:"name,attr"`
+	Name string `json:"name" yaml:"name" xml:"name,attr" jsonschema:"example=Bandage"`
 }
 
 // EmptyElement represents a presence-only XML flag such as <unique/> or <hoarder/>.

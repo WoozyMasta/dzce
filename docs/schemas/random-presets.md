@@ -122,6 +122,7 @@ Name is the identifier referenced by a spawn rule's `preset` attribute.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `foodHermit` |
 
 ### RandomPreset.chance
 
@@ -139,6 +140,8 @@ one of the candidates.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.15` |
+| Constraints | `minimum=0`; `maximum=1` |
 
 ### RandomPreset.item
 
@@ -2227,6 +2230,7 @@ Name is the game class name of the candidate item.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `TunaCan` |
 
 ### SpawnableItem.attachments
 
@@ -8409,6 +8413,8 @@ Chance is this candidate's probability, from 0 to 1, within its parent list.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.11` |
+| Constraints | `minimum=0`; `maximum=1` |
 
 ### SpawnableItem.SpawnableMinMax
 
@@ -11515,6 +11521,8 @@ Chance is the probability, from 0 to 1, that this attachment rule is selected.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.2` |
+| Constraints | `minimum=0`; `maximum=1` |
 
 ### SpawnableAttachment.item
 
@@ -13589,6 +13597,7 @@ preset provides the candidate items for this attachment rule.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `headtorches` |
 
 ## SpawnableCargo
 
@@ -14635,6 +14644,8 @@ Chance is the probability, from 0 to 1, that this cargo rule is selected.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.6` |
+| Constraints | `minimum=0`; `maximum=1` |
 
 ### SpawnableCargo.item
 
@@ -16709,6 +16720,7 @@ provides the candidate items for this cargo rule.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `mixArmy` |
 
 ## SpawnableMinMax
 
@@ -17756,6 +17768,7 @@ Max is the inclusive upper bound for the generated property.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.32` |
 
 ### SpawnableMinMax.min
 
@@ -18792,3 +18805,4 @@ Min is the inclusive lower bound for the generated property.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0` |

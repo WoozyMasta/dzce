@@ -102,6 +102,8 @@ accepts values from 3 through 6.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `4` |
+| Constraints | `minimum=3`; `maximum=6` |
 
 ### BunkerBroadcastBunkerSettings.lockCodeMode
 
@@ -116,6 +118,8 @@ LockCodeMode selects the access-code generation mode. The game accepts only 0 or
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ### BunkerBroadcastBunkerSettings.numberOfActive
 
@@ -130,6 +134,8 @@ accepts values from 1 through 30.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `3` |
+| Constraints | `minimum=1`; `maximum=30` |
 
 ## BunkerBroadcastPlaybackSettings
 
@@ -155,6 +161,7 @@ broadcast is played before playback moves to the next bunker.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `0` |
 
 ### BunkerBroadcastPlaybackSettings.dashDuration
 
@@ -168,6 +175,7 @@ DashDuration is the sound duration of one Morse dash, in seconds.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1.5` |
 
 ### BunkerBroadcastPlaybackSettings.dotDuration
 
@@ -181,6 +189,7 @@ DotDuration is the sound duration of one Morse dot, in seconds.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.5` |
 
 ### BunkerBroadcastPlaybackSettings.messageRepetitions
 
@@ -194,6 +203,7 @@ MessageRepetitions is the number of additional times a message is repeated.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `1` |
 
 ### BunkerBroadcastPlaybackSettings.pauseBetweenBunkers
 
@@ -208,6 +218,7 @@ seconds.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `6` |
 
 ### BunkerBroadcastPlaybackSettings.symbolGapDuration
 
@@ -222,6 +233,7 @@ seconds.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.4` |
 
 ### BunkerBroadcastPlaybackSettings.wordGapDuration
 
@@ -235,6 +247,7 @@ WordGapDuration is the pause between Morse words, in seconds.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `2.2` |
 
 ## BunkerBroadcastProxy
 
@@ -261,6 +274,7 @@ correspond to a bunker location that can be activated by the broadcast.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=3`; `maxItems=3` |
 
 ## BunkerBroadcastSchedulerSettings
 
@@ -286,6 +300,8 @@ through 1000.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `720` |
+| Constraints | `minimum=1`; `maximum=1000` |
 
 ### BunkerBroadcastSchedulerSettings.periods
 
@@ -315,6 +331,8 @@ are 1 through 120.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `10` |
+| Constraints | `minimum=1`; `maximum=120` |
 
 ## BunkerBroadcastPeriod
 
@@ -338,6 +356,8 @@ EndTime is the window end as four digits in HHMM form, such as `1930`.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0600` |
+| Constraints | `minLength=4`; `maxLength=4` |
 
 ### BunkerBroadcastPeriod.startTime
 
@@ -351,3 +371,5 @@ StartTime is the window start as four digits in HHMM form, such as `0700`.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1745` |
+| Constraints | `minLength=4`; `maxLength=4` |

@@ -102,6 +102,7 @@ countdown messages and determines when the countdown reaches zero.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Constraints | `minimum=0` |
 
 ### MessageDef.delay
 
@@ -109,13 +110,14 @@ Key: `delay`
 
 Path: [`message`](#messagesfilemessage).`[]`.`delay`
 
-Delay is the wait in minutes before sending an OnConnect message. ero sends it
+Delay is the wait in minutes before sending an OnConnect message. Zero sends it
 immediately after the player connects.
 
 | Attribute | Value |
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Constraints | `minimum=0` |
 
 ### MessageDef.onconnect
 
@@ -130,6 +132,7 @@ connection-triggered delivery. Delay sets the wait before sending.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
 
 ### MessageDef.repeat
 
@@ -144,6 +147,7 @@ enables recurring delivery; zero disables it.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Constraints | `minimum=0` |
 
 ### MessageDef.shutdown
 
@@ -158,6 +162,7 @@ has no effect when Deadline is zero or omitted.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
 
 ### MessageDef.text
 

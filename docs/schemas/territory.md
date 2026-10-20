@@ -105,6 +105,7 @@ Color is the ARGB color used to display this territory in tooling.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `4294923520` |
 
 ### TerritoryBlock.zone
 
@@ -144,6 +145,7 @@ ambient event, its global max can still cap the count across all zones.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0` |
 
 ### TerritoryZone.dmin
 
@@ -159,6 +161,7 @@ activates.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0` |
 
 ### TerritoryZone.name
 
@@ -172,6 +175,7 @@ Name identifies the zone for references and diagnostics.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `Graze` |
 
 ### TerritoryZone.r
 
@@ -185,6 +189,7 @@ R is the radius of the area where the zone's entities may spawn, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `100` |
 
 ### TerritoryZone.smax
 
@@ -199,6 +204,7 @@ supports static spawning.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0` |
 
 ### TerritoryZone.smin
 
@@ -213,6 +219,7 @@ supports static spawning.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0` |
 
 ### TerritoryZone.x
 
@@ -226,6 +233,7 @@ X is the map's horizontal X coordinate for the center of the zone.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1920` |
 
 ### TerritoryZone.z
 
@@ -239,3 +247,4 @@ Z is the map's horizontal Z coordinate for the center of the zone.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `13115` |

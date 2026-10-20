@@ -41,6 +41,8 @@ values configured in this file.
 | --- | --- |
 | Type | `integer` |
 | Required | yes |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ### WeatherFile.enable
 
@@ -52,6 +54,8 @@ Enable determines whether the server runs the configured weather simulation.
 | --- | --- |
 | Type | `integer` |
 | Required | yes |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ### WeatherFile.weather
 
@@ -298,6 +302,7 @@ Max is the upper bound or maximum transition value.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1.0` |
 
 ### WeatherMinMax.min
 
@@ -330,6 +335,7 @@ Min is the lower bound or minimum transition value.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0.0` |
 
 ## WeatherCurrent
 
@@ -361,6 +367,7 @@ Actual is the initial target value for the channel, within its Limits.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0.45` |
 
 ### WeatherCurrent.duration
 
@@ -381,6 +388,7 @@ Duration is how long the channel holds Actual after reaching it, in seconds.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `240` |
 
 ### WeatherCurrent.time
 
@@ -401,6 +409,7 @@ Time is how long the channel takes to reach Actual, in seconds.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `120` |
 
 ## WeatherThresholds
 
@@ -434,6 +443,7 @@ controlling value leaves the allowed range.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `60` |
 
 ### WeatherThresholds.max
 
@@ -454,6 +464,7 @@ Max is the maximum controlling-channel value that permits this channel.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1.0` |
 
 ### WeatherThresholds.min
 
@@ -474,6 +485,7 @@ Min is the minimum controlling-channel value that permits this channel.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0.6` |
 
 ## WeatherStorm
 
@@ -497,6 +509,7 @@ Density controls lightning strike density on a scale from 0 to 1.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1.0` |
 
 ### WeatherStorm.threshold
 
@@ -510,6 +523,7 @@ Threshold is the overcast value, from 0 to 1, above which lightning may appear.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0.9` |
 
 ### WeatherStorm.timeout
 
@@ -523,3 +537,4 @@ Timeout is the delay between lightning strikes, in seconds.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `45` |

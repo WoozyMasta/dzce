@@ -15,12 +15,12 @@ type EconomyCoreClasses struct {
 // and identifies whether its instances are loot, characters, or cars.
 type EconomyCoreRootClass struct {
 	// Name is the root class name from the game's configuration inheritance.
-	Name string `json:"name" yaml:"name" xml:"name,attr"`
+	Name string `json:"name" yaml:"name" xml:"name,attr" jsonschema:"example=DefaultWeapon"`
 	// ReportMemoryLOD controls warnings for missing Memory LODs on instances of this class (`yes` or `no`). The documented default is `yes`.
-	ReportMemoryLOD string `json:"reportMemoryLOD,omitempty" yaml:"reportMemoryLOD,omitempty" xml:"reportMemoryLOD,attr,omitempty"`
+	ReportMemoryLOD string `json:"reportMemoryLOD,omitempty" yaml:"reportMemoryLOD,omitempty" xml:"reportMemoryLOD,attr,omitempty" jsonschema:"enum=yes,enum=no,default=yes,example=no"`
 	// Act tells CE how to initialize this class: `character` for players, infected, and animals;
 	// `car` for vehicles; or omitted/`none` for ordinary economy items.
-	Act string `json:"act,omitempty" yaml:"act,omitempty" xml:"act,attr,omitempty"`
+	Act string `json:"act,omitempty" yaml:"act,omitempty" xml:"act,attr,omitempty" jsonschema:"enum=none,enum=character,enum=car,default=none,example=character"`
 }
 
 // EconomyCoreDefaults overrides built-in Central Economy default variables.
@@ -32,9 +32,9 @@ type EconomyCoreDefaults struct {
 // EconomyCoreDefault assigns a value to one Central Economy default variable.
 type EconomyCoreDefault struct {
 	// Name is the CE variable name being overridden.
-	Name string `json:"name" yaml:"name" xml:"name,attr"`
+	Name string `json:"name" yaml:"name" xml:"name,attr" jsonschema:"example=dyn_radius"`
 	// Value is the configured value encoded as text. Its expected format is determined by the named variable.
-	Value string `json:"value" yaml:"value" xml:"value,attr"`
+	Value string `json:"value" yaml:"value" xml:"value,attr" jsonschema:"example=30"`
 }
 
 // EconomyCoreCE registers a folder of mission-provided Central Economy files.

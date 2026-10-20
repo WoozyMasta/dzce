@@ -66,6 +66,7 @@ volume.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `Underground_SoundSet` |
 
 ### UndergroundTrigger.AmbientSoundType
 
@@ -79,6 +80,7 @@ AmbientSoundType selects an engine-provided ambient sound controller.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `caveBig` |
 
 ### UndergroundTrigger.Breadcrumbs
 
@@ -108,6 +110,7 @@ and diagnostic tools.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `HWTunnel_EastEntrance_Outter` |
 
 ### UndergroundTrigger.CustomSpawn
 
@@ -135,6 +138,8 @@ represents darkness and 1 represents normal visibility.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
+| Constraints | `minimum=0`; `maximum=1` |
 
 ### UndergroundTrigger.InterpolationSpeed
 
@@ -150,6 +155,7 @@ breadcrumb points.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
 
 ### UndergroundTrigger.Orientation
 
@@ -164,6 +170,7 @@ Orientation is the trigger rotation as yaw, pitch, and roll in degrees.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=3`; `maxItems=3` |
 
 ### UndergroundTrigger.ParentNetworkId
 
@@ -193,6 +200,7 @@ Position is the center of the trigger volume in world X/Y/Z coordinates.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=3`; `maxItems=3` |
 
 ### UndergroundTrigger.Size
 
@@ -207,6 +215,7 @@ Size is the trigger volume's X/Y/Z dimensions in meters.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=3`; `maxItems=3` |
 
 ### UndergroundTrigger.UseLinePointFade
 
@@ -221,6 +230,8 @@ which is useful for tunnels and corridors.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ## UndergroundBreadcrumb
 
@@ -266,12 +277,15 @@ Key: `EyeAccommodation`
 
 Path: [`Triggers`](#undergroundtriggersfiletriggers).`[]`.[`Breadcrumbs`](#undergroundtriggerbreadcrumbs).`[]`.`EyeAccommodation`
 
-EyeAccommodation is the visibility target contributed by this point.
+EyeAccommodation is the visibility target contributed by this point, from 0
+(darkness) to 1 (normal visibility).
 
 | Attribute | Value |
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
+| Constraints | `minimum=0`; `maximum=1` |
 
 ### UndergroundBreadcrumb.LightLerp
 
@@ -285,6 +299,7 @@ LightLerp controls world-light interpolation for line-point fade mode.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0` |
 
 ### UndergroundBreadcrumb.Position
 
@@ -299,6 +314,7 @@ Position is the point's world X/Y/Z coordinate.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=3`; `maxItems=3` |
 
 ### UndergroundBreadcrumb.Radius
 
@@ -313,6 +329,7 @@ engine's default radius.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `-1` |
 
 ### UndergroundBreadcrumb.UseRaycast
 
@@ -327,6 +344,8 @@ point before it contributes to the transition.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ## UndergroundExternalValueController
 
@@ -366,3 +385,4 @@ Type identifies the controller implementation that reads the external condition.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `DoorState` |

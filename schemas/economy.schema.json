@@ -52,18 +52,46 @@
       "properties": {
         "init": {
           "description": "Init allows CE to initialize this subsystem when the mission starts.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            1
+          ],
           "type": "integer"
         },
         "load": {
           "description": "Load allows CE to restore this subsystem's saved state from server storage.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            1
+          ],
           "type": "integer"
         },
         "respawn": {
           "description": "Respawn allows CE to replenish entities managed by this subsystem during runtime.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            1
+          ],
           "type": "integer"
         },
         "save": {
           "description": "Save allows CE to write this subsystem's state to server storage.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            1
+          ],
           "type": "integer"
         }
       },

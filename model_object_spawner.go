@@ -25,7 +25,7 @@ type ObjectSpawnerEntry struct {
 	// P3D spawning is limited to DZ/plants, DZ/plants_bliss, DZ/plants_sakhal, DZ/rocks, DZ/rocks_bliss, and DZ/rocks_sakhal.
 	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 	// Pos is the object's world position as an X/Y/Z vector in meters; Y is the vertical coordinate.
-	Pos []float64 `json:"pos,omitempty" yaml:"pos,omitempty"`
+	Pos []float64 `json:"pos,omitempty" yaml:"pos,omitempty" jsonschema:"minItems=3,maxItems=3"`
 	// YPR is the object's rotation in yaw, pitch, and roll order, in degrees. An empty vector leaves rotation unspecified.
-	YPR []float64 `json:"ypr,omitempty" yaml:"ypr,omitempty"`
+	YPR []float64 `json:"ypr,omitempty" yaml:"ypr,omitempty" jsonschema:"minItems=3,maxItems=3"`
 }

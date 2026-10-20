@@ -49,10 +49,16 @@
         },
         "lootmax": {
           "description": "LootMax caps how many items CE may spawn in this container. Each spawn point can hold at most one item.",
+          "examples": [
+            "1"
+          ],
           "type": "string"
         },
         "name": {
           "description": "Name is the container identifier used by the building's game model.",
+          "examples": [
+            "branch"
+          ],
           "type": "string"
         },
         "point": {
@@ -92,6 +98,9 @@
       "properties": {
         "name": {
           "description": "Name is the trajectory identifier used by the dynamic-event system.",
+          "examples": [
+            "TrajectoryCanina"
+          ],
           "type": "string"
         }
       },
@@ -103,26 +112,44 @@
       "properties": {
         "de": {
           "description": "DE names the dynamic-event trajectory associated with the prototype.",
+          "examples": [
+            "TrajectoryApple"
+          ],
           "type": "string"
         },
         "enabled": {
           "description": "Enabled turns the selected default behavior on or off.",
+          "examples": [
+            "yes"
+          ],
           "type": "string"
         },
         "height": {
           "description": "Height sets the height of a generated cluster matrix.",
+          "examples": [
+            "12"
+          ],
           "type": "string"
         },
         "lootmax": {
           "description": "LootMax is the default maximum amount of loot used for matching groups or containers.",
+          "examples": [
+            "6"
+          ],
           "type": "string"
         },
         "name": {
           "description": "Name identifies the prototype category or class this default applies to.",
+          "examples": [
+            "group"
+          ],
           "type": "string"
         },
         "width": {
           "description": "Width sets the width of a generated cluster matrix.",
+          "examples": [
+            "12"
+          ],
           "type": "string"
         }
       },
@@ -148,6 +175,9 @@
       "properties": {
         "dechance": {
           "description": "DEChance is the probability that CE dispatches this dynamic event.",
+          "examples": [
+            "0.000000"
+          ],
           "type": "string"
         },
         "proxy": {
@@ -194,14 +224,23 @@
         },
         "lootmax": {
           "description": "LootMax caps the total loot spawned in this group.",
+          "examples": [
+            "2"
+          ],
           "type": "string"
         },
         "maxinstances": {
           "description": "MaxInstances caps how many instances of this cluster prototype can be used across the map.",
+          "examples": [
+            "150"
+          ],
           "type": "string"
         },
         "name": {
           "description": "Name is the prototype identifier used by map instances or cluster data.",
+          "examples": [
+            "CaninaBush1"
+          ],
           "type": "string"
         },
         "tag": {
@@ -234,10 +273,16 @@
       "properties": {
         "name": {
           "description": "Name is the logical cluster group identifier referenced by prototype entries.",
+          "examples": [
+            "PathD10"
+          ],
           "type": "string"
         },
         "shape": {
           "description": "Shape is the P3D model path whose terrain placements use this mapping.",
+          "examples": [
+            "dz\\structures\\Roads\\Parts\\path_dirt_10.p3d"
+          ],
           "type": "string"
         }
       },
@@ -263,18 +308,30 @@
       "properties": {
         "flags": {
           "description": "Flags is the bitmask of CE placement behaviors enabled for this point.",
+          "examples": [
+            "32"
+          ],
           "type": "string"
         },
         "height": {
           "description": "Height is the vertical clearance available for an item at this point.",
+          "examples": [
+            "1.0"
+          ],
           "type": "string"
         },
         "pos": {
           "description": "Pos is the local X/Y/Z position relative to the model origin, not a map position.",
+          "examples": [
+            "-1.86 -2.40 0.12"
+          ],
           "type": "string"
         },
         "range": {
           "description": "Range is the placement radius around the point.",
+          "examples": [
+            "0.55"
+          ],
           "type": "string"
         }
       },
@@ -286,18 +343,30 @@
       "properties": {
         "dechance": {
           "description": "DEChance is the probability that this proxy is created by the dispatch.",
+          "examples": [
+            "0.000000"
+          ],
           "type": "string"
         },
         "pos": {
           "description": "Pos is the object's position relative to the prototype.",
+          "examples": [
+            "1.071 -0.736000 -0.852"
+          ],
           "type": "string"
         },
         "rpy": {
           "description": "RPY is the object's rotation relative to the prototype, in roll, pitch, yaw order.",
+          "examples": [
+            "90.0 0.0 0.0"
+          ],
           "type": "string"
         },
         "type": {
           "description": "Type is the game class name of the dispatched object.",
+          "examples": [
+            "HatchbackWheel"
+          ],
           "type": "string"
         }
       },
@@ -309,6 +378,9 @@
       "properties": {
         "name": {
           "description": "Name is the identifier referenced by the containing CE element.",
+          "examples": [
+            "Bandage"
+          ],
           "type": "string"
         }
       },

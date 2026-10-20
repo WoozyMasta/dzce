@@ -94,6 +94,9 @@
       "properties": {
         "name": {
           "description": "Name is the identifier referenced by the containing CE element.",
+          "examples": [
+            "Bandage"
+          ],
           "type": "string"
         }
       },

@@ -11,7 +11,7 @@ type EventSpawnEntry struct {
 	// It is used when the event has a secondary infected event.
 	Zone *EventSpawnZone `json:"zone,omitempty" yaml:"zone,omitempty" xml:"zone,omitempty"`
 	// Name matches the event identifier in db/events.xml.
-	Name string `json:"name" yaml:"name" xml:"name,attr"`
+	Name string `json:"name" yaml:"name" xml:"name,attr" jsonschema:"example=VehicleCivilianSedan"`
 	// Pos lists positions where this event may spawn.
 	// A position may reference a reusable object group from cfgeventgroups.xml.
 	Pos []EventSpawnPos `json:"pos,omitempty" yaml:"pos,omitempty" xml:"pos,omitempty"`
@@ -21,28 +21,28 @@ type EventSpawnEntry struct {
 // when the event defines a secondary infected event.
 type EventSpawnZone struct {
 	// SMin is the lower bound for the static infected count.
-	SMin string `json:"smin,omitempty" yaml:"smin,omitempty" xml:"smin,attr,omitempty"`
+	SMin string `json:"smin,omitempty" yaml:"smin,omitempty" xml:"smin,attr,omitempty" jsonschema:"example=1"`
 	// SMax is the upper bound for the static infected count.
-	SMax string `json:"smax,omitempty" yaml:"smax,omitempty" xml:"smax,attr,omitempty"`
+	SMax string `json:"smax,omitempty" yaml:"smax,omitempty" xml:"smax,attr,omitempty" jsonschema:"example=3"`
 	// DMin is the lower bound for the dynamic infected count.
-	DMin string `json:"dmin,omitempty" yaml:"dmin,omitempty" xml:"dmin,attr,omitempty"`
+	DMin string `json:"dmin,omitempty" yaml:"dmin,omitempty" xml:"dmin,attr,omitempty" jsonschema:"example=3"`
 	// DMax is the upper bound for the dynamic infected count.
-	DMax string `json:"dmax,omitempty" yaml:"dmax,omitempty" xml:"dmax,attr,omitempty"`
+	DMax string `json:"dmax,omitempty" yaml:"dmax,omitempty" xml:"dmax,attr,omitempty" jsonschema:"example=5"`
 	// R is the radius in meters around the event position where infected may spawn.
-	R string `json:"r,omitempty" yaml:"r,omitempty" xml:"r,attr,omitempty"`
+	R string `json:"r,omitempty" yaml:"r,omitempty" xml:"r,attr,omitempty" jsonschema:"example=45"`
 }
 
 // EventSpawnPos stores one mission-defined event position in map coordinates.
 type EventSpawnPos struct {
 	// X is the map's horizontal X coordinate.
-	X string `json:"x,omitempty" yaml:"x,omitempty" xml:"x,attr,omitempty"`
+	X string `json:"x,omitempty" yaml:"x,omitempty" xml:"x,attr,omitempty" jsonschema:"example=12071.933594"`
 	// Z is the map's horizontal Z coordinate.
-	Z string `json:"z,omitempty" yaml:"z,omitempty" xml:"z,attr,omitempty"`
+	Z string `json:"z,omitempty" yaml:"z,omitempty" xml:"z,attr,omitempty" jsonschema:"example=9129.989258"`
 	// A is the event's yaw rotation in degrees. Shipped mission data also uses -1,
 	// so retain the supplied value instead of normalizing it.
-	A string `json:"a,omitempty" yaml:"a,omitempty" xml:"a,attr,omitempty"`
+	A string `json:"a,omitempty" yaml:"a,omitempty" xml:"a,attr,omitempty" jsonschema:"example=317.953339"`
 	// Y is the optional world height. It may be omitted when placement uses terrain height.
-	Y string `json:"y,omitempty" yaml:"y,omitempty" xml:"y,attr,omitempty"`
+	Y string `json:"y,omitempty" yaml:"y,omitempty" xml:"y,attr,omitempty" jsonschema:"example=201.66"`
 	// Group names a cfgeventgroups.xml group to create at this position.
-	Group string `json:"group,omitempty" yaml:"group,omitempty" xml:"group,attr,omitempty"`
+	Group string `json:"group,omitempty" yaml:"group,omitempty" xml:"group,attr,omitempty" jsonschema:"example=Train_Abandoned_Cherno"`
 }

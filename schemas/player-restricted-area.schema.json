@@ -19,6 +19,9 @@
         },
         "areaName": {
           "description": "AreaName is an optional label used to identify the area in game diagnostics.",
+          "examples": [
+            "RestrictedAreaWarheadStorage"
+          ],
           "type": "string"
         },
         "safePositions3D": {

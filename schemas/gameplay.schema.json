@@ -52,14 +52,23 @@
       "properties": {
         "healthDepletionSpeed": {
           "description": "HealthDepletionSpeed sets health lost per second while drowning.",
+          "examples": [
+            10
+          ],
           "type": "number"
         },
         "shockDepletionSpeed": {
           "description": "ShockDepletionSpeed sets shock lost per second while drowning.",
+          "examples": [
+            10
+          ],
           "type": "number"
         },
         "staminaDepletionSpeed": {
           "description": "StaminaDepletionSpeed sets stamina points lost per second while drowning.",
+          "examples": [
+            10
+          ],
           "type": "number"
         }
       },
@@ -71,18 +80,30 @@
       "properties": {
         "protectionCountStageOne": {
           "description": "ProtectionCountStageOne sets the number of failed attempts before the first protection stage is applied.",
+          "examples": [
+            3
+          ],
           "type": "integer"
         },
         "protectionCountStageTwo": {
           "description": "ProtectionCountStageTwo sets the number of failed attempts before the second protection stage is applied.",
+          "examples": [
+            1
+          ],
           "type": "integer"
         },
         "protectionResetTime": {
           "description": "ProtectionResetTime sets how long the failed-attempt counter remains active before it is reset, in seconds.",
+          "examples": [
+            3600
+          ],
           "type": "number"
         },
         "protectionTime": {
           "description": "ProtectionTime sets the duration of the protection lockout in seconds.",
+          "examples": [
+            30
+          ],
           "type": "number"
         }
       },
@@ -130,6 +151,9 @@
         },
         "version": {
           "description": "Version is the game's internal version marker for this configuration format.\nIt is maintained by the game and is not a gameplay setting.",
+          "examples": [
+            123
+          ],
           "type": "integer"
         }
       },
@@ -164,18 +188,37 @@
       "properties": {
         "hitDirectionBehaviour": {
           "description": "HitDirectionBehaviour selects indicator motion:\n  - 0 disables it,\n  - 1 keeps it static,\n  - 2 uses the moving dynamic behavior.",
+          "enum": [
+            0,
+            1,
+            2
+          ],
+          "examples": [
+            1
+          ],
           "type": "integer"
         },
         "hitDirectionBreakPointRelative": {
           "description": "HitDirectionBreakPointRelative is the fraction of the actual display duration after which the indicator starts fading.\n0 fades immediately; 1 leaves no time for fading.",
+          "examples": [
+            0.2
+          ],
+          "maximum": 1,
+          "minimum": 0,
           "type": "number"
         },
         "hitDirectionIndicatorColorStr": {
           "description": "HitDirectionIndicatorColorStr sets the indicator color as a hexadecimal ARGB string, for example `0xFFBB0A1E`.",
+          "examples": [
+            "0xffbb0a1e"
+          ],
           "type": "string"
         },
         "hitDirectionMaxDuration": {
           "description": "HitDirectionMaxDuration sets the upper bound for how long the indicator is displayed.\nActual duration varies with hit severity and is between 60% and 100% of this value.",
+          "examples": [
+            2
+          ],
           "type": "number"
         },
         "hitDirectionOverrideEnabled": {
@@ -184,10 +227,21 @@
         },
         "hitDirectionScatter": {
           "description": "HitDirectionScatter is the maximum random angular offset applied to the indicated hit direction. The offset is randomized in both directions.",
+          "examples": [
+            10
+          ],
           "type": "number"
         },
         "hitDirectionStyle": {
           "description": "HitDirectionStyle selects the indicator graphic: 0 splash, 1 spike, or 2 arrow.",
+          "enum": [
+            0,
+            1,
+            2
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "hitIndicationPostProcessEnabled": {
@@ -292,22 +346,42 @@
         },
         "rotationSpeedJog": {
           "description": "RotationSpeedJog sets the character's rotation speed while jogging.",
+          "examples": [
+            0.15
+          ],
+          "minimum": 0.01,
           "type": "number"
         },
         "rotationSpeedSprint": {
           "description": "RotationSpeedSprint sets the character's rotation speed while sprinting.",
+          "examples": [
+            0.15
+          ],
+          "minimum": 0.01,
           "type": "number"
         },
         "timeToSprint": {
           "description": "TimeToSprint sets the transition time from jogging to sprinting.",
+          "examples": [
+            0.45
+          ],
+          "minimum": 0.01,
           "type": "number"
         },
         "timeToStrafeJog": {
           "description": "TimeToStrafeJog sets the blend time for diagonal movement while jogging.",
+          "examples": [
+            0.1
+          ],
+          "minimum": 0.01,
           "type": "number"
         },
         "timeToStrafeSprint": {
           "description": "TimeToStrafeSprint sets the blend time for diagonal movement while sprinting.",
+          "examples": [
+            0.3
+          ],
+          "minimum": 0.01,
           "type": "number"
         }
       },
@@ -357,6 +431,14 @@
       "properties": {
         "sandstormFrequency": {
           "description": "SandstormFrequency sets how often sandstorms occur:\n - 0 disables them,\n - 1 uses the normal rate,\n - 2 makes them occur twice as often.",
+          "enum": [
+            0,
+            1,
+            2
+          ],
+          "examples": [
+            1
+          ],
           "type": "number"
         }
       },
@@ -372,10 +454,16 @@
         },
         "shockRefillSpeedConscious": {
           "description": "ShockRefillSpeedConscious sets shock recovery per second while the player is conscious.",
+          "examples": [
+            5
+          ],
           "type": "number"
         },
         "shockRefillSpeedUnconscious": {
           "description": "ShockRefillSpeedUnconscious sets shock recovery per second while the player is unconscious.",
+          "examples": [
+            1
+          ],
           "type": "number"
         }
       },
@@ -387,46 +475,79 @@
       "properties": {
         "holdBreathStaminaModifier": {
           "description": "HoldBreathStaminaModifier scales stamina consumption while holding breath.",
+          "examples": [
+            1
+          ],
           "type": "number"
         },
         "meleeStaminaModifier": {
           "description": "MeleeStaminaModifier scales stamina consumption for heavy melee attacks and evasive moves.",
+          "examples": [
+            1
+          ],
           "type": "number"
         },
         "obstacleTraversalStaminaModifier": {
           "description": "ObstacleTraversalStaminaModifier scales stamina consumption when jumping, climbing, or vaulting over obstacles.",
+          "examples": [
+            1
+          ],
           "type": "number"
         },
         "sprintLadderStaminaModifier": {
           "description": "SprintLadderStaminaModifier scales stamina consumption while climbing a ladder quickly.",
+          "examples": [
+            1
+          ],
           "type": "number"
         },
         "sprintStaminaModifierCro": {
           "description": "SprintStaminaModifierCro scales stamina consumption while sprinting crouched.",
+          "examples": [
+            1
+          ],
           "type": "number"
         },
         "sprintStaminaModifierErc": {
           "description": "SprintStaminaModifierErc scales stamina consumption while sprinting upright.",
+          "examples": [
+            1
+          ],
           "type": "number"
         },
         "sprintSwimmingStaminaModifier": {
           "description": "SprintSwimmingStaminaModifier scales stamina consumption during fast swimming.",
+          "examples": [
+            1
+          ],
           "type": "number"
         },
         "staminaKgToStaminaPercentPenalty": {
           "description": "StaminaKgToStaminaPercentPenalty scales the reduction of maximum stamina calculated from the character's carried load.",
+          "examples": [
+            1.75
+          ],
           "type": "number"
         },
         "staminaMax": {
           "description": "StaminaMax sets the maximum stamina pool. Setting it to zero may produce unexpected results.",
+          "examples": [
+            100
+          ],
           "type": "number"
         },
         "staminaMinCap": {
           "description": "StaminaMinCap sets the minimum size of the stamina cap. Setting it to zero may produce unexpected results.",
+          "examples": [
+            5
+          ],
           "type": "number"
         },
         "staminaWeightLimitThreshold": {
           "description": "StaminaWeightLimitThreshold is the amount of stamina points, divided by 1000, excluded from the load-based reduction of maximum stamina.",
+          "examples": [
+            6000
+          ],
           "type": "number"
         }
       },
@@ -453,6 +574,9 @@
       "properties": {
         "boatDecayMultiplier": {
           "description": "BoatDecayMultiplier scales how quickly boats decay.\nA larger multiplier makes decay faster; 1 leaves the normal rate unchanged.",
+          "examples": [
+            1
+          ],
           "type": "number"
         },
         "canDamageAttachedBikeWheels": {
@@ -480,10 +604,26 @@
       "properties": {
         "dynamicMode": {
           "description": "DynamicMode selects obstruction handling for dynamic objects:\n - 0 does not obstruct but still lifts the weapon,\n - 1 obstructs before lifting it,\n - 2 always obstructs without lifting.",
+          "enum": [
+            0,
+            1,
+            2
+          ],
+          "examples": [
+            1
+          ],
           "type": "integer"
         },
         "staticMode": {
           "description": "StaticMode selects obstruction handling for static objects:\n - 0 does not obstruct but still lifts the weapon,\n - 1 obstructs before lifting it,\n - 2 always obstructs without lifting.",
+          "enum": [
+            0,
+            1,
+            2
+          ],
+          "examples": [
+            1
+          ],
           "type": "integer"
         }
       },
@@ -502,6 +642,8 @@
           "items": {
             "type": "number"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "type": "array"
         },
         "environmentMinTemps": {
@@ -509,10 +651,15 @@
           "items": {
             "type": "number"
           },
+          "maxItems": 12,
+          "minItems": 12,
           "type": "array"
         },
         "lightingConfig": {
           "description": "LightingConfig selects the night lighting preset: 0 is brighter and 1 is darker. World-specific settings may define additional values.",
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "objectSpawnersArr": {
@@ -534,6 +681,8 @@
           "items": {
             "type": "number"
           },
+          "maxItems": 5,
+          "minItems": 5,
           "type": "array"
         }
       },

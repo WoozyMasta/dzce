@@ -32,6 +32,7 @@
         },
         "quickBarSlot": {
           "description": "QuickBarSlot assigns the item to a quickbar slot; -1 leaves it unassigned.",
+          "minimum": -1,
           "type": "integer"
         },
         "simpleChildrenTypes": {
@@ -69,6 +70,7 @@
         },
         "quickBarSlot": {
           "description": "QuickBarSlot assigns the item to a quickbar slot; -1 leaves it unassigned.",
+          "minimum": -1,
           "type": "integer"
         },
         "simpleChildrenTypes": {
@@ -84,6 +86,7 @@
         },
         "spawnWeight": {
           "description": "SpawnWeight is this item's relative selection weight among alternatives for the slot or set. It must be at least 1.",
+          "minimum": 1,
           "type": "integer"
         }
       },
@@ -143,6 +146,7 @@
         },
         "spawnWeight": {
           "description": "SpawnWeight is the preset's relative selection weight.\nIt must be at least 1; higher values make the preset more likely to be selected.",
+          "minimum": 1,
           "type": "integer"
         }
       },
@@ -187,6 +191,7 @@
         },
         "spawnWeight": {
           "description": "SpawnWeight is this cargo loadout's relative selection weight among alternatives. It must be at least 1.",
+          "minimum": 1,
           "type": "integer"
         }
       },

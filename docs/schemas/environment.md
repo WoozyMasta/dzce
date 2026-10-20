@@ -121,6 +121,7 @@ Path is the direct path to a territory data file.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `env/cattle_territories.xml` |
 
 ### EnvironmentTerritoryFile.usable
 
@@ -137,6 +138,7 @@ Usable references a reusable territory file declaration by its identifier.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `red_deer_territories` |
 
 ## EnvironmentTerritory
 
@@ -177,6 +179,7 @@ runtime logic.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `DZDeerGroupBeh` |
 
 ### EnvironmentTerritory.file
 
@@ -220,6 +223,7 @@ event configuration.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `Deer` |
 
 ### EnvironmentTerritory.type
 
@@ -233,6 +237,7 @@ Type selects the territory system category, such as `Herd` or `Ambient`.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `Herd` |
 
 ## EnvironmentAgent
 
@@ -257,6 +262,7 @@ Chance is the selection weight for this agent variant.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1` |
 
 ### EnvironmentAgent.item
 
@@ -298,6 +304,7 @@ Type is the agent variant used by this block, such as `Male` or `Female`.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `Male` |
 
 ## EnvironmentItem
 
@@ -324,6 +331,7 @@ Name is the setting key interpreted by the selected territory behavior.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `globalCountMax` |
 
 ### EnvironmentItem.val
 
@@ -340,6 +348,7 @@ Value is the setting value encoded as text.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `50` |
 
 ## EnvironmentSpawn
 
@@ -364,6 +373,7 @@ Chance is the selection weight for this class within its agent variant.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1` |
 
 ### EnvironmentSpawn.configName
 
@@ -377,3 +387,4 @@ ConfigName is the game class name that may be spawned.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `Animal_GallusGallusDomesticus` |

@@ -17,7 +17,7 @@ type GameplayGearPreset struct {
 	Name string `json:"name,omitempty" yaml:"name,omitempty"`
 	// SpawnWeight is the preset's relative selection weight.
 	// It must be at least 1; higher values make the preset more likely to be selected.
-	SpawnWeight *int `json:"spawnWeight,omitempty" yaml:"spawnWeight,omitempty"`
+	SpawnWeight *int `json:"spawnWeight,omitempty" yaml:"spawnWeight,omitempty" jsonschema:"minimum=1"`
 	// CharacterTypes lists survivor classes eligible for this preset.
 	// When omitted or empty, the character type selected in the creation menu is used.
 	CharacterTypes []string `json:"characterTypes,omitempty" yaml:"characterTypes,omitempty"`
@@ -38,11 +38,11 @@ type GameplayGearAttachmentSlotSet struct {
 // GameplayGearDiscreteItemSet defines one weighted item choice and any cargo or attachments created inside it.
 type GameplayGearDiscreteItemSet struct {
 	// SpawnWeight is this item's relative selection weight among alternatives for the slot or set. It must be at least 1.
-	SpawnWeight *int `json:"spawnWeight,omitempty" yaml:"spawnWeight,omitempty"`
+	SpawnWeight *int `json:"spawnWeight,omitempty" yaml:"spawnWeight,omitempty" jsonschema:"minimum=1"`
 	// Attributes supplies the health and quantity ranges rolled for this item.
 	Attributes *GameplayGearItemAttributes `json:"attributes,omitempty" yaml:"attributes,omitempty"`
 	// QuickBarSlot assigns the item to a quickbar slot; -1 leaves it unassigned.
-	QuickBarSlot *int `json:"quickBarSlot,omitempty" yaml:"quickBarSlot,omitempty"`
+	QuickBarSlot *int `json:"quickBarSlot,omitempty" yaml:"quickBarSlot,omitempty" jsonschema:"minimum=-1"`
 	// SimpleChildrenUseDefaultAttributes makes simple child items inherit the attributes from this item set instead of using configuration defaults.
 	SimpleChildrenUseDefaultAttributes *bool `json:"simpleChildrenUseDefaultAttributes,omitempty" yaml:"simpleChildrenUseDefaultAttributes,omitempty"`
 	// ItemType is the game class name of the item created in this slot.
@@ -56,7 +56,7 @@ type GameplayGearDiscreteItemSet struct {
 // GameplayGearUnsortedSet defines one weighted cargo loadout that can be selected independently of a character attachment slot.
 type GameplayGearUnsortedSet struct {
 	// SpawnWeight is this cargo loadout's relative selection weight among alternatives. It must be at least 1.
-	SpawnWeight *int `json:"spawnWeight,omitempty" yaml:"spawnWeight,omitempty"`
+	SpawnWeight *int `json:"spawnWeight,omitempty" yaml:"spawnWeight,omitempty" jsonschema:"minimum=1"`
 	// Attributes provides default health and quantity ranges for nested items that inherit attributes from this set.
 	Attributes *GameplayGearItemAttributes `json:"attributes,omitempty" yaml:"attributes,omitempty"`
 	// SimpleChildrenUseDefaultAttributes makes simple child items inherit the attributes from this cargo set instead of using configuration defaults.
@@ -76,7 +76,7 @@ type GameplayGearComplexChild struct {
 	// Attributes supplies the health and quantity ranges rolled for this item.
 	Attributes *GameplayGearItemAttributes `json:"attributes,omitempty" yaml:"attributes,omitempty"`
 	// QuickBarSlot assigns the item to a quickbar slot; -1 leaves it unassigned.
-	QuickBarSlot *int `json:"quickBarSlot,omitempty" yaml:"quickBarSlot,omitempty"`
+	QuickBarSlot *int `json:"quickBarSlot,omitempty" yaml:"quickBarSlot,omitempty" jsonschema:"minimum=-1"`
 	// SimpleChildrenUseDefaultAttributes makes simple child items inherit the attributes from this item instead of using configuration defaults.
 	SimpleChildrenUseDefaultAttributes *bool `json:"simpleChildrenUseDefaultAttributes,omitempty" yaml:"simpleChildrenUseDefaultAttributes,omitempty"`
 	// SimpleChildrenTypes are game class names of items created inside this item without per-child settings.

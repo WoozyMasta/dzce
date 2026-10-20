@@ -78,6 +78,7 @@ AreaName identifies the area in mission configuration and diagnostics.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `Ship-Bow` |
 
 ### EffectArea.EffectAreaData
 
@@ -119,6 +120,7 @@ area.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `ContaminatedTrigger` |
 
 ### EffectArea.Type
 
@@ -133,6 +135,7 @@ as a static contaminated area.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `ContaminatedArea_Static` |
 
 ## EffectAreaData
 
@@ -158,6 +161,7 @@ area types that implement timed effects.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `180` |
 
 ### EffectAreaData.EffectInterval
 
@@ -172,6 +176,7 @@ types that implement timed effects.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `7200` |
 
 ### EffectAreaData.InnerPartDist
 
@@ -186,6 +191,7 @@ InnerPartDist controls particle size when filling the area with emitters. The
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `80` |
 
 ### EffectAreaData.NegHeight
 
@@ -199,6 +205,7 @@ NegHeight is the distance in meters that the area extends below Pos.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `3` |
 
 ### EffectAreaData.OuterOffset
 
@@ -213,6 +220,7 @@ meters.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `30` |
 
 ### EffectAreaData.ParticleName
 
@@ -226,6 +234,7 @@ ParticleName is the resource path for particles emitted by the area.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `graphics/particles/contaminated_area_gas_bigass` |
 
 ### EffectAreaData.Pos
 
@@ -241,6 +250,7 @@ to be placed on the terrain surface.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=3`; `maxItems=3` |
 
 ### EffectAreaData.PosHeight
 
@@ -254,6 +264,7 @@ PosHeight is the distance in meters that the area extends above Pos.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `20` |
 
 ### EffectAreaData.Radius
 
@@ -268,6 +279,7 @@ when this value is zero or negative.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `75` |
 
 ## EffectAreaPlayerData
 
@@ -292,6 +304,7 @@ AroundPartName is the particle resource rendered around the player.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `graphics/particles/contaminated_area_gas_around` |
 
 ### EffectAreaPlayerData.PPERequesterType
 
@@ -306,6 +319,7 @@ screen effect.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `PPERequester_ContaminatedAreaTint` |
 
 ### EffectAreaPlayerData.TinyPartName
 
@@ -319,3 +333,4 @@ TinyPartName is the particle resource rendered close to the camera.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `graphics/particles/contaminated_area_gas_around_tiny` |

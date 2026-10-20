@@ -191,6 +191,8 @@ Init allows CE to initialize this subsystem when the mission starts.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `1` |
 
 ### EconomySection.load
 
@@ -213,6 +215,8 @@ Load allows CE to restore this subsystem's saved state from server storage.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `1` |
 
 ### EconomySection.respawn
 
@@ -236,6 +240,8 @@ runtime.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `1` |
 
 ### EconomySection.save
 
@@ -258,3 +264,5 @@ Save allows CE to write this subsystem's state to server storage.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `1` |

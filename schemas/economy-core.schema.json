@@ -60,10 +60,16 @@
       "properties": {
         "name": {
           "description": "Name is the CE variable name being overridden.",
+          "examples": [
+            "dyn_radius"
+          ],
           "type": "string"
         },
         "value": {
           "description": "Value is the configured value encoded as text. Its expected format is determined by the named variable.",
+          "examples": [
+            "30"
+          ],
           "type": "string"
         }
       },
@@ -121,15 +127,35 @@
       "description": "EconomyCoreRootClass registers one game class hierarchy with Central Economy and identifies whether its instances are loot, characters, or cars.",
       "properties": {
         "act": {
+          "default": "none",
           "description": "Act tells CE how to initialize this class: `character` for players, infected, and animals;\n`car` for vehicles; or omitted/`none` for ordinary economy items.",
+          "enum": [
+            "none",
+            "character",
+            "car"
+          ],
+          "examples": [
+            "character"
+          ],
           "type": "string"
         },
         "name": {
           "description": "Name is the root class name from the game's configuration inheritance.",
+          "examples": [
+            "DefaultWeapon"
+          ],
           "type": "string"
         },
         "reportMemoryLOD": {
+          "default": "yes",
           "description": "ReportMemoryLOD controls warnings for missing Memory LODs on instances of this class (`yes` or `no`). The documented default is `yes`.",
+          "enum": [
+            "yes",
+            "no"
+          ],
+          "examples": [
+            "no"
+          ],
           "type": "string"
         }
       },

@@ -17,18 +17,30 @@
       "properties": {
         "protectionCountStageOne": {
           "description": "ProtectionCountStageOne sets the number of failed attempts before the first protection stage is applied.",
+          "examples": [
+            3
+          ],
           "type": "integer"
         },
         "protectionCountStageTwo": {
           "description": "ProtectionCountStageTwo sets the number of failed attempts before the second protection stage is applied.",
+          "examples": [
+            1
+          ],
           "type": "integer"
         },
         "protectionResetTime": {
           "description": "ProtectionResetTime sets how long the failed-attempt counter remains active before it is reset, in seconds.",
+          "examples": [
+            3600
+          ],
           "type": "number"
         },
         "protectionTime": {
           "description": "ProtectionTime sets the duration of the protection lockout in seconds.",
+          "examples": [
+            30
+          ],
           "type": "number"
         }
       },

@@ -103,6 +103,7 @@ Name is the built-in CE variable identifier, such as `AnimalMaxCount` or
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `AnimalMaxCount` |
 
 ### GlobalVar.value
 
@@ -117,6 +118,7 @@ according to Type.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `200` |
 
 ### GlobalVar.type
 
@@ -131,3 +133,5 @@ string.
 | --- | --- |
 | Type | `integer` |
 | Required | yes |
+| Enum | `0`, `1`, `2` |
+| Examples | `0` |

@@ -23,38 +23,38 @@ type WeatherSection struct {
 // WeatherCurrent sets the initial target and transition schedule for one weather channel.
 type WeatherCurrent struct {
 	// Actual is the initial target value for the channel, within its Limits.
-	Actual string `json:"actual,omitempty" yaml:"actual,omitempty" xml:"actual,attr,omitempty"`
+	Actual string `json:"actual,omitempty" yaml:"actual,omitempty" xml:"actual,attr,omitempty" jsonschema:"example=0.45"`
 	// Time is how long the channel takes to reach Actual, in seconds.
-	Time string `json:"time,omitempty" yaml:"time,omitempty" xml:"time,attr,omitempty"`
+	Time string `json:"time,omitempty" yaml:"time,omitempty" xml:"time,attr,omitempty" jsonschema:"example=120"`
 	// Duration is how long the channel holds Actual after reaching it, in seconds.
-	Duration string `json:"duration,omitempty" yaml:"duration,omitempty" xml:"duration,attr,omitempty"`
+	Duration string `json:"duration,omitempty" yaml:"duration,omitempty" xml:"duration,attr,omitempty" jsonschema:"example=240"`
 }
 
 // WeatherMinMax stores lower and upper numeric bounds for a weather setting.
 type WeatherMinMax struct {
 	// Min is the lower bound or minimum transition value.
-	Min string `json:"min,omitempty" yaml:"min,omitempty" xml:"min,attr,omitempty"`
+	Min string `json:"min,omitempty" yaml:"min,omitempty" xml:"min,attr,omitempty" jsonschema:"example=0.0"`
 	// Max is the upper bound or maximum transition value.
-	Max string `json:"max,omitempty" yaml:"max,omitempty" xml:"max,attr,omitempty"`
+	Max string `json:"max,omitempty" yaml:"max,omitempty" xml:"max,attr,omitempty" jsonschema:"example=1.0"`
 }
 
 // WeatherThresholds controls when a dependent channel may be active based on the value of its controlling channel,
 // and how quickly it stops when the value leaves the allowed range.
 type WeatherThresholds struct {
 	// Min is the minimum controlling-channel value that permits this channel.
-	Min string `json:"min,omitempty" yaml:"min,omitempty" xml:"min,attr,omitempty"`
+	Min string `json:"min,omitempty" yaml:"min,omitempty" xml:"min,attr,omitempty" jsonschema:"example=0.6"`
 	// Max is the maximum controlling-channel value that permits this channel.
-	Max string `json:"max,omitempty" yaml:"max,omitempty" xml:"max,attr,omitempty"`
+	Max string `json:"max,omitempty" yaml:"max,omitempty" xml:"max,attr,omitempty" jsonschema:"example=1.0"`
 	// End is how long, in seconds, the dependent channel takes to stop after the controlling value leaves the allowed range.
-	End string `json:"end,omitempty" yaml:"end,omitempty" xml:"end,attr,omitempty"`
+	End string `json:"end,omitempty" yaml:"end,omitempty" xml:"end,attr,omitempty" jsonschema:"example=60"`
 }
 
 // WeatherStorm configures lightning generation during storms.
 type WeatherStorm struct {
 	// Density controls lightning strike density on a scale from 0 to 1.
-	Density string `json:"density,omitempty" yaml:"density,omitempty" xml:"density,attr,omitempty"`
+	Density string `json:"density,omitempty" yaml:"density,omitempty" xml:"density,attr,omitempty" jsonschema:"example=1.0"`
 	// Threshold is the overcast value, from 0 to 1, above which lightning may appear.
-	Threshold string `json:"threshold,omitempty" yaml:"threshold,omitempty" xml:"threshold,attr,omitempty"`
+	Threshold string `json:"threshold,omitempty" yaml:"threshold,omitempty" xml:"threshold,attr,omitempty" jsonschema:"example=0.9"`
 	// Timeout is the delay between lightning strikes, in seconds.
-	Timeout string `json:"timeout,omitempty" yaml:"timeout,omitempty" xml:"timeout,attr,omitempty"`
+	Timeout string `json:"timeout,omitempty" yaml:"timeout,omitempty" xml:"timeout,attr,omitempty" jsonschema:"example=45"`
 }

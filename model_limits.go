@@ -37,7 +37,7 @@ type LimitsUserBindingList struct {
 // LimitsUserBinding maps one shorthand name to the usage or value flags it represents.
 type LimitsUserBinding struct {
 	// Name is the shorthand identifier referenced from an item definition.
-	Name string `json:"name" yaml:"name" xml:"name,attr"`
+	Name string `json:"name" yaml:"name" xml:"name,attr" jsonschema:"example=TownVillage"`
 	// Usages are the location-purpose flags included in this shorthand group.
 	Usages []NamedRef `json:"usage,omitempty" yaml:"usage,omitempty" xml:"usage,omitempty"`
 	// Values are the loot-tier flags included in this shorthand group.

@@ -104,6 +104,7 @@ Name matches the event identifier in db/events.xml.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `VehicleCivilianSedan` |
 
 ### EventSpawnEntry.pos
 
@@ -157,6 +158,7 @@ retain the supplied value instead of normalizing it.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `317.953339` |
 
 ### EventSpawnPos.group
 
@@ -170,6 +172,7 @@ Group names a cfgeventgroups.xml group to create at this position.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `Train_Abandoned_Cherno` |
 
 ### EventSpawnPos.x
 
@@ -183,6 +186,7 @@ X is the map's horizontal X coordinate.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `12071.933594` |
 
 ### EventSpawnPos.y
 
@@ -197,6 +201,7 @@ height.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `201.66` |
 
 ### EventSpawnPos.z
 
@@ -210,6 +215,7 @@ Z is the map's horizontal Z coordinate.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `9129.989258` |
 
 ## EventSpawnZone
 
@@ -234,6 +240,7 @@ DMax is the upper bound for the dynamic infected count.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `5` |
 
 ### EventSpawnZone.dmin
 
@@ -247,6 +254,7 @@ DMin is the lower bound for the dynamic infected count.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `3` |
 
 ### EventSpawnZone.r
 
@@ -260,6 +268,7 @@ R is the radius in meters around the event position where infected may spawn.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `45` |
 
 ### EventSpawnZone.smax
 
@@ -273,6 +282,7 @@ SMax is the upper bound for the static infected count.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `3` |
 
 ### EventSpawnZone.smin
 
@@ -286,3 +296,4 @@ SMin is the lower bound for the static infected count.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1` |

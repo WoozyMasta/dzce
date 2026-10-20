@@ -6,14 +6,28 @@
       "properties": {
         "name": {
           "description": "Name is the built-in CE variable identifier, such as `AnimalMaxCount` or `CleanupLifetimeDefault`.",
+          "examples": [
+            "AnimalMaxCount"
+          ],
           "type": "string"
         },
         "type": {
           "description": "Type tells CE how to parse Value: 0 for integer, 1 for floating-point, and 2 for string.",
+          "enum": [
+            0,
+            1,
+            2
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "value": {
           "description": "Value is the variable's configured value encoded as text and interpreted according to Type.",
+          "examples": [
+            "200"
+          ],
           "type": "string"
         }
       },

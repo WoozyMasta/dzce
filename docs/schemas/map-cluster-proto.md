@@ -221,6 +221,7 @@ LootMax caps the total loot spawned in this group.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `2` |
 
 ### MapPrototypeEntry.maxinstances
 
@@ -238,6 +239,7 @@ across the map.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `150` |
 
 ### MapPrototypeEntry.name
 
@@ -254,6 +256,7 @@ Name is the prototype identifier used by map instances or cluster data.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `CaninaBush1` |
 
 ### MapPrototypeEntry.tag
 
@@ -346,6 +349,7 @@ Name is the identifier referenced by the containing CE element.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `Bandage` |
 
 ## MapPrototypeContainer
 
@@ -391,6 +395,7 @@ hold at most one item.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1` |
 
 ### MapPrototypeContainer.name
 
@@ -407,6 +412,7 @@ Name is the container identifier used by the building's game model.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `branch` |
 
 ### MapPrototypeContainer.point
 
@@ -502,6 +508,7 @@ Flags is the bitmask of CE placement behaviors enabled for this point.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `32` |
 
 ### MapPrototypePoint.height
 
@@ -518,6 +525,7 @@ Height is the vertical clearance available for an item at this point.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1.0` |
 
 ### MapPrototypePoint.pos
 
@@ -535,6 +543,7 @@ position.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `-1.86 -2.40 0.12` |
 
 ### MapPrototypePoint.range
 
@@ -551,6 +560,7 @@ Range is the placement radius around the point.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0.55` |
 
 ## MapPrototypeDE
 
@@ -577,6 +587,7 @@ Name is the trajectory identifier used by the dynamic-event system.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `TrajectoryCanina` |
 
 ## MapPrototypeDispatch
 
@@ -604,6 +615,7 @@ DEChance is the probability that CE dispatches this dynamic event.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0.000000` |
 
 ### MapPrototypeDispatch.proxy
 
@@ -648,6 +660,7 @@ DEChance is the probability that this proxy is created by the dispatch.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0.000000` |
 
 ### MapPrototypeProxy.pos
 
@@ -664,6 +677,7 @@ Pos is the object's position relative to the prototype.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1.071 -0.736000 -0.852` |
 
 ### MapPrototypeProxy.rpy
 
@@ -681,6 +695,7 @@ order.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `90.0 0.0 0.0` |
 
 ### MapPrototypeProxy.type
 
@@ -697,6 +712,7 @@ Type is the game class name of the dispatched object.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `HatchbackWheel` |
 
 ## MapPrototypeExports
 
@@ -746,6 +762,7 @@ Name is the logical cluster group identifier referenced by prototype entries.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `PathD10` |
 
 ### MapPrototypeExport.shape
 
@@ -759,6 +776,7 @@ Shape is the P3D model path whose terrain placements use this mapping.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `dz\structures\Roads\Parts\path_dirt_10.p3d` |
 
 ## MapPrototypeDefaults
 
@@ -807,6 +825,7 @@ DE names the dynamic-event trajectory associated with the prototype.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `TrajectoryApple` |
 
 ### MapPrototypeDefault.enabled
 
@@ -820,6 +839,7 @@ Enabled turns the selected default behavior on or off.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `yes` |
 
 ### MapPrototypeDefault.height
 
@@ -833,6 +853,7 @@ Height sets the height of a generated cluster matrix.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `12` |
 
 ### MapPrototypeDefault.lootmax
 
@@ -847,6 +868,7 @@ containers.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `6` |
 
 ### MapPrototypeDefault.name
 
@@ -860,6 +882,7 @@ Name identifies the prototype category or class this default applies to.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `group` |
 
 ### MapPrototypeDefault.width
 
@@ -873,3 +896,4 @@ Width sets the width of a generated cluster matrix.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `12` |

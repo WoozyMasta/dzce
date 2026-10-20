@@ -102,3 +102,4 @@ Name is the identifier referenced by the containing CE element.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `Bandage` |

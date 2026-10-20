@@ -22,54 +22,54 @@ type PlayerSpawnProfile struct {
 // Distances below a minimum invalidate a point; values between the minimum and maximum are more favorable than values beyond the maximum.
 type PlayerSpawnParams struct {
 	// MinDistInfected is the minimum allowed distance from infected, in meters.
-	MinDistInfected string `json:"min_dist_infected,omitempty" yaml:"min_dist_infected,omitempty" xml:"min_dist_infected,omitempty"`
+	MinDistInfected string `json:"min_dist_infected,omitempty" yaml:"min_dist_infected,omitempty" xml:"min_dist_infected,omitempty" jsonschema:"example=30"`
 	// MaxDistInfected is the distance from infected beyond which extra distance no longer improves the candidate's rating, in meters.
-	MaxDistInfected string `json:"max_dist_infected,omitempty" yaml:"max_dist_infected,omitempty" xml:"max_dist_infected,omitempty"`
+	MaxDistInfected string `json:"max_dist_infected,omitempty" yaml:"max_dist_infected,omitempty" xml:"max_dist_infected,omitempty" jsonschema:"example=70"`
 	// MinDistPlayer is the minimum allowed distance from other players, in meters.
-	MinDistPlayer string `json:"min_dist_player,omitempty" yaml:"min_dist_player,omitempty" xml:"min_dist_player,omitempty"`
+	MinDistPlayer string `json:"min_dist_player,omitempty" yaml:"min_dist_player,omitempty" xml:"min_dist_player,omitempty" jsonschema:"example=65"`
 	// MaxDistPlayer is the distance from other players beyond which extra distance no longer improves the candidate's rating, in meters.
-	MaxDistPlayer string `json:"max_dist_player,omitempty" yaml:"max_dist_player,omitempty" xml:"max_dist_player,omitempty"`
+	MaxDistPlayer string `json:"max_dist_player,omitempty" yaml:"max_dist_player,omitempty" xml:"max_dist_player,omitempty" jsonschema:"example=150"`
 	// MinDistStatic is the minimum allowed distance from buildings and other static geometry, in meters.
-	MinDistStatic string `json:"min_dist_static,omitempty" yaml:"min_dist_static,omitempty" xml:"min_dist_static,omitempty"`
+	MinDistStatic string `json:"min_dist_static,omitempty" yaml:"min_dist_static,omitempty" xml:"min_dist_static,omitempty" jsonschema:"example=0"`
 	// MaxDistStatic is the upper end of the favorable distance band from static geometry, in meters.
-	MaxDistStatic string `json:"max_dist_static,omitempty" yaml:"max_dist_static,omitempty" xml:"max_dist_static,omitempty"`
+	MaxDistStatic string `json:"max_dist_static,omitempty" yaml:"max_dist_static,omitempty" xml:"max_dist_static,omitempty" jsonschema:"example=2"`
 	// MinDistTrigger is the minimum allowed distance from trigger volumes, in meters.
-	MinDistTrigger string `json:"min_dist_trigger,omitempty" yaml:"min_dist_trigger,omitempty" xml:"min_dist_trigger,omitempty"`
+	MinDistTrigger string `json:"min_dist_trigger,omitempty" yaml:"min_dist_trigger,omitempty" xml:"min_dist_trigger,omitempty" jsonschema:"example=50"`
 	// MaxDistTrigger is the upper end of the favorable distance band from trigger volumes, in meters.
-	MaxDistTrigger string `json:"max_dist_trigger,omitempty" yaml:"max_dist_trigger,omitempty" xml:"max_dist_trigger,omitempty"`
+	MaxDistTrigger string `json:"max_dist_trigger,omitempty" yaml:"max_dist_trigger,omitempty" xml:"max_dist_trigger,omitempty" jsonschema:"example=100"`
 }
 
 // PlayerGeneratorParams defines the rectangular sampling grid
 // around each generator position and filters candidate points by water, nearby geometry, and terrain slope.
 type PlayerGeneratorParams struct {
 	// AllowInWater permits candidate points in water when set to a true value.
-	AllowInWater string `json:"allow_in_water,omitempty" yaml:"allow_in_water,omitempty" xml:"allow_in_water,omitempty"`
+	AllowInWater string `json:"allow_in_water,omitempty" yaml:"allow_in_water,omitempty" xml:"allow_in_water,omitempty" jsonschema:"example=false"`
 	// GridDensity sets the density of candidate samples across the generated rectangle.
-	GridDensity string `json:"grid_density,omitempty" yaml:"grid_density,omitempty" xml:"grid_density,omitempty"`
+	GridDensity string `json:"grid_density,omitempty" yaml:"grid_density,omitempty" xml:"grid_density,omitempty" jsonschema:"example=4"`
 	// GridWidth sets the generated rectangle's total width, in meters.
-	GridWidth string `json:"grid_width,omitempty" yaml:"grid_width,omitempty" xml:"grid_width,omitempty"`
+	GridWidth string `json:"grid_width,omitempty" yaml:"grid_width,omitempty" xml:"grid_width,omitempty" jsonschema:"example=200"`
 	// GridHeight sets the generated rectangle's total height, in meters.
-	GridHeight string `json:"grid_height,omitempty" yaml:"grid_height,omitempty" xml:"grid_height,omitempty"`
+	GridHeight string `json:"grid_height,omitempty" yaml:"grid_height,omitempty" xml:"grid_height,omitempty" jsonschema:"example=200"`
 	// MinDistStatic is the minimum distance from buildings required for a candidate point to be valid, in meters.
-	MinDistStatic string `json:"min_dist_static,omitempty" yaml:"min_dist_static,omitempty" xml:"min_dist_static,omitempty"`
+	MinDistStatic string `json:"min_dist_static,omitempty" yaml:"min_dist_static,omitempty" xml:"min_dist_static,omitempty" jsonschema:"example=0"`
 	// MaxDistStatic is the upper distance from buildings used to rate a valid candidate point, in meters.
-	MaxDistStatic string `json:"max_dist_static,omitempty" yaml:"max_dist_static,omitempty" xml:"max_dist_static,omitempty"`
+	MaxDistStatic string `json:"max_dist_static,omitempty" yaml:"max_dist_static,omitempty" xml:"max_dist_static,omitempty" jsonschema:"example=2"`
 	// MinSteepness is the minimum terrain slope accepted for a candidate.
-	MinSteepness string `json:"min_steepness,omitempty" yaml:"min_steepness,omitempty" xml:"min_steepness,omitempty"`
+	MinSteepness string `json:"min_steepness,omitempty" yaml:"min_steepness,omitempty" xml:"min_steepness,omitempty" jsonschema:"example=-45"`
 	// MaxSteepness is the maximum terrain slope accepted for a candidate.
-	MaxSteepness string `json:"max_steepness,omitempty" yaml:"max_steepness,omitempty" xml:"max_steepness,omitempty"`
+	MaxSteepness string `json:"max_steepness,omitempty" yaml:"max_steepness,omitempty" xml:"max_steepness,omitempty" jsonschema:"example=45"`
 }
 
 // PlayerGroupParams controls rotation through named groups of spawn centers.
 type PlayerGroupParams struct {
 	// EnableGroups enables group-based point selection. When disabled, points are treated as a regular candidate list.
-	EnableGroups string `json:"enablegroups,omitempty" yaml:"enablegroups,omitempty" xml:"enablegroups,omitempty"`
+	EnableGroups string `json:"enablegroups,omitempty" yaml:"enablegroups,omitempty" xml:"enablegroups,omitempty" jsonschema:"example=true"`
 	// GroupsAsRegular allows points inside groups to be used as regular spawn candidates instead of being selected only through group rotation.
-	GroupsAsRegular string `json:"groups_as_regular,omitempty" yaml:"groups_as_regular,omitempty" xml:"groups_as_regular,omitempty"`
+	GroupsAsRegular string `json:"groups_as_regular,omitempty" yaml:"groups_as_regular,omitempty" xml:"groups_as_regular,omitempty" jsonschema:"example=true"`
 	// Lifetime is how long a selected group remains active before CE rotates to another group. A value of -1 disables the timer.
-	Lifetime string `json:"lifetime,omitempty" yaml:"lifetime,omitempty" xml:"lifetime,omitempty"`
+	Lifetime string `json:"lifetime,omitempty" yaml:"lifetime,omitempty" xml:"lifetime,omitempty" jsonschema:"example=120"`
 	// Counter is how many player spawns in the active group reset its lifetime. A value of -1 disables the counter.
-	Counter string `json:"counter,omitempty" yaml:"counter,omitempty" xml:"counter,omitempty"`
+	Counter string `json:"counter,omitempty" yaml:"counter,omitempty" xml:"counter,omitempty" jsonschema:"example=2"`
 }
 
 // PlayerGeneratorBubbles contains the map positions used as spawn-grid centers, optionally organized into named groups.
@@ -81,9 +81,9 @@ type PlayerGeneratorBubbles struct {
 // PlayerSpawnGroup defines one named spawn region and the centers used to generate candidate points in that region.
 type PlayerSpawnGroup struct {
 	// Name identifies the region for selection, configuration, and diagnostics.
-	Name string `json:"name" yaml:"name" xml:"name,attr"`
+	Name string `json:"name" yaml:"name" xml:"name,attr" jsonschema:"example=WestCherno"`
 	// Lifetime overrides the shared group lifetime, in seconds. A value of -1 disables the group timer.
-	Lifetime string `json:"lifetime,omitempty" yaml:"lifetime,omitempty" xml:"lifetime,attr,omitempty"`
+	Lifetime string `json:"lifetime,omitempty" yaml:"lifetime,omitempty" xml:"lifetime,attr,omitempty" jsonschema:"example=0"`
 	// Pos are centers around which the generator creates candidate spawn grids.
 	Pos []PlayerSpawnPos `json:"pos,omitempty" yaml:"pos,omitempty" xml:"pos,omitempty"`
 }
@@ -91,7 +91,7 @@ type PlayerSpawnGroup struct {
 // PlayerSpawnPos stores one horizontal map coordinate used as a spawn-grid center.
 type PlayerSpawnPos struct {
 	// X is the map's horizontal X coordinate.
-	X string `json:"x,omitempty" yaml:"x,omitempty" xml:"x,attr,omitempty"`
+	X string `json:"x,omitempty" yaml:"x,omitempty" xml:"x,attr,omitempty" jsonschema:"example=6063.018555"`
 	// Z is the map's horizontal Z coordinate.
-	Z string `json:"z,omitempty" yaml:"z,omitempty" xml:"z,attr,omitempty"`
+	Z string `json:"z,omitempty" yaml:"z,omitempty" xml:"z,attr,omitempty" jsonschema:"example=1931.907227"`
 }

@@ -107,6 +107,7 @@ vertical coordinate.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=3`; `maxItems=3` |
 
 ### ObjectSpawnerEntry.scale
 
@@ -135,3 +136,4 @@ vector leaves rotation unspecified.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=3`; `maxItems=3` |

@@ -6,6 +6,9 @@
       "properties": {
         "color": {
           "description": "Color is the ARGB color used to display this territory in tooling.",
+          "examples": [
+            "4294923520"
+          ],
           "type": "string"
         },
         "zone": {
@@ -45,34 +48,58 @@
       "properties": {
         "dmax": {
           "description": "DMax is the upper bound for the dynamic entity count in this zone.\nFor an ambient event, its global max can still cap the count across all zones.",
+          "examples": [
+            "0"
+          ],
           "type": "string"
         },
         "dmin": {
           "description": "DMin is the lower bound for the dynamic entity count in this zone.\nFor ambient spawners, the count is chosen from DMin through DMax, inclusive, when the zone activates.",
+          "examples": [
+            "0"
+          ],
           "type": "string"
         },
         "name": {
           "description": "Name identifies the zone for references and diagnostics.",
+          "examples": [
+            "Graze"
+          ],
           "type": "string"
         },
         "r": {
           "description": "R is the radius of the area where the zone's entities may spawn, in meters.",
+          "examples": [
+            "100"
+          ],
           "type": "string"
         },
         "smax": {
           "description": "SMax is the upper bound for the static entity count when the territory behavior supports static spawning.",
+          "examples": [
+            "0"
+          ],
           "type": "string"
         },
         "smin": {
           "description": "SMin is the lower bound for the static entity count when the territory behavior supports static spawning.",
+          "examples": [
+            "0"
+          ],
           "type": "string"
         },
         "x": {
           "description": "X is the map's horizontal X coordinate for the center of the zone.",
+          "examples": [
+            "1920"
+          ],
           "type": "string"
         },
         "z": {
           "description": "Z is the map's horizontal Z coordinate for the center of the zone.",
+          "examples": [
+            "13115"
+          ],
           "type": "string"
         }
       },

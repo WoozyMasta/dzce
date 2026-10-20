@@ -114,6 +114,7 @@ higher values make the preset more likely to be selected.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Constraints | `minimum=1` |
 
 ## GameplayGearAttachmentSlotSet
 
@@ -218,6 +219,7 @@ QuickBarSlot assigns the item to a quickbar slot; -1 leaves it unassigned.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Constraints | `minimum=-1` |
 
 ### GameplayGearDiscreteItemSet.simpleChildrenTypes
 
@@ -261,6 +263,7 @@ slot or set. It must be at least 1.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Constraints | `minimum=1` |
 
 ## GameplayGearItemAttributes
 
@@ -403,6 +406,7 @@ QuickBarSlot assigns the item to a quickbar slot; -1 leaves it unassigned.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Constraints | `minimum=-1` |
 
 ### GameplayGearComplexChild.simpleChildrenTypes
 
@@ -534,3 +538,4 @@ alternatives. It must be at least 1.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Constraints | `minimum=1` |

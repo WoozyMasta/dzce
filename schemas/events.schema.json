@@ -6,22 +6,37 @@
       "properties": {
         "lootmax": {
           "description": "LootMax caps the amount of loot generated around this child, where the event type uses child loot limits.",
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "lootmin": {
           "description": "LootMin sets the lower loot amount generated around this child, where the event type uses child loot limits.",
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "max": {
           "description": "Max is the upper number of instances for this child type when the event's limit mode applies bounds per child.",
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "min": {
           "description": "Min is the lower number of instances for this child type when the event's limit mode applies bounds per child.\nAmbient spawners use this value as a relative weight when selecting among child types.",
+          "examples": [
+            100
+          ],
           "type": "integer"
         },
         "type": {
           "description": "Type is the game class name created for this child entry.",
+          "examples": [
+            "Animal_VulpesVulpes"
+          ],
           "type": "string"
         }
       },
@@ -50,6 +65,13 @@
       "properties": {
         "active": {
           "description": "Active enables or disables spawning for this event (`1` or `0`).",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            1
+          ],
           "type": "integer"
         },
         "children": {
@@ -58,10 +80,16 @@
         },
         "cleanupradius": {
           "description": "CleanupRadius controls when an event zone may clean up its spawned entities.\nAmbient zones remain active while a player is within this radius.",
+          "examples": [
+            120
+          ],
           "type": "integer"
         },
         "distanceradius": {
           "description": "DistanceRadius controls the distance condition for placing event instances.\nFor ambient zone events, it is the player distance at which a zone becomes eligible to spawn its entities.",
+          "examples": [
+            80
+          ],
           "type": "integer"
         },
         "flags": {
@@ -70,42 +98,72 @@
         },
         "lifetime": {
           "description": "Lifetime is how long an event instance may remain active before it expires, in seconds.\nEntity lifetime may also be controlled by its type entry.",
+          "examples": [
+            33
+          ],
           "type": "integer"
         },
         "limit": {
           "description": "Limit selects how Min and Max apply to the child entries and their combined event count.",
+          "examples": [
+            "mixed"
+          ],
           "type": "string"
         },
         "max": {
           "description": "Max is the upper event count bound used by the selected Limit mode.",
+          "examples": [
+            25
+          ],
           "type": "integer"
         },
         "min": {
           "description": "Min is the lower event count bound used by the selected Limit mode.",
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "name": {
           "description": "Name is the event identifier referenced by position and group data.",
+          "examples": [
+            "AmbientFox"
+          ],
           "type": "string"
         },
         "nominal": {
           "description": "Nominal is the target number of active instances CE tries to maintain for this event.",
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "position": {
           "description": "Position selects how CE chooses event locations, for example from fixed mission positions or from a generated distribution.",
+          "examples": [
+            "fixed"
+          ],
           "type": "string"
         },
         "restock": {
           "description": "Restock is the delay, in seconds, before CE may create a replacement event instance.",
+          "examples": [
+            25
+          ],
           "type": "integer"
         },
         "saferadius": {
           "description": "SafeRadius is the minimum clearance used by CE's event placement rules.",
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "secondary": {
           "description": "Secondary names an additional event CE may spawn for each instance, such as the infected event paired with a crash site or convoy.",
+          "examples": [
+            "InfectedArmyDesert"
+          ],
           "type": "string"
         }
       },
@@ -120,14 +178,35 @@
       "properties": {
         "deletable": {
           "description": "Deletable allows CE to remove this event instance during cleanup.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "init_random": {
           "description": "InitRandom randomizes the event's initial spawn state.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "remove_damaged": {
           "description": "RemoveDamaged allows CE to remove damaged or ruined entities created by this event so they can be replaced.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         }
       },

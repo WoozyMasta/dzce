@@ -106,6 +106,7 @@ Name is the event identifier referenced by position and group data.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `AmbientFox` |
 
 ### EventDef.active
 
@@ -119,6 +120,8 @@ Active enables or disables spawning for this event (`1` or `0`).
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `1` |
 
 ### EventDef.EventChildren
 
@@ -147,6 +150,7 @@ Ambient zones remain active while a player is within this radius.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `120` |
 
 ### EventDef.distanceradius
 
@@ -162,6 +166,7 @@ to spawn its entities.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `80` |
 
 ### EventDef.EventFlags
 
@@ -189,6 +194,7 @@ seconds. Entity lifetime may also be controlled by its type entry.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `33` |
 
 ### EventDef.limit
 
@@ -203,6 +209,7 @@ event count.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `mixed` |
 
 ### EventDef.max
 
@@ -216,6 +223,7 @@ Max is the upper event count bound used by the selected Limit mode.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `25` |
 
 ### EventDef.min
 
@@ -229,6 +237,7 @@ Min is the lower event count bound used by the selected Limit mode.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `0` |
 
 ### EventDef.nominal
 
@@ -243,6 +252,7 @@ event.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `0` |
 
 ### EventDef.position
 
@@ -257,6 +267,7 @@ positions or from a generated distribution.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `fixed` |
 
 ### EventDef.restock
 
@@ -271,6 +282,7 @@ instance.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `25` |
 
 ### EventDef.saferadius
 
@@ -284,6 +296,7 @@ SafeRadius is the minimum clearance used by CE's event placement rules.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `0` |
 
 ### EventDef.secondary
 
@@ -298,6 +311,7 @@ infected event paired with a crash site or convoy.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `InfectedArmyDesert` |
 
 ## EventChildren
 
@@ -345,6 +359,7 @@ Type is the game class name created for this child entry.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `Animal_VulpesVulpes` |
 
 ### EventChild.lootmax
 
@@ -359,6 +374,7 @@ type uses child loot limits.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `0` |
 
 ### EventChild.lootmin
 
@@ -373,6 +389,7 @@ type uses child loot limits.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `0` |
 
 ### EventChild.max
 
@@ -387,6 +404,7 @@ mode applies bounds per child.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `0` |
 
 ### EventChild.min
 
@@ -402,6 +420,7 @@ weight when selecting among child types.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `100` |
 
 ## EventFlags
 
@@ -426,6 +445,8 @@ Deletable allows CE to remove this event instance during cleanup.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ### EventFlags.init_random
 
@@ -439,6 +460,8 @@ InitRandom randomizes the event's initial spawn state.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ### EventFlags.remove_damaged
 
@@ -453,3 +476,5 @@ event so they can be replaced.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |

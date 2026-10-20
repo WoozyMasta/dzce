@@ -104,6 +104,7 @@ entry.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `ACOGOptic` |
 
 ### TypeDef.category
 
@@ -133,6 +134,7 @@ schedules eligible types for replenishment.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `100` |
 
 ### TypeDef.TypeFlags
 
@@ -161,6 +163,7 @@ economy cleanup removes it.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `14400` |
 
 ### TypeDef.min
 
@@ -175,6 +178,7 @@ below it, the economy prioritizes bringing the amount back up.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `6` |
 
 ### TypeDef.nominal
 
@@ -189,6 +193,7 @@ class across the world.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `10` |
 
 ### TypeDef.quantmax
 
@@ -203,6 +208,7 @@ such as magazines, food, or liquid containers.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `-1` |
 
 ### TypeDef.quantmin
 
@@ -217,6 +223,7 @@ such as magazines, food, or liquid containers.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `-1` |
 
 ### TypeDef.restock
 
@@ -231,6 +238,7 @@ this class after its count falls below target.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `1800` |
 
 ### TypeDef.tag
 
@@ -305,6 +313,7 @@ Name is the identifier referenced by the containing CE element.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `Bandage` |
 
 ## TypeFlags
 
@@ -330,6 +339,8 @@ compares the current count with Nominal and Min.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ### TypeFlags.count_in_hoarder
 
@@ -344,6 +355,8 @@ barrels, and buried stashes.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ### TypeFlags.count_in_map
 
@@ -358,6 +371,8 @@ spawn locations.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `1` |
 
 ### TypeFlags.count_in_player
 
@@ -372,6 +387,8 @@ economy count.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ### TypeFlags.crafted
 
@@ -386,6 +403,8 @@ recipe.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |
 
 ### TypeFlags.deloot
 
@@ -400,3 +419,5 @@ building loot placement.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1` |
+| Examples | `0` |

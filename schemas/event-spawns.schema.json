@@ -6,6 +6,9 @@
       "properties": {
         "name": {
           "description": "Name matches the event identifier in db/events.xml.",
+          "examples": [
+            "VehicleCivilianSedan"
+          ],
           "type": "string"
         },
         "pos": {
@@ -31,22 +34,37 @@
       "properties": {
         "a": {
           "description": "A is the event's yaw rotation in degrees. Shipped mission data also uses -1,\nso retain the supplied value instead of normalizing it.",
+          "examples": [
+            "317.953339"
+          ],
           "type": "string"
         },
         "group": {
           "description": "Group names a cfgeventgroups.xml group to create at this position.",
+          "examples": [
+            "Train_Abandoned_Cherno"
+          ],
           "type": "string"
         },
         "x": {
           "description": "X is the map's horizontal X coordinate.",
+          "examples": [
+            "12071.933594"
+          ],
           "type": "string"
         },
         "y": {
           "description": "Y is the optional world height. It may be omitted when placement uses terrain height.",
+          "examples": [
+            "201.66"
+          ],
           "type": "string"
         },
         "z": {
           "description": "Z is the map's horizontal Z coordinate.",
+          "examples": [
+            "9129.989258"
+          ],
           "type": "string"
         }
       },
@@ -58,22 +76,37 @@
       "properties": {
         "dmax": {
           "description": "DMax is the upper bound for the dynamic infected count.",
+          "examples": [
+            "5"
+          ],
           "type": "string"
         },
         "dmin": {
           "description": "DMin is the lower bound for the dynamic infected count.",
+          "examples": [
+            "3"
+          ],
           "type": "string"
         },
         "r": {
           "description": "R is the radius in meters around the event position where infected may spawn.",
+          "examples": [
+            "45"
+          ],
           "type": "string"
         },
         "smax": {
           "description": "SMax is the upper bound for the static infected count.",
+          "examples": [
+            "3"
+          ],
           "type": "string"
         },
         "smin": {
           "description": "SMin is the lower bound for the static infected count.",
+          "examples": [
+            "1"
+          ],
           "type": "string"
         }
       },

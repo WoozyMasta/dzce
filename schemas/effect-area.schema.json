@@ -6,6 +6,9 @@
       "properties": {
         "AreaName": {
           "description": "AreaName identifies the area in mission configuration and diagnostics.",
+          "examples": [
+            "Ship-Bow"
+          ],
           "type": "string"
         },
         "Data": {
@@ -18,10 +21,16 @@
         },
         "TriggerType": {
           "description": "TriggerType selects the script trigger class that detects players inside the area.",
+          "examples": [
+            "ContaminatedTrigger"
+          ],
           "type": "string"
         },
         "Type": {
           "description": "Type selects the script class that implements the area's gameplay behavior, such as a static contaminated area.",
+          "examples": [
+            "ContaminatedArea_Static"
+          ],
           "type": "string"
         }
       },
@@ -33,26 +42,44 @@
       "properties": {
         "EffectDuration": {
           "description": "EffectDuration is how long, in seconds, a recurring effect remains active for area types that implement timed effects.",
+          "examples": [
+            180
+          ],
           "type": "number"
         },
         "EffectInterval": {
           "description": "EffectInterval is the delay, in seconds, between recurring effects for area types that implement timed effects.",
+          "examples": [
+            7200
+          ],
           "type": "number"
         },
         "InnerPartDist": {
           "description": "InnerPartDist controls particle size when filling the area with emitters.\nThe 1.28 configuration describes this setting as partSize.",
+          "examples": [
+            80
+          ],
           "type": "number"
         },
         "NegHeight": {
           "description": "NegHeight is the distance in meters that the area extends below Pos.",
+          "examples": [
+            3
+          ],
           "type": "number"
         },
         "OuterOffset": {
           "description": "OuterOffset extends visible particles beyond the configured area radius, in meters.",
+          "examples": [
+            30
+          ],
           "type": "number"
         },
         "ParticleName": {
           "description": "ParticleName is the resource path for particles emitted by the area.",
+          "examples": [
+            "graphics/particles/contaminated_area_gas_bigass"
+          ],
           "type": "string"
         },
         "Pos": {
@@ -60,14 +87,22 @@
           "items": {
             "type": "number"
           },
+          "maxItems": 3,
+          "minItems": 3,
           "type": "array"
         },
         "PosHeight": {
           "description": "PosHeight is the distance in meters that the area extends above Pos.",
+          "examples": [
+            20
+          ],
           "type": "number"
         },
         "Radius": {
           "description": "Radius is the horizontal radius of the area in meters.\nThe game skips the area when this value is zero or negative.",
+          "examples": [
+            75
+          ],
           "type": "number"
         }
       },
@@ -103,14 +138,23 @@
       "properties": {
         "AroundPartName": {
           "description": "AroundPartName is the particle resource rendered around the player.",
+          "examples": [
+            "graphics/particles/contaminated_area_gas_around"
+          ],
           "type": "string"
         },
         "PPERequesterType": {
           "description": "PPERequesterType is the post-processing requester class used for the player's screen effect.",
+          "examples": [
+            "PPERequester_ContaminatedAreaTint"
+          ],
           "type": "string"
         },
         "TinyPartName": {
           "description": "TinyPartName is the particle resource rendered close to the camera.",
+          "examples": [
+            "graphics/particles/contaminated_area_gas_around_tiny"
+          ],
           "type": "string"
         }
       },

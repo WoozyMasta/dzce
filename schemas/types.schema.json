@@ -6,6 +6,9 @@
       "properties": {
         "name": {
           "description": "Name is the identifier referenced by the containing CE element.",
+          "examples": [
+            "Bandage"
+          ],
           "type": "string"
         }
       },
@@ -27,6 +30,9 @@
         },
         "cost": {
           "description": "Cost is the economy cost assigned to spawning this class and is used when the CE schedules eligible types for replenishment.",
+          "examples": [
+            100
+          ],
           "type": "integer"
         },
         "flags": {
@@ -35,30 +41,51 @@
         },
         "lifetime": {
           "description": "Lifetime is how long, in seconds, an eligible spawned instance can remain before economy cleanup removes it.",
+          "examples": [
+            14400
+          ],
           "type": "integer"
         },
         "min": {
           "description": "Min is the lower count threshold for this class. When the counted amount falls below it, the economy prioritizes bringing the amount back up.",
+          "examples": [
+            6
+          ],
           "type": "integer"
         },
         "name": {
           "description": "Name is the game configuration class name whose economy rules are set by this entry.",
+          "examples": [
+            "ACOGOptic"
+          ],
           "type": "string"
         },
         "nominal": {
           "description": "Nominal is the target number of counted instances the economy maintains for this class across the world.",
+          "examples": [
+            10
+          ],
           "type": "integer"
         },
         "quantmax": {
           "description": "QuantityMax is the maximum fill percentage for items with a variable quantity, such as magazines, food, or liquid containers.",
+          "examples": [
+            -1
+          ],
           "type": "integer"
         },
         "quantmin": {
           "description": "QuantityMin is the minimum fill percentage for items with a variable quantity, such as magazines, food, or liquid containers.",
+          "examples": [
+            -1
+          ],
           "type": "integer"
         },
         "restock": {
           "description": "Restock is the delay, in seconds, used by the economy before it can replenish this class after its count falls below target.",
+          "examples": [
+            1800
+          ],
           "type": "integer"
         },
         "tag": {
@@ -94,26 +121,68 @@
       "properties": {
         "count_in_cargo": {
           "description": "CountInCargo includes instances stored inside another item's cargo when the CE compares the current count with Nominal and Min.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "count_in_hoarder": {
           "description": "CountInHoarder includes instances kept in hoarder storage, such as tents, barrels, and buried stashes.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "count_in_map": {
           "description": "CountInMap includes instances placed in the world, including loot at ordinary spawn locations.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            1
+          ],
           "type": "integer"
         },
         "count_in_player": {
           "description": "CountInPlayer includes instances in player inventories when calculating the economy count.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "crafted": {
           "description": "Crafted marks a type as crafted for CE handling; it does not define a crafting recipe.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "deloot": {
           "description": "Deloot marks a type for dynamic-event loot handling rather than ordinary building loot placement.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         }
       },

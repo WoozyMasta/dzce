@@ -190,6 +190,7 @@ AllowInWater permits candidate points in water when set to a true value.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `false` |
 
 ### PlayerGeneratorParams.grid_density
 
@@ -208,6 +209,7 @@ rectangle.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `4` |
 
 ### PlayerGeneratorParams.grid_height
 
@@ -225,6 +227,7 @@ GridHeight sets the generated rectangle's total height, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `200` |
 
 ### PlayerGeneratorParams.grid_width
 
@@ -242,6 +245,7 @@ GridWidth sets the generated rectangle's total width, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `200` |
 
 ### PlayerGeneratorParams.max_dist_static
 
@@ -260,6 +264,7 @@ candidate point, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `2` |
 
 ### PlayerGeneratorParams.max_steepness
 
@@ -277,6 +282,7 @@ MaxSteepness is the maximum terrain slope accepted for a candidate.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `45` |
 
 ### PlayerGeneratorParams.min_dist_static
 
@@ -295,6 +301,7 @@ point to be valid, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0` |
 
 ### PlayerGeneratorParams.min_steepness
 
@@ -312,6 +319,7 @@ MinSteepness is the minimum terrain slope accepted for a candidate.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `-45` |
 
 ## PlayerGeneratorBubbles
 
@@ -369,6 +377,7 @@ Name identifies the region for selection, configuration, and diagnostics.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `WestCherno` |
 
 ### PlayerSpawnGroup.lifetime
 
@@ -387,6 +396,7 @@ the group timer.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0` |
 
 ### PlayerSpawnGroup.pos
 
@@ -432,6 +442,7 @@ X is the map's horizontal X coordinate.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `6063.018555` |
 
 ### PlayerSpawnPos.z
 
@@ -449,6 +460,7 @@ Z is the map's horizontal Z coordinate.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1931.907227` |
 
 ## PlayerGroupParams
 
@@ -477,6 +489,7 @@ value of -1 disables the counter.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `2` |
 
 ### PlayerGroupParams.enablegroups
 
@@ -495,6 +508,7 @@ treated as a regular candidate list.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `true` |
 
 ### PlayerGroupParams.groups_as_regular
 
@@ -513,6 +527,7 @@ candidates instead of being selected only through group rotation.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `true` |
 
 ### PlayerGroupParams.lifetime
 
@@ -531,6 +546,7 @@ another group. A value of -1 disables the timer.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `120` |
 
 ## PlayerSpawnParams
 
@@ -559,6 +575,7 @@ longer improves the candidate's rating, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `70` |
 
 ### PlayerSpawnParams.max_dist_player
 
@@ -577,6 +594,7 @@ longer improves the candidate's rating, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `150` |
 
 ### PlayerSpawnParams.max_dist_static
 
@@ -595,6 +613,7 @@ geometry, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `2` |
 
 ### PlayerSpawnParams.max_dist_trigger
 
@@ -613,6 +632,7 @@ volumes, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `100` |
 
 ### PlayerSpawnParams.min_dist_infected
 
@@ -630,6 +650,7 @@ MinDistInfected is the minimum allowed distance from infected, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `30` |
 
 ### PlayerSpawnParams.min_dist_player
 
@@ -647,6 +668,7 @@ MinDistPlayer is the minimum allowed distance from other players, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `65` |
 
 ### PlayerSpawnParams.min_dist_static
 
@@ -665,6 +687,7 @@ geometry, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0` |
 
 ### PlayerSpawnParams.min_dist_trigger
 
@@ -682,3 +705,4 @@ MinDistTrigger is the minimum allowed distance from trigger volumes, in meters.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `50` |

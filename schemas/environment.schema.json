@@ -6,6 +6,9 @@
       "properties": {
         "chance": {
           "description": "Chance is the selection weight for this agent variant.",
+          "examples": [
+            "1"
+          ],
           "type": "string"
         },
         "item": {
@@ -24,6 +27,9 @@
         },
         "type": {
           "description": "Type is the agent variant used by this block, such as `Male` or `Female`.",
+          "examples": [
+            "Male"
+          ],
           "type": "string"
         }
       },
@@ -55,10 +61,16 @@
       "properties": {
         "name": {
           "description": "Name is the setting key interpreted by the selected territory behavior.",
+          "examples": [
+            "globalCountMax"
+          ],
           "type": "string"
         },
         "val": {
           "description": "Value is the setting value encoded as text.",
+          "examples": [
+            "50"
+          ],
           "type": "string"
         }
       },
@@ -70,10 +82,16 @@
       "properties": {
         "chance": {
           "description": "Chance is the selection weight for this class within its agent variant.",
+          "examples": [
+            "1"
+          ],
           "type": "string"
         },
         "configName": {
           "description": "ConfigName is the game class name that may be spawned.",
+          "examples": [
+            "Animal_GallusGallusDomesticus"
+          ],
           "type": "string"
         }
       },
@@ -113,6 +131,9 @@
         },
         "behavior": {
           "description": "Behavior is the Enforce Script behavior class that implements this territory's runtime logic.",
+          "examples": [
+            "DZDeerGroupBeh"
+          ],
           "type": "string"
         },
         "file": {
@@ -131,10 +152,16 @@
         },
         "name": {
           "description": "Name identifies the profile used by the corresponding Central Economy spawner or event configuration.",
+          "examples": [
+            "Deer"
+          ],
           "type": "string"
         },
         "type": {
           "description": "Type selects the territory system category, such as `Herd` or `Ambient`.",
+          "examples": [
+            "Herd"
+          ],
           "type": "string"
         }
       },
@@ -146,10 +173,16 @@
       "properties": {
         "path": {
           "description": "Path is the direct path to a territory data file.",
+          "examples": [
+            "env/cattle_territories.xml"
+          ],
           "type": "string"
         },
         "usable": {
           "description": "Usable references a reusable territory file declaration by its identifier.",
+          "examples": [
+            "red_deer_territories"
+          ],
           "type": "string"
         }
       },

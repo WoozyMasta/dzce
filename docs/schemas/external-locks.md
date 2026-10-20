@@ -60,6 +60,7 @@ protection stage is applied.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `3` |
 
 ### GameplayExternalLockData.protectionCountStageTwo
 
@@ -74,6 +75,7 @@ protection stage is applied.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `1` |
 
 ### GameplayExternalLockData.protectionResetTime
 
@@ -88,6 +90,7 @@ before it is reset, in seconds.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `3600` |
 
 ### GameplayExternalLockData.protectionTime
 
@@ -101,3 +104,4 @@ ProtectionTime sets the duration of the protection lockout in seconds.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `30` |

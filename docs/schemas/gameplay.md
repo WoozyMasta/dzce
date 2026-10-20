@@ -162,6 +162,7 @@ is maintained by the game and is not a gameplay setting.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `123` |
 
 ## GameplayBaseBuildingData
 
@@ -513,6 +514,7 @@ protection stage is applied.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `3` |
 
 ### GameplayExternalLockData.protectionCountStageTwo
 
@@ -527,6 +529,7 @@ protection stage is applied.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `1` |
 
 ### GameplayExternalLockData.protectionResetTime
 
@@ -541,6 +544,7 @@ before it is reset, in seconds.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `3600` |
 
 ### GameplayExternalLockData.protectionTime
 
@@ -554,6 +558,7 @@ ProtectionTime sets the duration of the protection lockout in seconds.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `30` |
 
 ## GameplayGeneralData
 
@@ -823,6 +828,7 @@ HealthDepletionSpeed sets health lost per second while drowning.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `10` |
 
 ### GameplayDrowningData.shockDepletionSpeed
 
@@ -836,6 +842,7 @@ ShockDepletionSpeed sets shock lost per second while drowning.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `10` |
 
 ### GameplayDrowningData.staminaDepletionSpeed
 
@@ -849,6 +856,7 @@ StaminaDepletionSpeed sets stamina points lost per second while drowning.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `10` |
 
 ## GameplayMovementData
 
@@ -887,6 +895,8 @@ RotationSpeedJog sets the character's rotation speed while jogging.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.15` |
+| Constraints | `minimum=0.01` |
 
 ### GameplayMovementData.rotationSpeedSprint
 
@@ -900,6 +910,8 @@ RotationSpeedSprint sets the character's rotation speed while sprinting.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.15` |
+| Constraints | `minimum=0.01` |
 
 ### GameplayMovementData.timeToSprint
 
@@ -913,6 +925,8 @@ TimeToSprint sets the transition time from jogging to sprinting.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.45` |
+| Constraints | `minimum=0.01` |
 
 ### GameplayMovementData.timeToStrafeJog
 
@@ -926,6 +940,8 @@ TimeToStrafeJog sets the blend time for diagonal movement while jogging.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.1` |
+| Constraints | `minimum=0.01` |
 
 ### GameplayMovementData.timeToStrafeSprint
 
@@ -939,6 +955,8 @@ TimeToStrafeSprint sets the blend time for diagonal movement while sprinting.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.3` |
+| Constraints | `minimum=0.01` |
 
 ## GameplayShockHandlingData
 
@@ -978,6 +996,7 @@ conscious.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `5` |
 
 ### GameplayShockHandlingData.shockRefillSpeedUnconscious
 
@@ -992,6 +1011,7 @@ unconscious.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
 
 ## GameplayStaminaData
 
@@ -1015,6 +1035,7 @@ HoldBreathStaminaModifier scales stamina consumption while holding breath.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
 
 ### GameplayStaminaData.meleeStaminaModifier
 
@@ -1029,6 +1050,7 @@ evasive moves.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
 
 ### GameplayStaminaData.obstacleTraversalStaminaModifier
 
@@ -1043,6 +1065,7 @@ climbing, or vaulting over obstacles.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
 
 ### GameplayStaminaData.sprintLadderStaminaModifier
 
@@ -1057,6 +1080,7 @@ quickly.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
 
 ### GameplayStaminaData.sprintStaminaModifierCro
 
@@ -1070,6 +1094,7 @@ SprintStaminaModifierCro scales stamina consumption while sprinting crouched.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
 
 ### GameplayStaminaData.sprintStaminaModifierErc
 
@@ -1083,6 +1108,7 @@ SprintStaminaModifierErc scales stamina consumption while sprinting upright.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
 
 ### GameplayStaminaData.sprintSwimmingStaminaModifier
 
@@ -1096,6 +1122,7 @@ SprintSwimmingStaminaModifier scales stamina consumption during fast swimming.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
 
 ### GameplayStaminaData.staminaKgToStaminaPercentPenalty
 
@@ -1110,6 +1137,7 @@ calculated from the character's carried load.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1.75` |
 
 ### GameplayStaminaData.staminaMax
 
@@ -1124,6 +1152,7 @@ unexpected results.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `100` |
 
 ### GameplayStaminaData.staminaMinCap
 
@@ -1138,6 +1167,7 @@ produce unexpected results.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `5` |
 
 ### GameplayStaminaData.staminaWeightLimitThreshold
 
@@ -1152,6 +1182,7 @@ excluded from the load-based reduction of maximum stamina.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `6000` |
 
 ## GameplayWeaponObstructionData
 
@@ -1180,6 +1211,8 @@ DynamicMode selects obstruction handling for dynamic objects:
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1`, `2` |
+| Examples | `1` |
 
 ### GameplayWeaponObstructionData.staticMode
 
@@ -1197,6 +1230,8 @@ StaticMode selects obstruction handling for static objects:
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1`, `2` |
+| Examples | `1` |
 
 ## GameplaySandstormData
 
@@ -1224,6 +1259,8 @@ SandstormFrequency sets how often sandstorms occur:
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Enum | `0`, `1`, `2` |
+| Examples | `1` |
 
 ## GameplayUIData
 
@@ -1289,6 +1326,8 @@ HitDirectionBehaviour selects indicator motion:
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1`, `2` |
+| Examples | `1` |
 
 ### GameplayHitIndicationData.hitDirectionBreakPointRelative
 
@@ -1304,6 +1343,8 @@ for fading.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `0.2` |
+| Constraints | `minimum=0`; `maximum=1` |
 
 ### GameplayHitIndicationData.hitDirectionIndicatorColorStr
 
@@ -1318,6 +1359,7 @@ string, for example `0xFFBB0A1E`.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0xffbb0a1e` |
 
 ### GameplayHitIndicationData.hitDirectionMaxDuration
 
@@ -1333,6 +1375,7 @@ of this value.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `2` |
 
 ### GameplayHitIndicationData.hitDirectionOverrideEnabled
 
@@ -1361,6 +1404,7 @@ indicated hit direction. The offset is randomized in both directions.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `10` |
 
 ### GameplayHitIndicationData.hitDirectionStyle
 
@@ -1374,6 +1418,8 @@ HitDirectionStyle selects the indicator graphic: 0 splash, 1 spike, or 2 arrow.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Enum | `0`, `1`, `2` |
+| Examples | `0` |
 
 ### GameplayHitIndicationData.hitIndicationPostProcessEnabled
 
@@ -1412,6 +1458,7 @@ decay faster; 1 leaves the normal rate unchanged.
 | --- | --- |
 | Type | `number` |
 | Required | no |
+| Examples | `1` |
 
 ### GameplayVehicleData.canDamageAttachedBikeWheels
 
@@ -1506,6 +1553,7 @@ January through December. The game expects exactly 12 values.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=12`; `maxItems=12` |
 
 ### GameplayWorldsData.environmentMinTemps
 
@@ -1521,6 +1569,7 @@ January through December. The game expects exactly 12 values.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=12`; `maxItems=12` |
 
 ### GameplayWorldsData.lightingConfig
 
@@ -1535,6 +1584,7 @@ World-specific settings may define additional values.
 | --- | --- |
 | Type | `integer` |
 | Required | no |
+| Examples | `0` |
 
 ### GameplayWorldsData.objectSpawnersArr
 
@@ -1580,3 +1630,4 @@ dry, damp, wet, soaked, and drenched.
 | Type | `array` |
 | Required | no |
 | Items type | `number` |
+| Constraints | `minItems=5`; `maxItems=5` |

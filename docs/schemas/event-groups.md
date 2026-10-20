@@ -103,6 +103,7 @@ Name is the identifier matched by the event spawn's `group` attribute.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `Train_Abandoned_Cherno` |
 
 ### EventGroup.child
 
@@ -142,6 +143,7 @@ Type is the game class spawned as this object in the composition.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `StaticObj_Wreck_Train_742_Red_DE` |
 
 ### EventGroupChild.a
 
@@ -155,6 +157,7 @@ A is the object's yaw rotation in degrees.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `78.123` |
 
 ### EventGroupChild.deloot
 
@@ -169,6 +172,7 @@ overriding the default amount.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0` |
 
 ### EventGroupChild.lootmax
 
@@ -182,6 +186,7 @@ LootMax is the maximum number of random items requested for this event child.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `3` |
 
 ### EventGroupChild.lootmin
 
@@ -195,6 +200,7 @@ LootMin is the minimum number of random items requested for this event child.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1` |
 
 ### EventGroupChild.spawnsecondary
 
@@ -209,6 +215,7 @@ infected event.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `false` |
 
 ### EventGroupChild.x
 
@@ -222,6 +229,7 @@ X is the horizontal X offset from the event spawn position.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0` |
 
 ### EventGroupChild.y
 
@@ -235,6 +243,7 @@ Y is the vertical offset from the event spawn position.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1.9` |
 
 ### EventGroupChild.z
 
@@ -248,3 +257,4 @@ Z is the horizontal Z offset from the event spawn position.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `0` |

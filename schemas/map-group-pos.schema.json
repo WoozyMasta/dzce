@@ -6,18 +6,30 @@
       "properties": {
         "a": {
           "description": "A is the instance's heading angle in degrees when the placement uses a single yaw value.",
+          "examples": [
+            "1.999835"
+          ],
           "type": "string"
         },
         "name": {
           "description": "Name is the prototype or group identifier resolved by CE.",
+          "examples": [
+            "PearTree2"
+          ],
           "type": "string"
         },
         "pos": {
           "description": "Pos is the instance's world position as an X/Y/Z vector.",
+          "examples": [
+            "40.327084 10.632996 1613.091797"
+          ],
           "type": "string"
         },
         "rpy": {
           "description": "RPY is the instance's roll, pitch, and yaw rotation when the placement uses all three angles.",
+          "examples": [
+            "-0.000000 0.000000 -70.013718"
+          ],
           "type": "string"
         }
       },

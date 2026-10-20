@@ -20,34 +20,58 @@
       "properties": {
         "allow_in_water": {
           "description": "AllowInWater permits candidate points in water when set to a true value.",
+          "examples": [
+            "false"
+          ],
           "type": "string"
         },
         "grid_density": {
           "description": "GridDensity sets the density of candidate samples across the generated rectangle.",
+          "examples": [
+            "4"
+          ],
           "type": "string"
         },
         "grid_height": {
           "description": "GridHeight sets the generated rectangle's total height, in meters.",
+          "examples": [
+            "200"
+          ],
           "type": "string"
         },
         "grid_width": {
           "description": "GridWidth sets the generated rectangle's total width, in meters.",
+          "examples": [
+            "200"
+          ],
           "type": "string"
         },
         "max_dist_static": {
           "description": "MaxDistStatic is the upper distance from buildings used to rate a valid candidate point, in meters.",
+          "examples": [
+            "2"
+          ],
           "type": "string"
         },
         "max_steepness": {
           "description": "MaxSteepness is the maximum terrain slope accepted for a candidate.",
+          "examples": [
+            "45"
+          ],
           "type": "string"
         },
         "min_dist_static": {
           "description": "MinDistStatic is the minimum distance from buildings required for a candidate point to be valid, in meters.",
+          "examples": [
+            "0"
+          ],
           "type": "string"
         },
         "min_steepness": {
           "description": "MinSteepness is the minimum terrain slope accepted for a candidate.",
+          "examples": [
+            "-45"
+          ],
           "type": "string"
         }
       },
@@ -59,18 +83,30 @@
       "properties": {
         "counter": {
           "description": "Counter is how many player spawns in the active group reset its lifetime. A value of -1 disables the counter.",
+          "examples": [
+            "2"
+          ],
           "type": "string"
         },
         "enablegroups": {
           "description": "EnableGroups enables group-based point selection. When disabled, points are treated as a regular candidate list.",
+          "examples": [
+            "true"
+          ],
           "type": "string"
         },
         "groups_as_regular": {
           "description": "GroupsAsRegular allows points inside groups to be used as regular spawn candidates instead of being selected only through group rotation.",
+          "examples": [
+            "true"
+          ],
           "type": "string"
         },
         "lifetime": {
           "description": "Lifetime is how long a selected group remains active before CE rotates to another group. A value of -1 disables the timer.",
+          "examples": [
+            "120"
+          ],
           "type": "string"
         }
       },
@@ -82,10 +118,16 @@
       "properties": {
         "lifetime": {
           "description": "Lifetime overrides the shared group lifetime, in seconds. A value of -1 disables the group timer.",
+          "examples": [
+            "0"
+          ],
           "type": "string"
         },
         "name": {
           "description": "Name identifies the region for selection, configuration, and diagnostics.",
+          "examples": [
+            "WestCherno"
+          ],
           "type": "string"
         },
         "pos": {
@@ -107,34 +149,58 @@
       "properties": {
         "max_dist_infected": {
           "description": "MaxDistInfected is the distance from infected beyond which extra distance no longer improves the candidate's rating, in meters.",
+          "examples": [
+            "70"
+          ],
           "type": "string"
         },
         "max_dist_player": {
           "description": "MaxDistPlayer is the distance from other players beyond which extra distance no longer improves the candidate's rating, in meters.",
+          "examples": [
+            "150"
+          ],
           "type": "string"
         },
         "max_dist_static": {
           "description": "MaxDistStatic is the upper end of the favorable distance band from static geometry, in meters.",
+          "examples": [
+            "2"
+          ],
           "type": "string"
         },
         "max_dist_trigger": {
           "description": "MaxDistTrigger is the upper end of the favorable distance band from trigger volumes, in meters.",
+          "examples": [
+            "100"
+          ],
           "type": "string"
         },
         "min_dist_infected": {
           "description": "MinDistInfected is the minimum allowed distance from infected, in meters.",
+          "examples": [
+            "30"
+          ],
           "type": "string"
         },
         "min_dist_player": {
           "description": "MinDistPlayer is the minimum allowed distance from other players, in meters.",
+          "examples": [
+            "65"
+          ],
           "type": "string"
         },
         "min_dist_static": {
           "description": "MinDistStatic is the minimum allowed distance from buildings and other static geometry, in meters.",
+          "examples": [
+            "0"
+          ],
           "type": "string"
         },
         "min_dist_trigger": {
           "description": "MinDistTrigger is the minimum allowed distance from trigger volumes, in meters.",
+          "examples": [
+            "50"
+          ],
           "type": "string"
         }
       },
@@ -174,10 +240,16 @@
       "properties": {
         "x": {
           "description": "X is the map's horizontal X coordinate.",
+          "examples": [
+            "6063.018555"
+          ],
           "type": "string"
         },
         "z": {
           "description": "Z is the map's horizontal Z coordinate.",
+          "examples": [
+            "1931.907227"
+          ],
           "type": "string"
         }
       },

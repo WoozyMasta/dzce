@@ -117,6 +117,7 @@ yaw value.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `1.999835` |
 
 ### MapGroupInstance.name
 
@@ -130,6 +131,7 @@ Name is the prototype or group identifier resolved by CE.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `PearTree2` |
 
 ### MapGroupInstance.pos
 
@@ -143,6 +145,7 @@ Pos is the instance's world position as an X/Y/Z vector.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `40.327084 10.632996 1613.091797` |
 
 ### MapGroupInstance.rpy
 
@@ -157,6 +160,7 @@ three angles.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `-0.000000 0.000000 -70.013718` |
 
 ## MapGroupInclude
 
@@ -180,3 +184,4 @@ File is the referenced file name without its `.xml` extension.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `mapgroupcluster01` |

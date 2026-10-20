@@ -230,6 +230,7 @@ Name is the root class name from the game's configuration inheritance.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `DefaultWeapon` |
 
 ### EconomyCoreRootClass.act
 
@@ -244,6 +245,9 @@ and animals; `car` for vehicles; or omitted/`none` for ordinary economy items.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Default | `none` |
+| Enum | `none`, `character`, `car` |
+| Examples | `character` |
 
 ### EconomyCoreRootClass.reportMemoryLOD
 
@@ -258,6 +262,9 @@ class (`yes` or `no`). The documented default is `yes`.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Default | `yes` |
+| Enum | `yes`, `no` |
+| Examples | `no` |
 
 ## EconomyCoreDefaults
 
@@ -305,6 +312,7 @@ Name is the CE variable name being overridden.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `dyn_radius` |
 
 ### EconomyCoreDefault.value
 
@@ -319,3 +327,4 @@ by the named variable.
 | --- | --- |
 | Type | `string` |
 | Required | yes |
+| Examples | `30` |

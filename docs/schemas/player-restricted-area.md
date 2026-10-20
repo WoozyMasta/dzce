@@ -48,6 +48,7 @@ AreaName is an optional label used to identify the area in game diagnostics.
 | --- | --- |
 | Type | `string` |
 | Required | no |
+| Examples | `RestrictedAreaWarheadStorage` |
 
 ### PlayerRestrictedAreaFile.safePositions3D
 

@@ -6,14 +6,31 @@
       "properties": {
         "lockCodeLength": {
           "description": "LockCodeLength is the number of digits in generated access codes. The game accepts values from 3 through 6.",
+          "examples": [
+            4
+          ],
+          "maximum": 6,
+          "minimum": 3,
           "type": "integer"
         },
         "lockCodeMode": {
           "description": "LockCodeMode selects the access-code generation mode. The game accepts only 0 or 1.",
+          "enum": [
+            0,
+            1
+          ],
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "numberOfActive": {
           "description": "NumberOfActive is how many bunkers receive fresh codes in each batch. The game accepts values from 1 through 30.",
+          "examples": [
+            3
+          ],
+          "maximum": 30,
+          "minimum": 1,
           "type": "integer"
         }
       },
@@ -51,10 +68,20 @@
       "properties": {
         "endTime": {
           "description": "EndTime is the window end as four digits in HHMM form, such as `1930`.",
+          "examples": [
+            "0600"
+          ],
+          "maxLength": 4,
+          "minLength": 4,
           "type": "string"
         },
         "startTime": {
           "description": "StartTime is the window start as four digits in HHMM form, such as `0700`.",
+          "examples": [
+            "1745"
+          ],
+          "maxLength": 4,
+          "minLength": 4,
           "type": "string"
         }
       },
@@ -66,30 +93,51 @@
       "properties": {
         "bunkerRepetitions": {
           "description": "BunkerRepetitions is the number of additional times the current bunker's Morse broadcast is played\nbefore playback moves to the next bunker.",
+          "examples": [
+            0
+          ],
           "type": "integer"
         },
         "dashDuration": {
           "description": "DashDuration is the sound duration of one Morse dash, in seconds.",
+          "examples": [
+            1.5
+          ],
           "type": "number"
         },
         "dotDuration": {
           "description": "DotDuration is the sound duration of one Morse dot, in seconds.",
+          "examples": [
+            0.5
+          ],
           "type": "number"
         },
         "messageRepetitions": {
           "description": "MessageRepetitions is the number of additional times a message is repeated.",
+          "examples": [
+            1
+          ],
           "type": "integer"
         },
         "pauseBetweenBunkers": {
           "description": "PauseBetweenBunkers is the pause before playback moves to the next bunker, in seconds.",
+          "examples": [
+            6
+          ],
           "type": "number"
         },
         "symbolGapDuration": {
           "description": "SymbolGapDuration is the pause between symbols within a Morse character, in seconds.",
+          "examples": [
+            0.4
+          ],
           "type": "number"
         },
         "wordGapDuration": {
           "description": "WordGapDuration is the pause between Morse words, in seconds.",
+          "examples": [
+            2.2
+          ],
           "type": "number"
         }
       },
@@ -104,6 +152,8 @@
           "items": {
             "type": "number"
           },
+          "maxItems": 3,
+          "minItems": 3,
           "type": "array"
         }
       },
@@ -115,6 +165,11 @@
       "properties": {
         "batchLifetimeLength": {
           "description": "BatchLifetimeLength is the batch lifetime in in-game minutes. Valid values are 1 through 1000.",
+          "examples": [
+            720
+          ],
+          "maximum": 1000,
+          "minimum": 1,
           "type": "integer"
         },
         "periods": {
@@ -126,6 +181,11 @@
         },
         "reportInterval": {
           "description": "ReportInterval is the scheduler report interval in in-game minutes. Valid values are 1 through 120.",
+          "examples": [
+            10
+          ],
+          "maximum": 120,
+          "minimum": 1,
           "type": "integer"
         }
       },

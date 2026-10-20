@@ -16,11 +16,11 @@ type EnvironmentTerritories struct {
 // EnvironmentTerritory connects a named territory profile to the behavior that consumes its zones and agent definitions.
 type EnvironmentTerritory struct {
 	// Type selects the territory system category, such as `Herd` or `Ambient`.
-	Type string `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty"`
+	Type string `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" jsonschema:"example=Herd"`
 	// Name identifies the profile used by the corresponding Central Economy spawner or event configuration.
-	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty"`
+	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty" jsonschema:"example=Deer"`
 	// Behavior is the Enforce Script behavior class that implements this territory's runtime logic.
-	Behavior string `json:"behavior,omitempty" yaml:"behavior,omitempty" xml:"behavior,attr,omitempty"`
+	Behavior string `json:"behavior,omitempty" yaml:"behavior,omitempty" xml:"behavior,attr,omitempty" jsonschema:"example=DZDeerGroupBeh"`
 	// Files select the territory-zone data used by this profile.
 	// Entries can refer to paths directly or to usable identifiers declared above.
 	Files []EnvironmentTerritoryFile `json:"file,omitempty" yaml:"file,omitempty" xml:"file,omitempty"`
@@ -33,9 +33,9 @@ type EnvironmentTerritory struct {
 // EnvironmentAgent defines one agent variant and the classes available for that variant in a territory behavior.
 type EnvironmentAgent struct {
 	// Type is the agent variant used by this block, such as `Male` or `Female`.
-	Type string `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty"`
+	Type string `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" jsonschema:"example=Male"`
 	// Chance is the selection weight for this agent variant.
-	Chance string `json:"chance,omitempty" yaml:"chance,omitempty" xml:"chance,attr,omitempty"`
+	Chance string `json:"chance,omitempty" yaml:"chance,omitempty" xml:"chance,attr,omitempty" jsonschema:"example=1"`
 	// Spawns are the game classes this agent variant can create.
 	Spawns []EnvironmentSpawn `json:"spawn,omitempty" yaml:"spawn,omitempty" xml:"spawn,omitempty"`
 	// Items provide agent-specific settings consumed by the selected behavior.
@@ -45,15 +45,15 @@ type EnvironmentAgent struct {
 // EnvironmentSpawn assigns a game class and selection weight to a territory agent variant.
 type EnvironmentSpawn struct {
 	// ConfigName is the game class name that may be spawned.
-	ConfigName string `json:"configName,omitempty" yaml:"configName,omitempty" xml:"configName,attr,omitempty"`
+	ConfigName string `json:"configName,omitempty" yaml:"configName,omitempty" xml:"configName,attr,omitempty" jsonschema:"example=Animal_GallusGallusDomesticus"`
 	// Chance is the selection weight for this class within its agent variant.
-	Chance string `json:"chance,omitempty" yaml:"chance,omitempty" xml:"chance,attr,omitempty"`
+	Chance string `json:"chance,omitempty" yaml:"chance,omitempty" xml:"chance,attr,omitempty" jsonschema:"example=1"`
 }
 
 // EnvironmentItem stores one behavior-specific setting as a named text value.
 type EnvironmentItem struct {
 	// Name is the setting key interpreted by the selected territory behavior.
-	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty"`
+	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty" jsonschema:"example=globalCountMax"`
 	// Value is the setting value encoded as text.
-	Value string `json:"val,omitempty" yaml:"val,omitempty" xml:"val,attr,omitempty"`
+	Value string `json:"val,omitempty" yaml:"val,omitempty" xml:"val,attr,omitempty" jsonschema:"example=50"`
 }
