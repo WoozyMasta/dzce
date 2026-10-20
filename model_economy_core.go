@@ -4,43 +4,44 @@
 
 package dzce
 
-// EconomyCoreClasses holds root classes used by economy.
+// EconomyCoreClasses lists entity-class roots that Central Economy tracks.
+// A root includes its derived game classes, so this section determines which entities CE recognizes and how it handles them.
 type EconomyCoreClasses struct {
-	// RootClasses are class roots used by CE logic.
-	RootClasses []EconomyCoreRootClass `xml:"rootclass,omitempty" json:"rootclass,omitempty" yaml:"rootclass,omitempty"`
+	// RootClasses are class inheritance roots registered with CE.
+	RootClasses []EconomyCoreRootClass `json:"rootclass,omitempty" yaml:"rootclass,omitempty" xml:"rootclass,omitempty"`
 }
 
-// EconomyCoreRootClass is a single `<rootclass />` in economy core.
+// EconomyCoreRootClass registers one game class hierarchy with Central Economy
+// and identifies whether its instances are loot, characters, or cars.
 type EconomyCoreRootClass struct {
-	// Name is root class name from config inheritance.
-	Name string `xml:"name,attr" json:"name" yaml:"name"`
-	// ReportMemoryLOD enables/disables missing Memory LOD warnings (`yes`/`no`).
-	// Wiki default is `yes`.
-	ReportMemoryLOD string `xml:"reportMemoryLOD,attr,omitempty" json:"reportMemoryLOD,omitempty" yaml:"reportMemoryLOD,omitempty"`
-	// Act selects CE actor class category: `none` (or omitted), `character`,
-	// or `car`. Omitted/`none` is treated as regular loot entity.
-	Act string `xml:"act,attr,omitempty" json:"act,omitempty" yaml:"act,omitempty"`
+	// Name is the root class name from the game's configuration inheritance.
+	Name string `json:"name" yaml:"name" xml:"name,attr"`
+	// ReportMemoryLOD controls warnings for missing Memory LODs on instances of this class (`yes` or `no`). The documented default is `yes`.
+	ReportMemoryLOD string `json:"reportMemoryLOD,omitempty" yaml:"reportMemoryLOD,omitempty" xml:"reportMemoryLOD,attr,omitempty"`
+	// Act tells CE how to initialize this class: `character` for players, infected, and animals;
+	// `car` for vehicles; or omitted/`none` for ordinary economy items.
+	Act string `json:"act,omitempty" yaml:"act,omitempty" xml:"act,attr,omitempty"`
 }
 
-// EconomyCoreDefaults holds `<default />` values.
+// EconomyCoreDefaults overrides built-in Central Economy default variables.
 type EconomyCoreDefaults struct {
-	// Defaults is the list of CE default key/value pairs.
-	Defaults []EconomyCoreDefault `xml:"default,omitempty" json:"default,omitempty" yaml:"default,omitempty"`
+	// Defaults are named CE default values applied by the mission.
+	Defaults []EconomyCoreDefault `json:"default,omitempty" yaml:"default,omitempty" xml:"default,omitempty"`
 }
 
-// EconomyCoreDefault is a single `<default />` in economy core.
+// EconomyCoreDefault assigns a value to one Central Economy default variable.
 type EconomyCoreDefault struct {
-	// Name is default variable key.
-	Name string `xml:"name,attr" json:"name" yaml:"name"`
-	// Value is default variable value.
-	Value string `xml:"value,attr" json:"value" yaml:"value"`
+	// Name is the CE variable name being overridden.
+	Name string `json:"name" yaml:"name" xml:"name,attr"`
+	// Value is the configured value encoded as text. Its expected format is determined by the named variable.
+	Value string `json:"value" yaml:"value" xml:"value,attr"`
 }
 
-// EconomyCoreCE describes mission-level CE override folder.
+// EconomyCoreCE registers a folder of mission-provided Central Economy files.
+// The game uses these entries to append to or override selected vanilla CE data without copying the full source files into the mission.
 type EconomyCoreCE struct {
-	// Folder is mod/mission folder with CE overrides, resolved relative to
-	// current economycore file location.
-	Folder string `xml:"folder,attr" json:"folder" yaml:"folder"`
-	// Files are include entries loaded from this override folder.
-	Files []EconomyCoreCEFile `xml:"file,omitempty" json:"file,omitempty" yaml:"file,omitempty"`
+	// Folder is the mission-relative directory containing the registered CE files.
+	Folder string `json:"folder" yaml:"folder" xml:"folder,attr"`
+	// Files lists the source file and CE data type to append or override.
+	Files []EconomyCoreCEFile `json:"file,omitempty" yaml:"file,omitempty" xml:"file,omitempty"`
 }

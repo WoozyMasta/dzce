@@ -4,110 +4,131 @@
 
 package dzce
 
-// MapPrototypeDefaults stores `<defaults>` block values.
+// MapPrototypeDefaults stores values inherited by map-group or cluster prototypes when their own entries omit those properties.
 type MapPrototypeDefaults struct {
-	// Defaults is list of default entries.
-	Defaults []MapPrototypeDefault `xml:"default,omitempty" json:"default,omitempty" yaml:"default,omitempty"`
+	// Defaults are shared defaults applied to matching prototype entries.
+	Defaults []MapPrototypeDefault `json:"default,omitempty" yaml:"default,omitempty" xml:"default,omitempty"`
 }
 
-// MapPrototypeDefault stores one `<default />` entry.
+// MapPrototypeDefault sets one shared property for a prototype category.
 type MapPrototypeDefault struct {
-	// Name is default type identifier.
-	Name string `xml:"name,attr,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
-	// LootMax is default loot limit for group/container.
-	LootMax string `xml:"lootmax,attr,omitempty" json:"lootmax,omitempty" yaml:"lootmax,omitempty"`
-	// Enabled toggles selected default feature.
-	Enabled string `xml:"enabled,attr,omitempty" json:"enabled,omitempty" yaml:"enabled,omitempty"`
-	// DE is dynamic event trajectory name.
-	DE string `xml:"de,attr,omitempty" json:"de,omitempty" yaml:"de,omitempty"`
-	// Width is cluster matrix width.
-	Width string `xml:"width,attr,omitempty" json:"width,omitempty" yaml:"width,omitempty"`
-	// Height is cluster matrix height.
-	Height string `xml:"height,attr,omitempty" json:"height,omitempty" yaml:"height,omitempty"`
+	// Name identifies the prototype category or class this default applies to.
+	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty"`
+	// LootMax is the default maximum amount of loot used for matching groups or containers.
+	LootMax string `json:"lootmax,omitempty" yaml:"lootmax,omitempty" xml:"lootmax,attr,omitempty"`
+	// Enabled turns the selected default behavior on or off.
+	Enabled string `json:"enabled,omitempty" yaml:"enabled,omitempty" xml:"enabled,attr,omitempty"`
+	// DE names the dynamic-event trajectory associated with the prototype.
+	DE string `json:"de,omitempty" yaml:"de,omitempty" xml:"de,attr,omitempty"`
+	// Width sets the width of a generated cluster matrix.
+	Width string `json:"width,omitempty" yaml:"width,omitempty" xml:"width,attr,omitempty"`
+	// Height sets the height of a generated cluster matrix.
+	Height string `json:"height,omitempty" yaml:"height,omitempty" xml:"height,attr,omitempty"`
 }
 
-// MapPrototypeExports stores `<clusters><export .../></clusters>` mappings.
+// MapPrototypeExports maps cluster model shapes to logical cluster group names used by CE.
 type MapPrototypeExports struct {
-	// Exports is list of name-to-shape mappings.
-	Exports []MapPrototypeExport `xml:"export,omitempty" json:"export,omitempty" yaml:"export,omitempty"`
+	// Exports are the model-to-cluster mappings exported by the terrain.
+	Exports []MapPrototypeExport `json:"export,omitempty" yaml:"export,omitempty" xml:"export,omitempty"`
 }
 
-// MapPrototypeExport stores one cluster export mapping.
+// MapPrototypeExport associates a model shape with the logical name used for its cluster prototype.
 type MapPrototypeExport struct {
-	// Name is logical cluster group name.
-	Name string `xml:"name,attr,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
-	// Shape is p3d model path.
-	Shape string `xml:"shape,attr,omitempty" json:"shape,omitempty" yaml:"shape,omitempty"`
+	// Name is the logical cluster group identifier referenced by prototype entries.
+	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty"`
+	// Shape is the P3D model path whose terrain placements use this mapping.
+	Shape string `json:"shape,omitempty" yaml:"shape,omitempty" xml:"shape,attr,omitempty"`
 }
 
-// MapPrototypeEntry stores one `<group>` or `<cluster>` entry.
+// MapPrototypeEntry defines one building group or cluster prototype:
+// its loot limits, spawn filters, containers, and optional dynamic-event dispatches.
 type MapPrototypeEntry struct {
-	// Name is prototype group name.
-	Name string `xml:"name,attr,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
-	// LootMax limits amount for this group.
-	LootMax string `xml:"lootmax,attr,omitempty" json:"lootmax,omitempty" yaml:"lootmax,omitempty"`
-	// MaxInstances limits cluster instances across map.
-	MaxInstances string `xml:"maxinstances,attr,omitempty" json:"maxinstances,omitempty" yaml:"maxinstances,omitempty"`
-
-	// DELinks references dynamic trajectory presets.
-	DELinks []MapPrototypeDE `xml:"de,omitempty" json:"de,omitempty" yaml:"de,omitempty"`
-	// Usages stores usage limiter values.
-	Usages []NamedRef `xml:"usage,omitempty" json:"usage,omitempty" yaml:"usage,omitempty"`
-	// Categories stores category limiter values.
-	Categories []NamedRef `xml:"category,omitempty" json:"category,omitempty" yaml:"category,omitempty"`
-	// Tags stores tag limiter values.
-	Tags []NamedRef `xml:"tag,omitempty" json:"tag,omitempty" yaml:"tag,omitempty"`
-	// Values stores value limiter values.
-	Values []NamedRef `xml:"value,omitempty" json:"value,omitempty" yaml:"value,omitempty"`
-	// Containers stores nested loot containers.
-	Containers []MapPrototypeContainer `xml:"container,omitempty" json:"container,omitempty" yaml:"container,omitempty"`
+	// Name is the prototype identifier used by map instances or cluster data.
+	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty"`
+	// LootMax caps the total loot spawned in this group.
+	LootMax string `json:"lootmax,omitempty" yaml:"lootmax,omitempty" xml:"lootmax,attr,omitempty"`
+	// MaxInstances caps how many instances of this cluster prototype can be used across the map.
+	MaxInstances string `json:"maxinstances,omitempty" yaml:"maxinstances,omitempty" xml:"maxinstances,attr,omitempty"`
+	// DELinks associate this prototype with dynamic-event trajectory presets.
+	DELinks []MapPrototypeDE `json:"de,omitempty" yaml:"de,omitempty" xml:"de,omitempty"`
+	// Usages restrict which usage filters can select this group.
+	Usages []NamedRef `json:"usage,omitempty" yaml:"usage,omitempty" xml:"usage,omitempty"`
+	// Categories restrict which loot categories can use this group.
+	Categories []NamedRef `json:"category,omitempty" yaml:"category,omitempty" xml:"category,omitempty"`
+	// Tags restrict which loot tags can use this group.
+	Tags []NamedRef `json:"tag,omitempty" yaml:"tag,omitempty" xml:"tag,omitempty"`
+	// Values restrict which loot value tiers can use this group.
+	Values []NamedRef `json:"value,omitempty" yaml:"value,omitempty" xml:"value,omitempty"`
+	// Containers define lootable spaces and spawn points within the group.
+	Containers []MapPrototypeContainer `json:"container,omitempty" yaml:"container,omitempty" xml:"container,omitempty"`
+	// Dispatches define optional objects created through a dynamic event at this prototype.
+	Dispatches []MapPrototypeDispatch `json:"dispatch,omitempty" yaml:"dispatch,omitempty" xml:"dispatch,omitempty"`
 }
 
-// MapPrototypeDE stores one `<de name="..."/>` link.
+// MapPrototypeDispatch defines the chance and proxy objects for one dynamic event dispatch from a prototype.
+type MapPrototypeDispatch struct {
+	// DEChance is the probability that CE dispatches this dynamic event.
+	DEChance string `json:"dechance,omitempty" yaml:"dechance,omitempty" xml:"dechance,attr,omitempty"`
+	// Proxies are the objects created by the dispatch, with positions and rotations relative to the prototype.
+	Proxies []MapPrototypeProxy `json:"proxy,omitempty" yaml:"proxy,omitempty" xml:"proxy,omitempty"`
+}
+
+// MapPrototypeProxy defines one object created by a dynamic-event dispatch.
+type MapPrototypeProxy struct {
+	// Type is the game class name of the dispatched object.
+	Type string `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty"`
+	// Pos is the object's position relative to the prototype.
+	Pos string `json:"pos,omitempty" yaml:"pos,omitempty" xml:"pos,attr,omitempty"`
+	// RPY is the object's rotation relative to the prototype, in roll, pitch, yaw order.
+	RPY string `json:"rpy,omitempty" yaml:"rpy,omitempty" xml:"rpy,attr,omitempty"`
+	// DEChance is the probability that this proxy is created by the dispatch.
+	DEChance string `json:"dechance,omitempty" yaml:"dechance,omitempty" xml:"dechance,attr,omitempty"`
+}
+
+// MapPrototypeDE links a prototype to a named dynamic-event trajectory.
 type MapPrototypeDE struct {
-	// Name is trajectory preset identifier.
-	Name string `xml:"name,attr,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
+	// Name is the trajectory identifier used by the dynamic-event system.
+	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty"`
 }
 
-// MapPrototypeContainer stores one prototype container block.
+// MapPrototypeContainer defines one lootable part of a building prototype and the spawn points available within it.
 type MapPrototypeContainer struct {
-	// Name is container identifier.
-	Name string `xml:"name,attr,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
-	// LootMax limits spawned items in this container.
-	LootMax string `xml:"lootmax,attr,omitempty" json:"lootmax,omitempty" yaml:"lootmax,omitempty"`
-
-	// Usages stores usage limiter values.
-	Usages []NamedRef `xml:"usage,omitempty" json:"usage,omitempty" yaml:"usage,omitempty"`
-	// Categories stores category limiter values.
-	Categories []NamedRef `xml:"category,omitempty" json:"category,omitempty" yaml:"category,omitempty"`
-	// Tags stores tag limiter values.
-	Tags []NamedRef `xml:"tag,omitempty" json:"tag,omitempty" yaml:"tag,omitempty"`
-	// Values stores value limiter values.
-	Values []NamedRef `xml:"value,omitempty" json:"value,omitempty" yaml:"value,omitempty"`
-	// Points stores loot spawn points in container space.
-	Points []MapPrototypePoint `xml:"point,omitempty" json:"point,omitempty" yaml:"point,omitempty"`
+	// Name is the container identifier used by the building's game model.
+	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty"`
+	// LootMax caps how many items CE may spawn in this container. Each spawn point can hold at most one item.
+	LootMax string `json:"lootmax,omitempty" yaml:"lootmax,omitempty" xml:"lootmax,attr,omitempty"`
+	// Usages restrict which item usage filters can select this container.
+	Usages []NamedRef `json:"usage,omitempty" yaml:"usage,omitempty" xml:"usage,omitempty"`
+	// Categories restrict which item categories can select this container.
+	Categories []NamedRef `json:"category,omitempty" yaml:"category,omitempty" xml:"category,omitempty"`
+	// Tags restrict which item tags can select this container.
+	Tags []NamedRef `json:"tag,omitempty" yaml:"tag,omitempty" xml:"tag,omitempty"`
+	// Values restrict which item value tiers can select this container.
+	Values []NamedRef `json:"value,omitempty" yaml:"value,omitempty" xml:"value,omitempty"`
+	// Points are the individual positions where CE can place one loot item.
+	Points []MapPrototypePoint `json:"point,omitempty" yaml:"point,omitempty" xml:"point,omitempty"`
 }
 
-// MapPrototypePoint stores one loot spawn point in prototype space.
+// MapPrototypePoint defines one candidate loot placement in a prototype's local model coordinates.
 type MapPrototypePoint struct {
-	// Pos is x/y/z local position string.
-	Pos string `xml:"pos,attr,omitempty" json:"pos,omitempty" yaml:"pos,omitempty"`
-	// Range is point radius.
-	Range string `xml:"range,attr,omitempty" json:"range,omitempty" yaml:"range,omitempty"`
-	// Height is point height allowance.
-	Height string `xml:"height,attr,omitempty" json:"height,omitempty" yaml:"height,omitempty"`
-	// Flags is CE point flags bitmask.
-	Flags string `xml:"flags,attr,omitempty" json:"flags,omitempty" yaml:"flags,omitempty"`
+	// Pos is the local X/Y/Z position relative to the model origin, not a map position.
+	Pos string `json:"pos,omitempty" yaml:"pos,omitempty" xml:"pos,attr,omitempty"`
+	// Range is the placement radius around the point.
+	Range string `json:"range,omitempty" yaml:"range,omitempty" xml:"range,attr,omitempty"`
+	// Height is the vertical clearance available for an item at this point.
+	Height string `json:"height,omitempty" yaml:"height,omitempty" xml:"height,attr,omitempty"`
+	// Flags is the bitmask of CE placement behaviors enabled for this point.
+	Flags string `json:"flags,omitempty" yaml:"flags,omitempty" xml:"flags,attr,omitempty"`
 }
 
-// MapGroupInstance stores one `<group .../>` in map group files.
+// MapGroupInstance places one prototype at a concrete map location in a map group file.
 type MapGroupInstance struct {
-	// Name is prototype/group name.
-	Name string `xml:"name,attr,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
-	// Pos is world position vector as text.
-	Pos string `xml:"pos,attr,omitempty" json:"pos,omitempty" yaml:"pos,omitempty"`
-	// A is heading angle in degrees.
-	A string `xml:"a,attr,omitempty" json:"a,omitempty" yaml:"a,omitempty"`
-	// RPY is roll/pitch/yaw vector as text.
-	RPY string `xml:"rpy,attr,omitempty" json:"rpy,omitempty" yaml:"rpy,omitempty"`
+	// Name is the prototype or group identifier resolved by CE.
+	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty"`
+	// Pos is the instance's world position as an X/Y/Z vector.
+	Pos string `json:"pos,omitempty" yaml:"pos,omitempty" xml:"pos,attr,omitempty"`
+	// A is the instance's heading angle in degrees when the placement uses a single yaw value.
+	A string `json:"a,omitempty" yaml:"a,omitempty" xml:"a,attr,omitempty"`
+	// RPY is the instance's roll, pitch, and yaw rotation when the placement uses all three angles.
+	RPY string `json:"rpy,omitempty" yaml:"rpy,omitempty" xml:"rpy,attr,omitempty"`
 }

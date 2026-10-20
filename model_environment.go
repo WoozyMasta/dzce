@@ -4,54 +4,56 @@
 
 package dzce
 
-// EnvironmentTerritories groups territory files and bindings.
+// EnvironmentTerritories configures territory spawning systems
+// by including territory data files and binding those files to spawn behaviors.
 type EnvironmentTerritories struct {
-	// Files is reusable territory file includes.
-	Files []EnvironmentTerritoryFile `xml:"file,omitempty" json:"file,omitempty" yaml:"file,omitempty"`
-	// Territories is inline territory behavior definitions.
-	Territories []EnvironmentTerritory `xml:"territory,omitempty" json:"territory,omitempty" yaml:"territory,omitempty"`
+	// Files declares territory files that can be referenced by a territory's usable identifier.
+	Files []EnvironmentTerritoryFile `json:"file,omitempty" yaml:"file,omitempty" xml:"file,omitempty"`
+	// Territories bind a territory profile to its script behavior, zone data, agent classes, and behavior-specific settings.
+	Territories []EnvironmentTerritory `json:"territory,omitempty" yaml:"territory,omitempty" xml:"territory,omitempty"`
 }
 
-// EnvironmentTerritory binds territory behavior and agents.
+// EnvironmentTerritory connects a named territory profile to the behavior that consumes its zones and agent definitions.
 type EnvironmentTerritory struct {
-	// Type defines territory system category.
-	Type string `xml:"type,attr,omitempty" json:"type,omitempty" yaml:"type,omitempty"`
-	// Name is territory profile identifier.
-	Name string `xml:"name,attr,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
-	// Behavior is script behavior class name.
-	Behavior string `xml:"behavior,attr,omitempty" json:"behavior,omitempty" yaml:"behavior,omitempty"`
-	// Files references territory zone data.
-	Files []EnvironmentTerritoryFile `xml:"file,omitempty" json:"file,omitempty" yaml:"file,omitempty"`
-	// Agents configures ambient agents for this territory.
-	Agents []EnvironmentAgent `xml:"agent,omitempty" json:"agent,omitempty" yaml:"agent,omitempty"`
-	// Items stores auxiliary numeric/string params.
-	Items []EnvironmentItem `xml:"item,omitempty" json:"item,omitempty" yaml:"item,omitempty"`
+	// Type selects the territory system category, such as `Herd` or `Ambient`.
+	Type string `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty"`
+	// Name identifies the profile used by the corresponding Central Economy spawner or event configuration.
+	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty"`
+	// Behavior is the Enforce Script behavior class that implements this territory's runtime logic.
+	Behavior string `json:"behavior,omitempty" yaml:"behavior,omitempty" xml:"behavior,attr,omitempty"`
+	// Files select the territory-zone data used by this profile.
+	// Entries can refer to paths directly or to usable identifiers declared above.
+	Files []EnvironmentTerritoryFile `json:"file,omitempty" yaml:"file,omitempty" xml:"file,omitempty"`
+	// Agents define the agent variants and game classes that may spawn in the territory.
+	Agents []EnvironmentAgent `json:"agent,omitempty" yaml:"agent,omitempty" xml:"agent,omitempty"`
+	// Items provide named, behavior-specific settings as text values.
+	Items []EnvironmentItem `json:"item,omitempty" yaml:"item,omitempty" xml:"item,omitempty"`
 }
 
-// EnvironmentAgent describes one agent block in environment territory.
+// EnvironmentAgent defines one agent variant and the classes available for that variant in a territory behavior.
 type EnvironmentAgent struct {
-	// Type is agent variant (male/female/etc).
-	Type string `xml:"type,attr,omitempty" json:"type,omitempty" yaml:"type,omitempty"`
-	// Chance is spawn chance for this agent block.
-	Chance string `xml:"chance,attr,omitempty" json:"chance,omitempty" yaml:"chance,omitempty"`
-	// Spawns is concrete config classes spawned by this agent.
-	Spawns []EnvironmentSpawn `xml:"spawn,omitempty" json:"spawn,omitempty" yaml:"spawn,omitempty"`
-	// Items is extra settings attached to this agent.
-	Items []EnvironmentItem `xml:"item,omitempty" json:"item,omitempty" yaml:"item,omitempty"`
+	// Type is the agent variant used by this block, such as `Male` or `Female`.
+	Type string `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty"`
+	// Chance is the selection weight for this agent variant.
+	Chance string `json:"chance,omitempty" yaml:"chance,omitempty" xml:"chance,attr,omitempty"`
+	// Spawns are the game classes this agent variant can create.
+	Spawns []EnvironmentSpawn `json:"spawn,omitempty" yaml:"spawn,omitempty" xml:"spawn,omitempty"`
+	// Items provide agent-specific settings consumed by the selected behavior.
+	Items []EnvironmentItem `json:"item,omitempty" yaml:"item,omitempty" xml:"item,omitempty"`
 }
 
-// EnvironmentSpawn is one spawn entry in environment agent.
+// EnvironmentSpawn assigns a game class and selection weight to a territory agent variant.
 type EnvironmentSpawn struct {
-	// ConfigName is class name to spawn.
-	ConfigName string `xml:"configName,attr,omitempty" json:"configName,omitempty" yaml:"configName,omitempty"`
-	// Chance is per-entry spawn chance.
-	Chance string `xml:"chance,attr,omitempty" json:"chance,omitempty" yaml:"chance,omitempty"`
+	// ConfigName is the game class name that may be spawned.
+	ConfigName string `json:"configName,omitempty" yaml:"configName,omitempty" xml:"configName,attr,omitempty"`
+	// Chance is the selection weight for this class within its agent variant.
+	Chance string `json:"chance,omitempty" yaml:"chance,omitempty" xml:"chance,attr,omitempty"`
 }
 
-// EnvironmentItem stores one named item/value pair in environment blocks.
+// EnvironmentItem stores one behavior-specific setting as a named text value.
 type EnvironmentItem struct {
-	// Name is setting key.
-	Name string `xml:"name,attr,omitempty" json:"name,omitempty" yaml:"name,omitempty"`
-	// Value is setting value as text.
-	Value string `xml:"val,attr,omitempty" json:"val,omitempty" yaml:"val,omitempty"`
+	// Name is the setting key interpreted by the selected territory behavior.
+	Name string `json:"name,omitempty" yaml:"name,omitempty" xml:"name,attr,omitempty"`
+	// Value is the setting value encoded as text.
+	Value string `json:"val,omitempty" yaml:"val,omitempty" xml:"val,attr,omitempty"`
 }

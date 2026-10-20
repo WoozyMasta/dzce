@@ -44,8 +44,8 @@ func BuildAreaFlagsFromCEProjectLayerDir(
 	return BuildAreaFlagsFromCEProjectMasks(config, masks)
 }
 
-// BuildAreaFlagsFromCEProjectMasks builds `areaflags.map` from CEProject config and
-// already loaded masks keyed by layer name.
+// BuildAreaFlagsFromCEProjectMasks builds `areaflags.map` from CEProject config
+// and already loaded masks keyed by layer name.
 func BuildAreaFlagsFromCEProjectMasks(
 	config *CEProjectConfigFile,
 	masks map[string]*MaskImage,
@@ -219,8 +219,7 @@ func BuildAreaFlagsFromCEProjectMasks(
 	return file, nil
 }
 
-// ExportAreaFlagsBitMasksToTGADir exports all usage/value bit-planes into
-// individual `.tga` files.
+// ExportAreaFlagsBitMasksToTGADir exports all usage/value bit-planes into individual `.tga` files.
 func ExportAreaFlagsBitMasksToTGADir(
 	file *AreaFlagsMapFile,
 	dir string,
@@ -265,8 +264,8 @@ func ExportAreaFlagsBitMasksToTGADir(
 	return nil
 }
 
-// ExportCEProjectLayerMasksFromAreaFlags projects bit-planes back into masks by
-// layer `usage_flags`/`value_flags` definitions from CEProject config.
+// ExportCEProjectLayerMasksFromAreaFlags projects bit-planes back
+// into masks by layer `usage_flags`/`value_flags` definitions from CEProject config.
 func ExportCEProjectLayerMasksFromAreaFlags(
 	config *CEProjectConfigFile,
 	file *AreaFlagsMapFile,
@@ -408,9 +407,8 @@ func ExportCEProjectLayerMasksFromAreaFlags(
 	return output, nil
 }
 
-// ExportCEProjectLayerMasksFromAreaFlagsWithLayerDir projects masks from
-// `areaflags.map` and restores zero/zero layers from CEProject source layer
-// directory when available.
+// ExportCEProjectLayerMasksFromAreaFlagsWithLayerDir projects masks from `areaflags.map`
+// and restores zero/zero layers from CEProject source layer directory when available.
 func ExportCEProjectLayerMasksFromAreaFlagsWithLayerDir(
 	config *CEProjectConfigFile,
 	file *AreaFlagsMapFile,
@@ -484,8 +482,8 @@ func SaveCEProjectLayerMasksToDir(
 	)
 }
 
-// SaveCEProjectLayerMasksToDirWithOptions writes projected CEProject masks to
-// directory using selected image format.
+// SaveCEProjectLayerMasksToDirWithOptions writes projected CEProject masks
+// to directory using selected image format.
 func SaveCEProjectLayerMasksToDirWithOptions(
 	masks map[string]*MaskImage,
 	dir string,
@@ -572,8 +570,8 @@ func SaveCEProjectLayerMasksToDirWithOptions(
 	return nil
 }
 
-// ExtractTerritoryFilesFromCEProjectConfig converts CEProject territory list to
-// `*_territories.xml` payloads keyed by territory type name.
+// ExtractTerritoryFilesFromCEProjectConfig converts CEProject territory list
+// to `*_territories.xml` payloads keyed by territory type name.
 func ExtractTerritoryFilesFromCEProjectConfig(
 	config *CEProjectConfigFile,
 ) map[string]*TerritoryFile {
@@ -616,8 +614,8 @@ func ExtractTerritoryFilesFromCEProjectConfig(
 	return output
 }
 
-// ApplyTerritoryFilesToCEProjectConfig writes `*_territories.xml` payloads into
-// CEProject territory list.
+// ApplyTerritoryFilesToCEProjectConfig writes `*_territories.xml` payloads
+// into CEProject territory list.
 func ApplyTerritoryFilesToCEProjectConfig(
 	config *CEProjectConfigFile,
 	files map[string]*TerritoryFile,

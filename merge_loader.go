@@ -24,11 +24,9 @@ type MergeOptions struct {
 	// RelaxedIncludeTypes allows include `type` values outside strict wiki set.
 	//
 	// When enabled, include kind resolution fallback order is:
-	// 1. strict wiki mapping (`types`, `spawnabletypes`, `globals`, `economy`,
-	//    `events`, `messages`, plus `economycore`)
-	// 2. direct kind names known to registry (`undergroundtriggers`, `gameplay`,
-	//    `effectarea`, and so on)
-	// 3. kind detection from include file name/path (`DetectKind`)
+	// 	1. strict wiki mapping (`types`, `spawnabletypes`, `globals`, `economy`, `events`, `messages`, plus `economycore`)
+	// 	2. direct kind names known to registry (`undergroundtriggers`, `gameplay`, `effectarea`, and so on)
+	// 	3. kind detection from include file name/path (`DetectKind`)
 	RelaxedIncludeTypes bool
 }
 
@@ -52,10 +50,11 @@ func (config *MergedConfig) Get(kind Kind) (any, bool) {
 
 // LoadMergedEconomyCore loads economycore tree and merges included CE files.
 //
-// Input path can be any economycore XML file name. Include entries are resolved
-// relative to each currently processed economycore file and its `<ce folder=...>`
-// value. Include type is resolved only from `<file type="...">` and must
-// match wiki-compatible include set (plus recursive `economycore`).
+// Input path can be any economycore XML file name.
+// Include entries are resolved relative to each currently processed economycore file
+// and its `<ce folder=...>` value.
+// Include type is resolved only from `<file type="...">`
+// and must match wiki-compatible include set (plus recursive `economycore`).
 func LoadMergedEconomyCore(path string) (*MergedConfig, error) {
 	return LoadMergedEconomyCoreWithOptions(path, MergeOptions{})
 }

@@ -72,17 +72,10 @@ const (
 
 // globalsRangeSpec stores baseline range constraints for one globals key.
 type globalsRangeSpec struct {
-	// min stores minimum accepted value.
-	min float64
-
-	// max stores maximum accepted value.
-	max float64
-
-	// hasMin reports whether minimum bound is enabled.
-	hasMin bool
-
-	// hasMax reports whether maximum bound is enabled.
-	hasMax bool
+	min    float64 // min stores minimum accepted value.
+	max    float64 // max stores maximum accepted value.
+	hasMin bool    // hasMin reports whether minimum bound is enabled.
+	hasMax bool    // hasMax reports whether maximum bound is enabled.
 }
 
 var (
@@ -975,7 +968,6 @@ func analyzeEconomyCoreFile(path string, file *EconomyCoreFile) []lint.Diagnosti
 	}
 
 	diagnostics = append(diagnostics, checkEconomyCoreDefaultWindow(path, parsed)...)
-
 	return diagnostics
 }
 
@@ -1019,6 +1011,7 @@ func checkEconomyCoreDefaultRange(
 				),
 			}
 		}
+
 	case economyCoreDefaultBackupCount, economyCoreDefaultWorldSegments:
 		if value < 1 {
 			return []lint.Diagnostic{
@@ -1029,6 +1022,7 @@ func checkEconomyCoreDefaultRange(
 				),
 			}
 		}
+
 	case economyCoreDefaultDynRadius:
 		if value < 0 {
 			return []lint.Diagnostic{
@@ -1092,11 +1086,8 @@ func analyzeEconomyFile(path string, file *EconomyFile) []lint.Diagnostic {
 	}
 
 	sections := []struct {
-		// name stores XML section tag.
-		name string
-
-		// item stores one economy section payload.
-		item *EconomySection
+		name string          // name stores XML section tag.
+		item *EconomySection // item stores one economy section payload.
 	}{
 		{name: "dynamic", item: file.Dynamic},
 		{name: "animals", item: file.Animals},
@@ -1140,11 +1131,8 @@ func checkEconomySectionFlags(
 	}
 
 	flags := []struct {
-		// name stores XML attribute token.
-		name string
-
-		// value stores parsed numeric flag value.
-		value *int
+		name  string // name stores XML attribute token.
+		value *int   // value stores parsed numeric flag value.
 	}{
 		{name: "init", value: section.Init},
 		{name: "load", value: section.Load},
@@ -1262,22 +1250,27 @@ func requiredAttrsForElement(kind Kind, element string) []string {
 		if element == "type" {
 			return []string{"name"}
 		}
+
 	case KindEvents:
 		if element == "event" {
 			return []string{"name"}
 		}
+
 	case KindGlobals:
 		if element == "var" {
 			return []string{"name", "type", "value"}
 		}
+
 	case KindSpawnableTypes:
 		if element == "type" || element == "item" {
 			return []string{"name"}
 		}
+
 	case KindRandomPresets:
 		if element == "cargo" || element == "attachments" || element == "item" {
 			return []string{"name"}
 		}
+
 	case KindEconomyCore:
 		if element == "default" {
 			return []string{"name", "value"}
@@ -1371,6 +1364,7 @@ func isBoolToken(value string) bool {
 	switch strings.ToLower(strings.TrimSpace(value)) {
 	case "0", "1", "true", "false":
 		return true
+
 	default:
 		return false
 	}
@@ -1379,7 +1373,8 @@ func isBoolToken(value string) bool {
 // isXMLKind reports whether one CE kind is XML-based.
 func isXMLKind(kind Kind) bool {
 	switch kind {
-	case KindTypes,
+	case
+		KindTypes,
 		KindEvents,
 		KindEconomy,
 		KindGlobals,
@@ -1403,6 +1398,7 @@ func isXMLKind(kind Kind) bool {
 		KindMapGroupDirt,
 		KindMapGroupCluster:
 		return true
+
 	default:
 		return false
 	}

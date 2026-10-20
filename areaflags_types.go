@@ -59,15 +59,15 @@ type MaskImageEncodeOptions struct {
 	// TGAOptions controls TGA-specific encode behavior.
 	// Nil value uses package defaults (RLE on).
 	TGAOptions *tga.EncodeOptions
-	// Format selects target format. Empty value means auto from output path
-	// extension in file helpers and TGA in byte helpers.
+	// Format selects target format.
+	// Empty value means auto from output path extension in file helpers and TGA in byte helpers.
 	Format string
-	// BlankLayerFileName is optional base name (without extension) for shared
-	// blank layer file used when ReuseBlankLayerFile is enabled.
+	// BlankLayerFileName is optional base name (without extension)
+	// for shared blank layer file used when ReuseBlankLayerFile is enabled.
 	BlankLayerFileName string
-	// ReuseBlankLayerFile enables deduplicated output for fully empty masks in
-	// CEProject layer directory writers by emitting one blank file and linking
-	// empty layer files to it when possible.
+	// ReuseBlankLayerFile enables deduplicated output
+	// for fully empty masks in CEProject layer directory writers
+	// by emitting one blank file and linking empty layer files to it when possible.
 	ReuseBlankLayerFile bool
 }
 

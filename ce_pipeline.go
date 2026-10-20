@@ -16,17 +16,14 @@ import (
 
 // CEPipeline configures high-level CEProject forward and restore flows.
 type CEPipeline struct {
-	// ConfigPath is CEProject `zg-config` path (input for Forward, output for
-	// Restore).
+	// ConfigPath is CEProject `zg-config` path (input for Forward, output for Restore).
 	ConfigPath string
-	// LayersDir is layer mask directory (input for Forward, output for
-	// Restore).
+	// LayersDir is layer mask directory (input for Forward, output for/ Restore).
 	LayersDir string
 	// TerritoriesDir is `*_territories.xml` directory
 	// (output for Forward, input for Restore).
 	TerritoriesDir string
-	// AreaFlagsMapPath is `areaflags.map` path
-	// (output for Forward, input for Restore).
+	// AreaFlagsMapPath is `areaflags.map` path (output for Forward, input for Restore).
 	AreaFlagsMapPath string
 }
 
@@ -42,10 +39,10 @@ type CEForwardResult struct {
 
 // CERestoreOptions controls reverse restoration behavior.
 type CERestoreOptions struct {
-	// TemplateConfigPath is optional CEProject config template path used to
-	// preserve custom layer names/flags and UI metadata.
-	// If empty, Restore tries existing pipeline ConfigPath, then generates
-	// synthetic config from map bit planes.
+	// TemplateConfigPath is optional CEProject config template path
+	// used to preserve custom layer names/flags and UI metadata.
+	// If empty, Restore tries existing pipeline ConfigPath,
+	// then generates synthetic config from map bit planes.
 	TemplateConfigPath string
 	// LayerImageOptions controls output mask image format and options.
 	LayerImageOptions MaskImageEncodeOptions
@@ -63,8 +60,8 @@ type CERestoreResult struct {
 	AreaFlagsMapBytes int
 }
 
-// Forward builds `areaflags.map` and `*_territories.xml` outputs from CEProject
-// `zg-config` and source layer masks.
+// Forward builds `areaflags.map` and `*_territories.xml` outputs
+// from CEProject `zg-config` and source layer masks.
 func (pipeline CEPipeline) Forward() (*CEForwardResult, error) {
 	if err := pipeline.validateForward(); err != nil {
 		return nil, err
@@ -188,8 +185,8 @@ func (pipeline CEPipeline) Restore(
 	}, nil
 }
 
-// LoadTerritoryFilesFromDir loads all `*.xml` files as `*_territories.xml`
-// payloads keyed by basename without extension.
+// LoadTerritoryFilesFromDir loads all `*.xml` files as `*_territories.xml` payloads
+// keyed by basename without extension.
 func LoadTerritoryFilesFromDir(dir string) (map[string]*TerritoryFile, error) {
 	output := map[string]*TerritoryFile{}
 	if strings.TrimSpace(dir) == "" {
@@ -237,8 +234,8 @@ func LoadTerritoryFilesFromDir(dir string) (map[string]*TerritoryFile, error) {
 	return output, nil
 }
 
-// SaveTerritoryFilesToDir writes territory payloads into
-// `<name>.xml` files in deterministic order.
+// SaveTerritoryFilesToDir writes territory payloads
+// into `<name>.xml` files in deterministic order.
 func SaveTerritoryFilesToDir(
 	files map[string]*TerritoryFile,
 	dir string,

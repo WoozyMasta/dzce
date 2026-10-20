@@ -57,8 +57,6 @@ func TestFixturesPositive(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		tc := tc
-
 		t.Run(tc.rel, func(t *testing.T) {
 			data := readFixture(t, tc.rel)
 			path := filepath.Join("testdata", tc.rel)
@@ -115,8 +113,6 @@ func TestFixturesNegative(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		tc := tc
-
 		t.Run(tc.rel, func(t *testing.T) {
 			data := readFixture(t, tc.rel)
 			path := filepath.Join("testdata", tc.rel)

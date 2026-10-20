@@ -4,42 +4,42 @@
 
 package dzce
 
-// LimitsCategoryList stores category entries.
+// LimitsCategoryList declares the category names that item types may use in their Central Economy filters.
 type LimitsCategoryList struct {
-	// Categories holds `<category name="..."/>` entries.
-	Categories []NamedRef `xml:"category,omitempty" json:"category,omitempty" yaml:"category,omitempty"`
+	// Categories are category identifiers accepted by the economy's item definitions.
+	Categories []NamedRef `json:"category,omitempty" yaml:"category,omitempty" xml:"category,omitempty"`
 }
 
-// LimitsTagList stores tag entries.
+// LimitsTagList declares the tag names that item types may use in their Central Economy filters.
 type LimitsTagList struct {
-	// Tags holds `<tag name="..."/>` entries.
-	Tags []NamedRef `xml:"tag,omitempty" json:"tag,omitempty" yaml:"tag,omitempty"`
+	// Tags are tag identifiers accepted by the economy's item definitions.
+	Tags []NamedRef `json:"tag,omitempty" yaml:"tag,omitempty" xml:"tag,omitempty"`
 }
 
-// LimitsUsageList stores usage entries.
+// LimitsUsageList declares location-purpose flags used to restrict where an item type can spawn.
 type LimitsUsageList struct {
-	// Usages holds `<usage name="..."/>` entries.
-	Usages []NamedRef `xml:"usage,omitempty" json:"usage,omitempty" yaml:"usage,omitempty"`
+	// Usages are identifiers assigned to map areas and referenced by item spawn filters.
+	Usages []NamedRef `json:"usage,omitempty" yaml:"usage,omitempty" xml:"usage,omitempty"`
 }
 
-// LimitsValueList stores value entries.
+// LimitsValueList declares loot-tier flags used to restrict item spawning by map region or economy value.
 type LimitsValueList struct {
-	// Values holds `<value name="..."/>` entries.
-	Values []NamedRef `xml:"value,omitempty" json:"value,omitempty" yaml:"value,omitempty"`
+	// Values are tier or value identifiers referenced by item spawn filters.
+	Values []NamedRef `json:"value,omitempty" yaml:"value,omitempty" xml:"value,omitempty"`
 }
 
-// LimitsUserBindingList stores user aliases for usage/value flags.
+// LimitsUserBindingList defines shorthand names that expand to several usage or value flags in Central Economy item definitions.
 type LimitsUserBindingList struct {
-	// Users is list of named aliases.
-	Users []LimitsUserBinding `xml:"user,omitempty" json:"user,omitempty" yaml:"user,omitempty"`
+	// Users are the named flag groups available to item definitions.
+	Users []LimitsUserBinding `json:"user,omitempty" yaml:"user,omitempty" xml:"user,omitempty"`
 }
 
-// LimitsUserBinding stores one alias with usage/value entries.
+// LimitsUserBinding maps one shorthand name to the usage or value flags it represents.
 type LimitsUserBinding struct {
-	// Name is alias identifier.
-	Name string `xml:"name,attr" json:"name" yaml:"name"`
-	// Usages is usage flags included in alias.
-	Usages []NamedRef `xml:"usage,omitempty" json:"usage,omitempty" yaml:"usage,omitempty"`
-	// Values is value flags included in alias.
-	Values []NamedRef `xml:"value,omitempty" json:"value,omitempty" yaml:"value,omitempty"`
+	// Name is the shorthand identifier referenced from an item definition.
+	Name string `json:"name" yaml:"name" xml:"name,attr"`
+	// Usages are the location-purpose flags included in this shorthand group.
+	Usages []NamedRef `json:"usage,omitempty" yaml:"usage,omitempty" xml:"usage,omitempty"`
+	// Values are the loot-tier flags included in this shorthand group.
+	Values []NamedRef `json:"value,omitempty" yaml:"value,omitempty" xml:"value,omitempty"`
 }

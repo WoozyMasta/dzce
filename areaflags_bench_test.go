@@ -72,7 +72,7 @@ func BenchmarkAreaFlagsDecode(b *testing.B) {
 	b.SetBytes(int64(len(fixture.Data)))
 
 	b.ResetTimer()
-	for range b.N {
+	for b.Loop() {
 		if _, err := DecodeAreaFlagsMap(fixture.Data); err != nil {
 			b.Fatalf("DecodeAreaFlagsMap() error: %v", err)
 		}
@@ -84,7 +84,7 @@ func BenchmarkAreaFlagsEncode(b *testing.B) {
 	b.SetBytes(int64(len(fixture.Data)))
 
 	b.ResetTimer()
-	for range b.N {
+	for b.Loop() {
 		if _, err := EncodeAreaFlagsMap(fixture.File); err != nil {
 			b.Fatalf("EncodeAreaFlagsMap() error: %v", err)
 		}
@@ -96,7 +96,7 @@ func BenchmarkAreaFlagsDecodeEncodeRoundtrip(b *testing.B) {
 	b.SetBytes(int64(len(fixture.Data)))
 
 	b.ResetTimer()
-	for range b.N {
+	for b.Loop() {
 		file, err := DecodeAreaFlagsMap(fixture.Data)
 		if err != nil {
 			b.Fatalf("DecodeAreaFlagsMap() error: %v", err)

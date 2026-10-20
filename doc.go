@@ -3,167 +3,32 @@
 // Source: github.com/woozymasta/dzce
 
 /*
-Package dzce provides typed models, codecs, and merge helpers for
-DayZ Central Economy (CE) mission configuration files.
+Package dzce provides typed models and codecs for DayZ Central Economy (CE)
+mission configuration files, including XML, JSON, CEProject layer masks, and
+areaflags.map data.
 
-Core flow by detected kind:
+[DetectKind] identifies formats from file paths, while [Decode] and [Encode]
+convert payloads through the built-in registry. [LoadFile] and [SaveFile]
+provide path-based access; [LoadFile] also detects CEProject XML from its root
+element when the filename is not recognized. Use [LoadFileAs] when a format
+uses arbitrary filenames. [SaveFile] can infer the kind for CEProject
+configurations and area-flags maps from their value types.
 
-	kind := dzce.DetectKind("db/types.xml")
+[CEPipeline.Forward] builds areaflags.map and territory XML files from a
+CEProject configuration and its source layers. [CEPipeline.Restore] recreates
+the configuration and layer masks from compiled map data. The lower-level
+[BuildAreaFlagsFromCEProjectLayerDir] and [EncodeAreaFlagsMap] functions are
+available for custom workflows. The package includes a TGA mask codec and
+supports custom codecs through [RegisterMaskImageCodec] and
+[UnregisterMaskImageCodec].
 
-	value, err := dzce.Decode(kind, input)
-	if err != nil {
-		// handle decode error
-	}
+[LoadMergedEconomyCore] resolves and merges an economycore include tree. Strict
+mode accepts the wiki-compatible include types and recursive economycore
+includes; [LoadMergedEconomyCoreWithOptions] enables additional kind resolution
+through [MergeOptions]. Use [MergedConfig.Get] to retrieve a merged document by
+kind. Merge results contain included files only and do not preload vanilla or
+base CE datasets.
 
-	out, err := dzce.Encode(kind, value)
-	if err != nil {
-		// handle encode error
-	}
-
-	_ = out
-
-File flow:
-
-	kind, value, err := dzce.LoadFile("path/to/db/types.xml")
-	if err != nil {
-		// handle load error
-	}
-
-	_ = kind
-	_ = value
-
-Arbitrary file name flow (for formats without stable basename):
-
-	value, err := dzce.LoadFileAs(
-		dzce.KindGameplayGearPresets,
-		"path/to/custom/presets.json",
-	)
-	if err != nil {
-		// handle load error
-	}
-
-	_ = value
-
-LoadFile also auto-detects CEProject XML by root element (`<zg-config>`). SaveFile
-can infer kind from value type for `*CEProjectConfigFile` and `*AreaFlagsMapFile`.
-
-CE project and areaflags flow:
-
-	cfg, err := dzce.DecodeCEProjectConfig(ceProjectXML)
-	if err != nil {
-		// handle decode error
-	}
-
-	mapFile, err := dzce.BuildAreaFlagsFromCEProjectLayerDir(
-		cfg,
-		"path/to/layers",
-	)
-	if err != nil {
-		// handle build error
-	}
-
-	rawMap, err := dzce.EncodeAreaFlagsMap(mapFile)
-	if err != nil {
-		// handle encode error
-	}
-
-	_ = rawMap
-
-When projecting `areaflags.map` back to CEProject layer masks, layers with both
-`usage_flags=0` and `value_flags=0` are returned as empty masks because CEProject
-does not persist them in map payload.
-
-If CEProject source `layers/` directory is available, zero/zero layers can be
-restored from it:
-
-	layers, err := dzce.ExportCEProjectLayerMasksFromAreaFlagsWithLayerDir(
-		cfg,
-		mapFile,
-		"path/to/layers",
-	)
-	if err != nil {
-		// handle export error
-	}
-
-	_ = layers
-
-Mask image codecs:
-
-Built-in mask image codec is TGA. Any custom format can be added by
-registering callbacks:
-
-	err := dzce.RegisterMaskImageCodec("dds", dzce.MaskImageCodec{
-		Decode: func(data []byte) (*dzce.MaskImage, error) {
-			return nil, nil
-		},
-		Encode: func(
-			mask *dzce.MaskImage,
-			opts dzce.MaskImageEncodeOptions,
-		) ([]byte, error) {
-			return nil, nil
-		},
-	})
-	if err != nil {
-		// handle registration error
-	}
-
-	defer dzce.UnregisterMaskImageCodec("dds")
-
-High-level CE project pipeline:
-
-	pipeline := dzce.CEPipeline{
-		ConfigPath:       "CEProject/MyMap/mymap.xml",
-		LayersDir:        "CEProject/MyMap/layers",
-		TerritoriesDir:   "CEProject/MyMap/territoryTypes",
-		AreaFlagsMapPath: "CEProject/MyMap/map/mymap.map",
-	}
-
-	_, err = pipeline.Forward()
-	if err != nil {
-		// handle forward error
-	}
-
-	_, err = pipeline.Restore(dzce.CERestoreOptions{
-		TemplateConfigPath: "backup/mymap.xml",
-	})
-	if err != nil {
-		// handle restore error
-	}
-
-Economycore include merge:
-
-	merged, err := dzce.LoadMergedEconomyCore("path/to/cfgeconomycore.xml")
-	if err != nil {
-		// handle merge error
-	}
-
-	rawTypes, ok := merged.Get(dzce.KindTypes)
-	if ok {
-		typesDoc := rawTypes.(*dzce.TypesFile)
-		_ = typesDoc
-	}
-
-Strict include mode (default) accepts wiki-compatible include types:
-types, spawnabletypes, globals, economy, events, messages; economycore is
-supported for recursive include traversal.
-
-Relaxed include mode (opt-in):
-
-	merged, err := dzce.LoadMergedEconomyCoreWithOptions(
-		"path/to/cfgeconomycore.xml",
-		dzce.MergeOptions{RelaxedIncludeTypes: true},
-	)
-	if err != nil {
-		// handle merge error
-	}
-
-	_ = merged
-
-Merge priority is load-order based. Later include files override earlier ones
-where the merge rule for that kind allows overriding. Traversal order is
-declaration order with depth-first recursion for nested economycore includes.
-
-LoadMergedEconomyCore* merges include tree content only. It does not preload
-vanilla/base CE datasets.
+Runnable usage examples are in the package example tests.
 */
 package dzce

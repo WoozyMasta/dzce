@@ -5,6 +5,7 @@
 package dzce
 
 import (
+	"path/filepath"
 	"strings"
 
 	"github.com/woozymasta/bimime"
@@ -74,6 +75,12 @@ const (
 	// KindGameplay maps to cfggameplay.json.
 	KindGameplay Kind = "bi.ce.cfggameplay"
 
+	// KindBunkerBroadcast maps to cfgbunkerbroadcast.json.
+	KindBunkerBroadcast Kind = "bi.ce.cfgbunkerbroadcast"
+
+	// KindExternalLocks maps to cfgexternallocks.json.
+	KindExternalLocks Kind = "bi.ce.cfgexternallocks"
+
 	// KindGameplayGearPresets maps to JSON payloads listed in
 	// `cfggameplay.json -> PlayerData.spawnGearPresetFiles`.
 	KindGameplayGearPresets Kind = "bi.ce.gameplay-gear-presets"
@@ -81,6 +88,10 @@ const (
 	// KindObjectSpawner maps to JSON payloads listed in
 	// `cfggameplay.json -> WorldsData.objectSpawnersArr`.
 	KindObjectSpawner Kind = "bi.ce.object-spawner"
+
+	// KindPlayerRestrictedArea maps to JSON payloads listed in
+	// `cfggameplay.json -> WorldsData.playerRestrictedAreaFiles`.
+	KindPlayerRestrictedArea Kind = "bi.ce.player-restricted-area"
 
 	// KindCEProjectConfig maps to CEProject `mapname.xml` (`<zg-config>`).
 	KindCEProjectConfig Kind = "bi.ce.ceproject-config"
@@ -145,8 +156,13 @@ var (
 		"undergroundtriggers":  KindUndergroundTriggers,
 		"effectarea":           KindEffectArea,
 		"gameplay":             KindGameplay,
+		"bunkerbroadcast":      KindBunkerBroadcast,
+		"cfgbunkerbroadcast":   KindBunkerBroadcast,
+		"externallocks":        KindExternalLocks,
+		"cfgexternallocks":     KindExternalLocks,
 		"gameplaygearpresets":  KindGameplayGearPresets,
 		"objectspawner":        KindObjectSpawner,
+		"playerrestrictedarea": KindPlayerRestrictedArea,
 		"ceprojectconfig":      KindCEProjectConfig,
 		"areaflagsmap":         KindAreaFlagsMap,
 		"mapgroupproto":        KindMapGroupProto,
@@ -159,8 +175,8 @@ var (
 
 // KindFromEconomyCoreType maps `<file type="...">` from economycore to Kind.
 //
-// According to DayZ CE wiki mission file modding docs, include `type` values
-// are limited to: types, spawnabletypes, globals, economy, events, messages.
+// According to DayZ CE wiki mission file modding docs, include `type` values are limited to:
+// types, spawnabletypes, globals, economy, events, messages.
 // `economycore` is additionally accepted for recursive include expansion.
 func KindFromEconomyCoreType(value string) Kind {
 	key := lowerTrim(value)
@@ -174,6 +190,14 @@ func KindFromEconomyCoreType(value string) Kind {
 
 // DetectKind returns CE file kind by file base name.
 func DetectKind(path string) Kind {
+	filename := strings.ToLower(filepath.Base(path))
+	switch filename {
+	case "cfgbunkerbroadcast.json":
+		return KindBunkerBroadcast
+	case "cfgexternallocks.json":
+		return KindExternalLocks
+	}
+
 	result := bimime.Analyze(path, nil, bimime.ProfileFast)
 	return kindFromTypeID(string(result.Type))
 }

@@ -6,239 +6,251 @@ package dzce
 
 import "encoding/xml"
 
-// TypesFile is the root of `db/types.xml`.
+// TypesFile is the Central Economy item catalog in `db/types.xml`.
+// Each entry sets one class's target counts, spawn filters, and replenishment behavior.
 type TypesFile struct {
-	// XMLName is XML root marker for `<types>`.
-	XMLName xml.Name `xml:"types" json:"types" yaml:"types"`
-	// Types is full item type list managed by CE.
-	Types []TypeDef `xml:"type" json:"type,omitempty" yaml:"type,omitempty"`
+	// XMLName identifies the required `<types>` document root.
+	XMLName xml.Name `json:"types" yaml:"types" xml:"types"`
+	// Types are the item classes whose loot economy rules are defined here.
+	Types []TypeDef `json:"type,omitempty" yaml:"type,omitempty" xml:"type"`
 }
 
-// EventsFile is the root of `db/events.xml`.
+// EventsFile configures Central Economy dynamic events such as vehicle spawns, crash sites, and ambient animal zones.
 type EventsFile struct {
-	// XMLName is XML root marker for `<events>`.
-	XMLName xml.Name `xml:"events" json:"events" yaml:"events"`
-	// Events is dynamic event definitions used by CE.
-	Events []EventDef `xml:"event" json:"event,omitempty" yaml:"event,omitempty"`
+	// XMLName identifies the required `<events>` document root.
+	XMLName xml.Name `json:"events" yaml:"events" xml:"events"`
+	// Events are the dynamic event definitions processed by CE.
+	Events []EventDef `json:"event,omitempty" yaml:"event,omitempty" xml:"event"`
 }
 
-// EconomyFile is the root of `db/economy.xml`.
+// EconomyFile controls initialization, persistence, and respawning for Central Economy subsystems in `db/economy.xml`.
 type EconomyFile struct {
-	// Dynamic controls dynamic loot entity persistence.
-	Dynamic *EconomySection `xml:"dynamic,omitempty" json:"dynamic,omitempty" yaml:"dynamic,omitempty"`
-	// Animals controls wildlife persistence behavior.
-	Animals *EconomySection `xml:"animals,omitempty" json:"animals,omitempty" yaml:"animals,omitempty"`
-	// Zombies controls infected persistence behavior.
-	Zombies *EconomySection `xml:"zombies,omitempty" json:"zombies,omitempty" yaml:"zombies,omitempty"`
-	// Vehicles controls vehicle persistence behavior.
-	Vehicles *EconomySection `xml:"vehicles,omitempty" json:"vehicles,omitempty" yaml:"vehicles,omitempty"`
-	// Randoms controls random-event persistence behavior.
-	Randoms *EconomySection `xml:"randoms,omitempty" json:"randoms,omitempty" yaml:"randoms,omitempty"`
-	// Custom controls custom CE section persistence.
-	Custom *EconomySection `xml:"custom,omitempty" json:"custom,omitempty" yaml:"custom,omitempty"`
-	// Building controls building-state persistence.
-	Building *EconomySection `xml:"building,omitempty" json:"building,omitempty" yaml:"building,omitempty"`
-	// Player controls player-state persistence.
-	Player *EconomySection `xml:"player,omitempty" json:"player,omitempty" yaml:"player,omitempty"`
-	// XMLName is XML root marker for `<economy>`.
-	XMLName xml.Name `xml:"economy" json:"economy" yaml:"economy"`
+	// Dynamic controls CE initialization, persistence, and respawning for dynamic economy entities such as world loot.
+	Dynamic *EconomySection `json:"dynamic,omitempty" yaml:"dynamic,omitempty" xml:"dynamic,omitempty"`
+	// Animals controls initialization and persistence of non-ambient wildlife.
+	Animals *EconomySection `json:"animals,omitempty" yaml:"animals,omitempty" xml:"animals,omitempty"`
+	// Zombies controls initialization and persistence of infected entities.
+	Zombies *EconomySection `json:"zombies,omitempty" yaml:"zombies,omitempty" xml:"zombies,omitempty"`
+	// Vehicles controls initialization and persistence of CE-managed vehicles.
+	Vehicles *EconomySection `json:"vehicles,omitempty" yaml:"vehicles,omitempty" xml:"vehicles,omitempty"`
+	// Randoms controls initialization and persistence for random economy entities.
+	Randoms *EconomySection `json:"randoms,omitempty" yaml:"randoms,omitempty" xml:"randoms,omitempty"`
+	// Custom controls initialization and persistence for custom CE entities.
+	Custom *EconomySection `json:"custom,omitempty" yaml:"custom,omitempty" xml:"custom,omitempty"`
+	// Building controls initialization and persistence of building state, such as randomized or saved door states.
+	Building *EconomySection `json:"building,omitempty" yaml:"building,omitempty" xml:"building,omitempty"`
+	// Player controls initialization and persistence of player CE state.
+	Player *EconomySection `json:"player,omitempty" yaml:"player,omitempty" xml:"player,omitempty"`
+	// XMLName identifies the required `<economy>` document root.
+	XMLName xml.Name `json:"economy" yaml:"economy" xml:"economy"`
 }
 
-// GlobalsFile is the root of `db/globals.xml`.
+// GlobalsFile sets mission-wide Central Economy variables in `db/globals.xml`,
+// including spawn limits, cleanup timing, and persistence-related behavior.
 type GlobalsFile struct {
-	// XMLName is XML root marker for `<variables>`.
-	XMLName xml.Name `xml:"variables" json:"variables" yaml:"variables"`
-	// Vars is the global CE variable set.
-	Vars []GlobalVar `xml:"var" json:"var,omitempty" yaml:"var,omitempty"`
+	// XMLName identifies the required `<variables>` document root.
+	XMLName xml.Name `json:"variables" yaml:"variables" xml:"variables"`
+	// Vars are the CE variables overridden by this mission.
+	Vars []GlobalVar `json:"var,omitempty" yaml:"var,omitempty" xml:"var"`
 }
 
 // MessagesFile is the root of `db/messages.xml`.
 type MessagesFile struct {
 	// XMLName is XML root marker for `<messages>`.
-	XMLName xml.Name `xml:"messages" json:"messages" yaml:"messages"`
+	XMLName xml.Name `json:"messages" yaml:"messages" xml:"messages"`
 	// Messages is server message schedule entries.
-	Messages []MessageDef `xml:"message,omitempty" json:"message,omitempty" yaml:"message,omitempty"`
+	Messages []MessageDef `json:"message,omitempty" yaml:"message,omitempty" xml:"message,omitempty"`
 }
 
-// SpawnableTypesFile is the root of `cfgspawnabletypes.xml`.
+// SpawnableTypesFile defines which cargo items and attachments may be created when CE spawns an item, vehicle, or other configured class.
 type SpawnableTypesFile struct {
-	// XMLName is XML root marker for `<spawnabletypes>`.
-	XMLName xml.Name `xml:"spawnabletypes" json:"spawnabletypes" yaml:"spawnabletypes"`
-	// Types is attachment/cargo spawn rules by item class.
-	Types []SpawnableTypeDef `xml:"type" json:"type,omitempty" yaml:"type,omitempty"`
+	// XMLName identifies the required `<spawnabletypes>` document root.
+	XMLName xml.Name `json:"spawnabletypes" yaml:"spawnabletypes" xml:"spawnabletypes"`
+	// Types map game classes to their cargo and attachment generation rules.
+	Types []SpawnableTypeDef `json:"type,omitempty" yaml:"type,omitempty" xml:"type"`
 }
 
-// RandomPresetsFile is the root of `cfgrandompresets.xml`.
+// RandomPresetsFile defines reusable cargo and attachment candidate lists for `cfgspawnabletypes.xml`.
 type RandomPresetsFile struct {
-	// XMLName is XML root marker for `<randompresets>`.
-	XMLName xml.Name `xml:"randompresets" json:"randompresets" yaml:"randompresets"`
-	// Cargo is named random preset set for cargo.
-	Cargo []RandomPreset `xml:"cargo,omitempty" json:"cargo,omitempty" yaml:"cargo,omitempty"`
-	// Attachments is named random preset set for attachments.
-	Attachments []RandomPreset `xml:"attachments,omitempty" json:"attachments,omitempty" yaml:"attachments,omitempty"`
+	// XMLName identifies the required `<randompresets>` document root.
+	XMLName xml.Name `json:"randompresets" yaml:"randompresets" xml:"randompresets"`
+	// Cargo contains presets referenced by cargo rules.
+	Cargo []RandomPreset `json:"cargo,omitempty" yaml:"cargo,omitempty" xml:"cargo,omitempty"`
+	// Attachments contains presets referenced by attachment rules.
+	Attachments []RandomPreset `json:"attachments,omitempty" yaml:"attachments,omitempty" xml:"attachments,omitempty"`
 }
 
-// EconomyCoreFile is the root of `cfgeconomycore.xml`.
+// EconomyCoreFile configures the CE class registry, default variables, and mission-provided CE file additions or overrides.
 type EconomyCoreFile struct {
-	// XMLName is XML root marker for `<economycore>`.
-	XMLName xml.Name `xml:"economycore" json:"economycore" yaml:"economycore"`
-	// Classes lists root classes known to CE.
-	Classes *EconomyCoreClasses `xml:"classes,omitempty" json:"classes,omitempty" yaml:"classes,omitempty"`
-	// Defaults stores default CE variables.
-	Defaults *EconomyCoreDefaults `xml:"defaults,omitempty" json:"defaults,omitempty" yaml:"defaults,omitempty"`
-	// CE lists external CE config folders and files.
-	CE []EconomyCoreCE `xml:"ce,omitempty" json:"ce,omitempty" yaml:"ce,omitempty"`
+	// Classes declares the game class hierarchies tracked by CE.
+	Classes *EconomyCoreClasses `json:"classes,omitempty" yaml:"classes,omitempty" xml:"classes,omitempty"`
+	// Defaults overrides built-in CE default variables for this mission.
+	Defaults *EconomyCoreDefaults `json:"defaults,omitempty" yaml:"defaults,omitempty" xml:"defaults,omitempty"`
+	// XMLName identifies the required `<economycore>` document root.
+	XMLName xml.Name `json:"economycore" yaml:"economycore" xml:"economycore"`
+	// CE registers mission-relative folders containing CE files to append or use as overrides.
+	CE []EconomyCoreCE `json:"ce,omitempty" yaml:"ce,omitempty" xml:"ce,omitempty"`
 }
 
-// EnvironmentFile is the root of `cfgenvironment.xml`.
+// EnvironmentFile configures territory profiles, their spawn behaviors, and the files that provide their zones in `cfgenvironment.xml`.
 type EnvironmentFile struct {
-	// XMLName is XML root marker for `<env>`.
-	XMLName struct{} `xml:"env" json:"env" yaml:"env"`
-	// Territories stores ambient life territories and sources.
-	Territories *EnvironmentTerritories `xml:"territories,omitempty" json:"territories,omitempty" yaml:"territories,omitempty"`
+	// XMLName identifies the required `<env>` document root.
+	XMLName struct{} `json:"env" yaml:"env" xml:"env"`
+	// Territories declares territory behaviors, zone sources, and the agent classes that can populate those territories.
+	Territories *EnvironmentTerritories `json:"territories,omitempty" yaml:"territories,omitempty" xml:"territories,omitempty"`
 }
 
 // EventSpawnsFile is the root of `cfgeventspawns.xml`.
 type EventSpawnsFile struct {
 	// XMLName is XML root marker for `<eventposdef>`.
-	XMLName xml.Name `xml:"eventposdef" json:"eventposdef" yaml:"eventposdef"`
+	XMLName xml.Name `json:"eventposdef" yaml:"eventposdef" xml:"eventposdef"`
 	// Events is list of event spawn definitions.
-	Events []EventSpawnEntry `xml:"event,omitempty" json:"event,omitempty" yaml:"event,omitempty"`
+	Events []EventSpawnEntry `json:"event,omitempty" yaml:"event,omitempty" xml:"event,omitempty"`
 }
 
 // EventGroupsFile is the root of `cfgeventgroups.xml`.
 type EventGroupsFile struct {
 	// XMLName is XML root marker for `<eventgroupdef>`.
-	XMLName xml.Name `xml:"eventgroupdef" json:"eventgroupdef" yaml:"eventgroupdef"`
+	XMLName xml.Name `json:"eventgroupdef" yaml:"eventgroupdef" xml:"eventgroupdef"`
 	// Groups is list of reusable static object groups.
-	Groups []EventGroup `xml:"group,omitempty" json:"group,omitempty" yaml:"group,omitempty"`
+	Groups []EventGroup `json:"group,omitempty" yaml:"group,omitempty" xml:"group,omitempty"`
 }
 
-// PlayerSpawnPointsFile is the root of `cfgplayerspawnpoints.xml`.
+// PlayerSpawnPointsFile configures candidate locations and selection rules for fresh-character, server-hop, and travel spawns.
 type PlayerSpawnPointsFile struct {
-	// XMLName is XML root marker for `<playerspawnpoints>`.
-	XMLName struct{} `xml:"playerspawnpoints" json:"playerspawnpoints" yaml:"playerspawnpoints"`
-	// Fresh stores parameters for fresh character spawns.
-	Fresh *PlayerSpawnProfile `xml:"fresh,omitempty" json:"fresh,omitempty" yaml:"fresh,omitempty"`
-	// Hop stores parameters for server-hop spawns.
-	Hop *PlayerSpawnProfile `xml:"hop,omitempty" json:"hop,omitempty" yaml:"hop,omitempty"`
-	// Travel stores parameters for travel transfer spawns.
-	Travel *PlayerSpawnProfile `xml:"travel,omitempty" json:"travel,omitempty" yaml:"travel,omitempty"`
+	// XMLName identifies the required `<playerspawnpoints>` document root.
+	XMLName struct{} `json:"playerspawnpoints" yaml:"playerspawnpoints" xml:"playerspawnpoints"`
+	// Fresh configures locations and selection rules for newly created characters.
+	Fresh *PlayerSpawnProfile `json:"fresh,omitempty" yaml:"fresh,omitempty" xml:"fresh,omitempty"`
+	// Hop configures locations and selection rules for characters returning after connecting to another server.
+	Hop *PlayerSpawnProfile `json:"hop,omitempty" yaml:"hop,omitempty" xml:"hop,omitempty"`
+	// Travel configures locations and selection rules for characters moved between servers in a travel connection.
+	Travel *PlayerSpawnProfile `json:"travel,omitempty" yaml:"travel,omitempty" xml:"travel,omitempty"`
 }
 
-// WeatherFile is the root of `cfgweather.xml`.
+// WeatherFile configures global weather simulation and the target ranges
+// and transition behavior for each weather channel in `cfgweather.xml`.
 type WeatherFile struct {
 	// Overcast configures cloudiness channel behavior.
-	Overcast *WeatherSection `xml:"overcast,omitempty" json:"overcast,omitempty" yaml:"overcast,omitempty"`
+	Overcast *WeatherSection `json:"overcast,omitempty" yaml:"overcast,omitempty" xml:"overcast,omitempty"`
 	// Fog configures fog channel behavior.
-	Fog *WeatherSection `xml:"fog,omitempty" json:"fog,omitempty" yaml:"fog,omitempty"`
+	Fog *WeatherSection `json:"fog,omitempty" yaml:"fog,omitempty" xml:"fog,omitempty"`
 	// Rain configures rain channel behavior.
-	Rain *WeatherSection `xml:"rain,omitempty" json:"rain,omitempty" yaml:"rain,omitempty"`
+	Rain *WeatherSection `json:"rain,omitempty" yaml:"rain,omitempty" xml:"rain,omitempty"`
 	// WindMagnitude configures wind speed behavior.
-	WindMagnitude *WeatherSection `xml:"windMagnitude,omitempty" json:"windMagnitude,omitempty" yaml:"windMagnitude,omitempty"`
+	WindMagnitude *WeatherSection `json:"windMagnitude,omitempty" yaml:"windMagnitude,omitempty" xml:"windMagnitude,omitempty"`
 	// WindDirection configures wind direction behavior.
-	WindDirection *WeatherSection `xml:"windDirection,omitempty" json:"windDirection,omitempty" yaml:"windDirection,omitempty"`
+	WindDirection *WeatherSection `json:"windDirection,omitempty" yaml:"windDirection,omitempty" xml:"windDirection,omitempty"`
 	// Snowfall configures snowfall behavior.
-	Snowfall *WeatherSection `xml:"snowfall,omitempty" json:"snowfall,omitempty" yaml:"snowfall,omitempty"`
-
-	// Storm configures storm/thunder behavior.
-	Storm *WeatherStorm `xml:"storm,omitempty" json:"storm,omitempty" yaml:"storm,omitempty"`
-	// Reset forces weather reset on mission start.
-	Reset WeatherToggle `xml:"reset,attr" json:"reset" yaml:"reset"`
-	// Enable toggles weather simulation globally.
-	Enable WeatherToggle `xml:"enable,attr" json:"enable" yaml:"enable"`
-	// XMLName is XML root marker for `<weather>`.
-	XMLName struct{} `xml:"weather" json:"weather" yaml:"weather"`
+	Snowfall *WeatherSection `json:"snowfall,omitempty" yaml:"snowfall,omitempty" xml:"snowfall,omitempty"`
+	// Storm configures when storms can occur and how long their thunder effects remain active.
+	Storm *WeatherStorm `json:"storm,omitempty" yaml:"storm,omitempty" xml:"storm,omitempty"`
+	// Reset determines whether mission startup replaces persisted weather with the values configured in this file.
+	Reset WeatherToggle `json:"reset" yaml:"reset" xml:"reset,attr"`
+	// Enable determines whether the server runs the configured weather simulation.
+	Enable WeatherToggle `json:"enable" yaml:"enable" xml:"enable,attr"`
+	// XMLName identifies the required `<weather>` document root.
+	XMLName struct{} `json:"weather" yaml:"weather" xml:"weather"`
 }
 
-// LimitsDefinitionFile is the root of `cfglimitsdefinition.xml`.
+// LimitsDefinitionFile declares the category, tag, usage, and value names referenced by Central Economy item filters.
 type LimitsDefinitionFile struct {
-	// XMLName is XML root marker for `<lists>`.
-	XMLName struct{} `xml:"lists" json:"lists" yaml:"lists"`
-	// Categories is set of allowed item categories.
-	Categories *LimitsCategoryList `xml:"categories,omitempty" json:"categories,omitempty" yaml:"categories,omitempty"`
-	// Tags is set of allowed item tags.
-	Tags *LimitsTagList `xml:"tags,omitempty" json:"tags,omitempty" yaml:"tags,omitempty"`
-	// UsageFlags is set of allowed usage flags.
-	UsageFlags *LimitsUsageList `xml:"usageflags,omitempty" json:"usageflags,omitempty" yaml:"usageflags,omitempty"`
-	// ValueFlags is set of allowed value flags.
-	ValueFlags *LimitsValueList `xml:"valueflags,omitempty" json:"valueflags,omitempty" yaml:"valueflags,omitempty"`
+	// XMLName identifies the required `<lists>` document root.
+	XMLName struct{} `json:"lists" yaml:"lists" xml:"lists"`
+	// Categories defines the item categories recognized by the economy.
+	Categories *LimitsCategoryList `json:"categories,omitempty" yaml:"categories,omitempty" xml:"categories,omitempty"`
+	// Tags defines the item tags recognized by the economy.
+	Tags *LimitsTagList `json:"tags,omitempty" yaml:"tags,omitempty" xml:"tags,omitempty"`
+	// UsageFlags defines location-purpose flags used to filter spawn locations.
+	UsageFlags *LimitsUsageList `json:"usageflags,omitempty" yaml:"usageflags,omitempty" xml:"usageflags,omitempty"`
+	// ValueFlags defines loot-tier flags used to filter spawn locations.
+	ValueFlags *LimitsValueList `json:"valueflags,omitempty" yaml:"valueflags,omitempty" xml:"valueflags,omitempty"`
 }
 
-// LimitsDefinitionUserFile is the root of `cfglimitsdefinitionuser.xml`.
+// LimitsDefinitionUserFile defines named shorthand groups that combine existing usage or value flags for reuse in item filters.
 type LimitsDefinitionUserFile struct {
-	// XMLName is XML root marker for `<user_lists>`.
-	XMLName struct{} `xml:"user_lists" json:"user_lists" yaml:"user_lists"`
-	// UsageFlags is alias mapping for usage flags.
-	UsageFlags *LimitsUserBindingList `xml:"usageflags,omitempty" json:"usageflags,omitempty" yaml:"usageflags,omitempty"`
-	// ValueFlags is alias mapping for value flags.
-	ValueFlags *LimitsUserBindingList `xml:"valueflags,omitempty" json:"valueflags,omitempty" yaml:"valueflags,omitempty"`
+	// XMLName identifies the required `<user_lists>` document root.
+	XMLName struct{} `json:"user_lists" yaml:"user_lists" xml:"user_lists"`
+	// UsageFlags maps shorthand names to groups of usage flags.
+	UsageFlags *LimitsUserBindingList `json:"usageflags,omitempty" yaml:"usageflags,omitempty" xml:"usageflags,omitempty"`
+	// ValueFlags maps shorthand names to groups of value flags.
+	ValueFlags *LimitsUserBindingList `json:"valueflags,omitempty" yaml:"valueflags,omitempty" xml:"valueflags,omitempty"`
 }
 
 // IgnoreListFile is the root of `cfgignorelist.xml`.
 type IgnoreListFile struct {
 	// XMLName is XML root marker for `<ignore>`.
-	XMLName xml.Name `xml:"ignore" json:"ignore" yaml:"ignore"`
+	XMLName xml.Name `json:"ignore" yaml:"ignore" xml:"ignore"`
 	// Types is list of item class names ignored by CE.
-	Types []NamedRef `xml:"type,omitempty" json:"type,omitempty" yaml:"type,omitempty"`
+	Types []NamedRef `json:"type,omitempty" yaml:"type,omitempty" xml:"type,omitempty"`
 }
 
-// TerritoryFile is the root of `env/*_territories.xml`.
+// TerritoryFile defines named spawn zones used by territory profiles in `cfgenvironment.xml`.
 type TerritoryFile struct {
-	// XMLName is XML root marker for `<territory-type>`.
-	XMLName xml.Name `xml:"territory-type" json:"territory-type" yaml:"territory-type"`
-	// Territories is all territory blocks in the file.
-	Territories []TerritoryBlock `xml:"territory,omitempty" json:"territory,omitempty" yaml:"territory,omitempty"`
+	// XMLName identifies the required `<territory-type>` document root.
+	XMLName xml.Name `json:"territory-type" yaml:"territory-type" xml:"territory-type"`
+	// Territories defines zone positions and static and dynamic entity count
+	// limits for territory behaviors.
+	Territories []TerritoryBlock `json:"territory,omitempty" yaml:"territory,omitempty" xml:"territory,omitempty"`
 }
 
-// MapGroupProtoFile is the root of `mapgroupproto.xml`.
+// MapGroupProtoFile defines reusable building and cluster prototypes for loot placement,
+// including containers, spawn points, and prototype defaults.
 type MapGroupProtoFile struct {
-	// XMLName is XML root marker for `<prototype>`.
-	XMLName xml.Name `xml:"prototype" json:"prototype" yaml:"prototype"`
-	// Defaults stores shared defaults for groups/containers.
-	Defaults *MapPrototypeDefaults `xml:"defaults,omitempty" json:"defaults,omitempty" yaml:"defaults,omitempty"`
-	// Clusters stores exported cluster model mappings.
-	Clusters *MapPrototypeExports `xml:"clusters,omitempty" json:"clusters,omitempty" yaml:"clusters,omitempty"`
-	// Groups stores normal loot map groups.
-	Groups []MapPrototypeEntry `xml:"group,omitempty" json:"group,omitempty" yaml:"group,omitempty"`
-	// ClusterGroups stores cluster loot groups.
-	ClusterGroups []MapPrototypeEntry `xml:"cluster,omitempty" json:"cluster,omitempty" yaml:"cluster,omitempty"`
+	// Defaults provides shared property values inherited by prototypes that do not specify those values directly.
+	Defaults *MapPrototypeDefaults `json:"defaults,omitempty" yaml:"defaults,omitempty" xml:"defaults,omitempty"`
+	// Clusters maps terrain model shapes to logical cluster prototype names.
+	Clusters *MapPrototypeExports `json:"clusters,omitempty" yaml:"clusters,omitempty" xml:"clusters,omitempty"`
+	// XMLName identifies the required `<prototype>` document root.
+	XMLName xml.Name `json:"prototype" yaml:"prototype" xml:"prototype"`
+	// Groups defines building prototypes and their lootable containers.
+	Groups []MapPrototypeEntry `json:"group,omitempty" yaml:"group,omitempty" xml:"group,omitempty"`
+	// ClusterGroups defines reusable groups of nearby objects and their loot containers.
+	ClusterGroups []MapPrototypeEntry `json:"cluster,omitempty" yaml:"cluster,omitempty" xml:"cluster,omitempty"`
 }
 
-// MapClusterProtoFile is the root of `mapclusterproto.xml`.
+// MapClusterProtoFile defines reusable cluster prototypes for grouped map objects and their loot placement.
 type MapClusterProtoFile struct {
-	// XMLName is XML root marker for `<prototype>`.
-	XMLName xml.Name `xml:"prototype" json:"prototype" yaml:"prototype"`
-	// Defaults stores shared defaults for groups/containers.
-	Defaults *MapPrototypeDefaults `xml:"defaults,omitempty" json:"defaults,omitempty" yaml:"defaults,omitempty"`
-	// Clusters stores exported cluster model mappings.
-	Clusters *MapPrototypeExports `xml:"clusters,omitempty" json:"clusters,omitempty" yaml:"clusters,omitempty"`
-	// Groups stores normal loot map groups.
-	Groups []MapPrototypeEntry `xml:"group,omitempty" json:"group,omitempty" yaml:"group,omitempty"`
-	// ClusterGroups stores cluster loot groups.
-	ClusterGroups []MapPrototypeEntry `xml:"cluster,omitempty" json:"cluster,omitempty" yaml:"cluster,omitempty"`
+	// Defaults provides shared property values inherited by prototypes that do not specify those values directly.
+	Defaults *MapPrototypeDefaults `json:"defaults,omitempty" yaml:"defaults,omitempty" xml:"defaults,omitempty"`
+	// Clusters maps terrain model shapes to logical cluster prototype names.
+	Clusters *MapPrototypeExports `json:"clusters,omitempty" yaml:"clusters,omitempty" xml:"clusters,omitempty"`
+	// XMLName identifies the required `<prototype>` document root.
+	XMLName xml.Name `json:"prototype" yaml:"prototype" xml:"prototype"`
+	// Groups defines building prototypes and their lootable containers.
+	Groups []MapPrototypeEntry `json:"group,omitempty" yaml:"group,omitempty" xml:"group,omitempty"`
+	// ClusterGroups defines reusable groups of nearby objects and their loot containers.
+	ClusterGroups []MapPrototypeEntry `json:"cluster,omitempty" yaml:"cluster,omitempty" xml:"cluster,omitempty"`
 }
 
-// MapGroupPosFile is the root of `mapgrouppos.xml`.
+// MapGroupPosFile places loot prototypes at world positions for buildings and other terrain objects in `mapgrouppos.xml`.
 type MapGroupPosFile struct {
-	// XMLName is XML root marker for `<map>`.
-	XMLName xml.Name `xml:"map" json:"map" yaml:"map"`
-	// Groups stores map object instances with transform data.
-	Groups []MapGroupInstance `xml:"group,omitempty" json:"group,omitempty" yaml:"group,omitempty"`
+	// XMLName identifies the required `<map>` document root.
+	XMLName xml.Name `json:"map" yaml:"map" xml:"map"`
+	// Groups lists prototype names and their world positions and rotations.
+	Groups []MapGroupInstance `json:"group,omitempty" yaml:"group,omitempty" xml:"group,omitempty"`
 }
 
-// MapGroupDirtFile is the root of `mapgroupdirt.xml`.
+// MapGroupDirtFile places dirt and other terrain-specific map groups at world positions in `mapgroupdirt.xml`.
 type MapGroupDirtFile struct {
-	// XMLName is XML root marker for `<map>`.
-	XMLName xml.Name `xml:"map" json:"map" yaml:"map"`
-	// Groups stores map object instances with transform data.
-	Groups []MapGroupInstance `xml:"group,omitempty" json:"group,omitempty" yaml:"group,omitempty"`
+	// XMLName identifies the required `<map>` document root.
+	XMLName xml.Name `json:"map" yaml:"map" xml:"map"`
+	// Groups lists prototype names and their world positions and rotations.
+	Groups []MapGroupInstance `json:"group,omitempty" yaml:"group,omitempty" xml:"group,omitempty"`
 }
 
-// MapGroupClusterFile is the root of `mapgroupcluster*.xml`.
+// MapGroupClusterFile places cluster prototypes at world positions and can include additional cluster placement files.
 type MapGroupClusterFile struct {
-	// XMLName is XML root marker for `<map>`.
-	XMLName xml.Name `xml:"map" json:"map" yaml:"map"`
-	// Groups stores map cluster instances with transform data.
-	Groups []MapGroupInstance `xml:"group,omitempty" json:"group,omitempty" yaml:"group,omitempty"`
+	// XMLName identifies the required `<map>` document root.
+	XMLName xml.Name `json:"map" yaml:"map" xml:"map"`
+	// Groups lists cluster prototype names and their world positions and rotations.
+	Groups []MapGroupInstance `json:"group,omitempty" yaml:"group,omitempty" xml:"group,omitempty"`
+	// Includes references additional map group cluster files loaded with this file.
+	Includes []MapGroupInclude `json:"include,omitempty" yaml:"include,omitempty" xml:"include,omitempty"`
+}
+
+// MapGroupInclude identifies another map group cluster file to load.
+type MapGroupInclude struct {
+	// File is the referenced file name without its `.xml` extension.
+	File string `json:"file" yaml:"file" xml:"file,attr"`
 }

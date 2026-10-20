@@ -41,28 +41,17 @@ func AnalyzeLintEconomyCoreTree(path string) []lint.Diagnostic {
 
 // includeRef stores one parsed include entry.
 type includeRef struct {
-	// kind stores resolved include kind.
-	kind Kind
-
-	// path stores normalized include file path.
-	path string
+	kind Kind   // kind stores resolved include kind.
+	path string // path stores normalized include file path.
 }
 
 // economyCoreIncludeCollector traverses include graph and stores diagnostics.
 type economyCoreIncludeCollector struct {
-	// visited stores already visited economycore files.
-	visited map[string]struct{}
-
-	// stack stores current recursion stack for cycle detection.
-	stack map[string]struct{}
-	// rootPath stores normalized root economycore path.
-	rootPath string
-
-	// diagnostics stores collected include traversal diagnostics.
-	diagnostics []lint.Diagnostic
-
-	// includes stores non-economycore include entries.
-	includes []includeRef
+	visited     map[string]struct{} // visited stores already visited economycore files.
+	stack       map[string]struct{} // stack stores current recursion stack for cycle detection.
+	rootPath    string              // rootPath stores normalized root economycore path.
+	diagnostics []lint.Diagnostic   // diagnostics stores collected include traversal diagnostics.
+	includes    []includeRef        // includes stores non-economycore include entries.
 }
 
 // newEconomyCoreIncludeCollector constructs include traversal collector.
@@ -239,6 +228,7 @@ func mapMergedLoadError(path string, err error) []lint.Diagnostic {
 				err.Error(),
 			),
 		}
+
 	case errors.Is(err, os.ErrNotExist):
 		return []lint.Diagnostic{
 			newDiagnostic(
@@ -247,6 +237,7 @@ func mapMergedLoadError(path string, err error) []lint.Diagnostic {
 				err.Error(),
 			),
 		}
+
 	default:
 		return nil
 	}

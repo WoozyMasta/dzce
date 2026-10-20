@@ -40,8 +40,7 @@ func newAreaFlagsWordLayout(
 		return layout, fmt.Errorf("unsupported packed bit count: %d", bitsPerPixel)
 	}
 
-	// CEProject stores section values in 32-bit words where pixel slots align by
-	// power-of-two bit widths.
+	// CEProject stores section values in 32-bit words where pixel slots align by power-of-two bit widths.
 	if bitsPerPixel&(bitsPerPixel-1) != 0 {
 		return layout, fmt.Errorf("packed bit count must be power of two: %d", bitsPerPixel)
 	}
@@ -82,6 +81,7 @@ func newAreaFlagsWordLayout(
 	layout.height = height
 	layout.mask = mask
 	layout.sectionByteSize = int(byteSize64)
+
 	return layout, nil
 }
 
@@ -140,6 +140,7 @@ func (layout areaFlagsWordLayout) write(
 	fieldMask := layout.mask << shift
 	word = (word &^ fieldMask) | ((value & layout.mask) << shift)
 	binary.LittleEndian.PutUint32(section[byteOffset:byteOffset+4], word)
+
 	return nil
 }
 

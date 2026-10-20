@@ -18,14 +18,9 @@ const (
 var (
 	// lintBindingState stores lazy-initialized code-catalog binding state.
 	lintBindingState struct {
-		// once guards one-time binding construction.
-		once sync.Once
-
-		// binding stores reusable register+attach helper.
-		binding lint.CodeCatalogBinding[lint.Diagnostic]
-
-		// err stores binding construction error.
-		err error
+		once    sync.Once                                // once guards one-time binding construction.
+		binding lint.CodeCatalogBinding[lint.Diagnostic] // binding stores reusable register+attach helper.
+		err     error                                    // err stores binding construction error.
 	}
 )
 

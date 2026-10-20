@@ -93,8 +93,6 @@ func TestDetectKind(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		tc := tc
-
 		t.Run(tc.path, func(t *testing.T) {
 			if got := DetectKind(tc.path); got != tc.want {
 				t.Fatalf("DetectKind(%q) = %q, want %q", tc.path, got, tc.want)
@@ -105,8 +103,6 @@ func TestDetectKind(t *testing.T) {
 
 func TestDecodeEncodeRoundtripByKind(t *testing.T) {
 	for kind := range sampleFixtureByKind {
-		kind := kind
-
 		t.Run(string(kind), func(t *testing.T) {
 			first, err := Decode(kind, readSampleByKind(t, kind))
 			if err != nil {
@@ -166,8 +162,6 @@ func TestDecodeNegativeByKind(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		tc := tc
-
 		t.Run(tc.name, func(t *testing.T) {
 			if _, err := Decode(tc.kind, readFixture(t, tc.fixture)); err == nil {
 				t.Fatalf("Decode(%q) expected error", tc.kind)
@@ -531,8 +525,6 @@ func TestLoadSaveFileAs(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		tc := tc
-
 		t.Run(tc.fileName, func(t *testing.T) {
 			inPath := filepath.Join(inDir, tc.fileName)
 			if err := os.WriteFile(inPath, readFixture(t, tc.fixture), 0o600); err != nil {

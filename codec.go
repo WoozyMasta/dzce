@@ -45,8 +45,11 @@ var defaultRegistry = NewRegistry(
 	newJSONFormat[UndergroundTriggersFile](KindUndergroundTriggers),
 	newJSONFormat[EffectAreaFile](KindEffectArea),
 	newJSONFormat[GameplayFile](KindGameplay),
+	newJSONFormat[BunkerBroadcastFile](KindBunkerBroadcast),
+	newJSONFormat[ExternalLocksFile](KindExternalLocks),
 	newJSONFormat[GameplayGearPresetsFile](KindGameplayGearPresets),
 	newJSONFormat[ObjectSpawnerFile](KindObjectSpawner),
+	newJSONFormat[PlayerRestrictedAreaFile](KindPlayerRestrictedArea),
 	newAreaFlagsMapFormat(),
 )
 
@@ -181,8 +184,8 @@ func LoadFile(path string) (Kind, any, error) {
 
 // LoadFileAs loads CE file using explicit kind.
 //
-// This is useful for JSON files with arbitrary names, such as
-// `spawnGearPresetFiles` and `objectSpawnersArr` entries.
+// This is useful for JSON files with arbitrary names,
+// such as `spawnGearPresetFiles` and `objectSpawnersArr` entries.
 func LoadFileAs(kind Kind, path string) (any, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -238,10 +241,21 @@ func detectKindByContent(path string, data []byte) Kind {
 // detectKindByValue detects known dynamic-name CE formats by value type.
 func detectKindByValue(value any) Kind {
 	switch value.(type) {
+	case *BunkerBroadcastFile:
+		return KindBunkerBroadcast
+
+	case *ExternalLocksFile:
+		return KindExternalLocks
+
+	case *PlayerRestrictedAreaFile:
+		return KindPlayerRestrictedArea
+
 	case *CEProjectConfigFile:
 		return KindCEProjectConfig
+
 	case *AreaFlagsMapFile:
 		return KindAreaFlagsMap
+
 	default:
 		return KindUnknown
 	}
@@ -302,8 +316,8 @@ func detectKindByXMLRoot(data []byte) Kind {
 
 // SaveFileAs stores CE file using explicit kind.
 //
-// This is useful for JSON files with arbitrary names, such as
-// `spawnGearPresetFiles` and `objectSpawnersArr` entries.
+// This is useful for JSON files with arbitrary names,
+// such as `spawnGearPresetFiles` and `objectSpawnersArr` entries.
 func SaveFileAs(kind Kind, path string, value any) error {
 	data, err := Encode(kind, value)
 	if err != nil {
@@ -592,10 +606,39 @@ func EncodeGameplayGearPresets(value *GameplayGearPresetsFile) ([]byte, error) {
 
 // DecodeObjectSpawner decodes one object spawner JSON payload.
 //
-// The file name is arbitrary and usually comes from
-// `cfggameplay.json -> WorldsData.objectSpawnersArr`.
+// The file name is arbitrary and usually comes from `cfggameplay.json -> WorldsData.objectSpawnersArr`.
 func DecodeObjectSpawner(data []byte) (*ObjectSpawnerFile, error) {
 	return decodeJSON[ObjectSpawnerFile](data)
+}
+
+// DecodeBunkerBroadcast decodes `cfgbunkerbroadcast.json`.
+func DecodeBunkerBroadcast(data []byte) (*BunkerBroadcastFile, error) {
+	return decodeJSON[BunkerBroadcastFile](data)
+}
+
+// EncodeBunkerBroadcast encodes `cfgbunkerbroadcast.json`.
+func EncodeBunkerBroadcast(value *BunkerBroadcastFile) ([]byte, error) {
+	return encodeJSON(value)
+}
+
+// DecodeExternalLocks decodes `cfgexternallocks.json`.
+func DecodeExternalLocks(data []byte) (*ExternalLocksFile, error) {
+	return decodeJSON[ExternalLocksFile](data)
+}
+
+// EncodeExternalLocks encodes `cfgexternallocks.json`.
+func EncodeExternalLocks(value *ExternalLocksFile) ([]byte, error) {
+	return encodeJSON(value)
+}
+
+// DecodePlayerRestrictedArea decodes one player restricted area JSON payload.
+func DecodePlayerRestrictedArea(data []byte) (*PlayerRestrictedAreaFile, error) {
+	return decodeJSON[PlayerRestrictedAreaFile](data)
+}
+
+// EncodePlayerRestrictedArea encodes one player restricted area JSON payload.
+func EncodePlayerRestrictedArea(value *PlayerRestrictedAreaFile) ([]byte, error) {
+	return encodeJSON(value)
 }
 
 // EncodeObjectSpawner encodes one object spawner JSON payload.

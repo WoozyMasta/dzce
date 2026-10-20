@@ -123,8 +123,8 @@ func EncodeMaskImage(mask *MaskImage, format string) ([]byte, error) {
 	})
 }
 
-// EncodeMaskImageWithOptions encodes mask using selected built-in or
-// registered custom codec.
+// EncodeMaskImageWithOptions encodes mask using selected built-in
+// or registered custom codec.
 func EncodeMaskImageWithOptions(
 	mask *MaskImage,
 	options MaskImageEncodeOptions,
@@ -184,14 +184,14 @@ func LoadMaskFile(path string) (*MaskImage, error) {
 	return mask, err
 }
 
-// SaveMaskImageFile stores one image mask file in format inferred from path
-// extension. Empty extension defaults to TGA.
+// SaveMaskImageFile stores one image mask file in format inferred from path extension.
+// Empty extension defaults to TGA.
 func SaveMaskImageFile(path string, mask *MaskImage) error {
 	return SaveMaskImageFileWithOptions(path, mask, MaskImageEncodeOptions{})
 }
 
-// SaveMaskImageFileWithOptions stores one image mask file with explicit
-// encoding options.
+// SaveMaskImageFileWithOptions stores one image mask file
+// with explicit encoding options.
 func SaveMaskImageFileWithOptions(
 	path string,
 	mask *MaskImage,
@@ -256,10 +256,13 @@ func normalizeMaskImageFormat(format string) string {
 	switch name {
 	case "":
 		return ""
+
 	case "jpg":
 		return "jpeg"
+
 	case "tif":
 		return "tiff"
+
 	default:
 		return name
 	}

@@ -4,237 +4,307 @@
 
 package dzce
 
-// GameplayFile is the root of `cfggameplay.json`.
+// GameplayFile is the root of `cfggameplay.json`, the mission-level file for server-side gameplay rules.
+// The server reads it when `enableCfgGameplayFile` is enabled in `serverDZ.cfg`.
 type GameplayFile struct {
-	// Version stores schema/config version marker.
+	// Version is the game's internal version marker for this configuration format.
+	// It is maintained by the game and is not a gameplay setting.
 	Version *int `json:"version,omitempty" yaml:"version,omitempty"`
-	// GeneralData stores base gameplay toggles.
+	// GeneralData controls general rules such as damage to base structures and containers, and the availability of respawn actions.
 	GeneralData *GameplayGeneralData `json:"GeneralData,omitempty" yaml:"GeneralData,omitempty"`
-	// PlayerData stores player movement and stamina settings.
+	// PlayerData controls player-side rules, including stamina, movement, shock recovery, drowning, weapon obstruction, and spawn gear presets.
 	PlayerData *GameplayPlayerData `json:"PlayerData,omitempty" yaml:"PlayerData,omitempty"`
-	// WorldsData stores world environment and object-spawner settings.
+	// WorldsData controls world-level settings such as night lighting, temperature and wetness effects, object spawners, and restricted areas.
 	WorldsData *GameplayWorldsData `json:"WorldsData,omitempty" yaml:"WorldsData,omitempty"`
-	// BaseBuildingData stores hologram and construction restrictions.
+	// BaseBuildingData controls checks applied when previewing and constructing base-building objects.
+	// Disabling a check permits placements that thecorresponding rule would otherwise reject.
 	BaseBuildingData *GameplayBaseBuildingData `json:"BaseBuildingData,omitempty" yaml:"BaseBuildingData,omitempty"`
-	// UIData stores HUD/UI-specific gameplay tuning.
+	// UIData controls gameplay-related interface behavior, including the directional hit indicator and map presentation.
 	UIData *GameplayUIData `json:"UIData,omitempty" yaml:"UIData,omitempty"`
-	// MapData stores map and navigation ownership behavior.
+	// MapData controls whether map and navigation features require their corresponding inventory items and which navigation details are shown.
 	MapData *GameplayMapData `json:"MapData,omitempty" yaml:"MapData,omitempty"`
-	// VehicleData stores vehicle-specific modifiers.
+	// VehicleData controls vehicle behavior such as boat decay and whether attached car or bike wheels can detach or take damage.
 	VehicleData *GameplayVehicleData `json:"VehicleData,omitempty" yaml:"VehicleData,omitempty"`
+	// ExternalLockData configures lockout thresholds and timers that slow repeated failed attempts to open an external lock.
+	ExternalLockData *GameplayExternalLockData `json:"ExternalLockData,omitempty" yaml:"ExternalLockData,omitempty"`
+	// SandstormData scales how frequently sandstorms occur in worlds that use the sandstorm system.
+	SandstormData *GameplaySandstormData `json:"SandstormData,omitempty" yaml:"SandstormData,omitempty"`
 }
 
-// GameplayGeneralData stores generic gameplay toggles.
+// GameplayGeneralData controls mission-wide damage and respawn behavior.
 type GameplayGeneralData struct {
-	// DisableBaseDamage disables damage to base-building structures.
+	// DisableBaseDamage prevents damage to structures built through the base-building system, such as fences and watchtowers.
 	DisableBaseDamage *bool `json:"disableBaseDamage,omitempty" yaml:"disableBaseDamage,omitempty"`
-	// DisableContainerDamage disables damage to containers (tents/barrels).
+	// DisableContainerDamage prevents damage to storage containers such as tents and barrels.
+	// It is separate from damage to base-building structures.
 	DisableContainerDamage *bool `json:"disableContainerDamage,omitempty" yaml:"disableContainerDamage,omitempty"`
-	// DisableRespawnDialog disables respawn dialog UI.
+	// DisableRespawnDialog removes the dialog that lets a player choose a respawn type after requesting respawn.
 	DisableRespawnDialog *bool `json:"disableRespawnDialog,omitempty" yaml:"disableRespawnDialog,omitempty"`
-	// DisableRespawnInUnconsciousness disables respawn while unconscious.
+	// DisableRespawnInUnconsciousness hides the pause-menu Respawn action while the player is unconscious, preventing respawn from that state.
 	DisableRespawnInUnconsciousness *bool `json:"disableRespawnInUnconsciousness,omitempty" yaml:"disableRespawnInUnconsciousness,omitempty"`
 }
 
-// GameplayPlayerData stores player movement and stamina settings.
+// GameplayPlayerData groups rules that affect a player's controls, movement, survival, and initial equipment.
 type GameplayPlayerData struct {
-	// DisablePersonalLight disables personal night light.
+	// DisablePersonalLight turns off the local light that normally illuminates nearby objects around a player at night.
 	DisablePersonalLight *bool `json:"disablePersonalLight,omitempty" yaml:"disablePersonalLight,omitempty"`
-	// StaminaData configures stamina consumption and limits.
+	// StaminaData sets the stamina pool and the rates at which common actions consume it, including sprinting, swimming, and climbing.
 	StaminaData *GameplayStaminaData `json:"StaminaData,omitempty" yaml:"StaminaData,omitempty"`
-	// ShockHandlingData configures shock refill behavior.
+	// ShockHandlingData sets how quickly shock recovers while conscious or unconscious and whether ammunition can modify that recovery.
 	ShockHandlingData *GameplayShockHandlingData `json:"ShockHandlingData,omitempty" yaml:"ShockHandlingData,omitempty"`
-	// MovementData configures inertia and turning values.
+	// MovementData sets transition times and turning rates for jogging and sprinting, and whether stamina affects movement inertia.
 	MovementData *GameplayMovementData `json:"MovementData,omitempty" yaml:"MovementData,omitempty"`
-	// DrowningData configures drowning depletion rates.
+	// DrowningData sets the per-second stamina, health, and shock loss while a character is drowning.
 	DrowningData *GameplayDrowningData `json:"DrowningData,omitempty" yaml:"DrowningData,omitempty"`
-	// WeaponObstructionData configures obstruction behavior modes.
+	// WeaponObstructionData selects how the game handles a weapon blocked by static scenery or by dynamic objects.
 	WeaponObstructionData *GameplayWeaponObstructionData `json:"WeaponObstructionData,omitempty" yaml:"WeaponObstructionData,omitempty"`
-	// SpawnGearPresetFiles lists player gear preset JSON files loaded from
-	// mission folder/subfolders. File names are arbitrary.
+	// SpawnGearPresetFiles lists mission-relative JSON files that define server spawn gear presets.
+	// Files may be in subdirectories; when the list is non-empty,
+	// these presets control character equipment at spawn and replace the usual StartingEquipSetup behavior.
 	SpawnGearPresetFiles []string `json:"spawnGearPresetFiles,omitempty" yaml:"spawnGearPresetFiles,omitempty"`
 }
 
-// GameplayStaminaData stores stamina settings.
+// GameplayStaminaData controls the stamina pool and action-specific stamina costs.
+// Modifiers scale the rate of consumption: increasing one makes the associated action consume stamina faster.
 type GameplayStaminaData struct {
-	// SprintStaminaModifierErc modifies sprint drain while erect.
+	// SprintStaminaModifierErc scales stamina consumption while sprinting upright.
 	SprintStaminaModifierErc *float64 `json:"sprintStaminaModifierErc,omitempty" yaml:"sprintStaminaModifierErc,omitempty"`
-	// SprintStaminaModifierCro modifies sprint drain while crouched.
+	// SprintStaminaModifierCro scales stamina consumption while sprinting crouched.
 	SprintStaminaModifierCro *float64 `json:"sprintStaminaModifierCro,omitempty" yaml:"sprintStaminaModifierCro,omitempty"`
-	// StaminaWeightLimitThreshold sets weight threshold before penalties.
+	// StaminaWeightLimitThreshold is the amount of stamina points, divided by 1000, excluded from the load-based reduction of maximum stamina.
 	StaminaWeightLimitThreshold *float64 `json:"staminaWeightLimitThreshold,omitempty" yaml:"staminaWeightLimitThreshold,omitempty"`
-	// StaminaMax sets max stamina points.
+	// StaminaMax sets the maximum stamina pool. Setting it to zero may produce unexpected results.
 	StaminaMax *float64 `json:"staminaMax,omitempty" yaml:"staminaMax,omitempty"`
-	// StaminaKgToStaminaPercentPenalty controls kg-to-penalty factor.
+	// StaminaKgToStaminaPercentPenalty scales the reduction of maximum stamina calculated from the character's carried load.
 	StaminaKgToStaminaPercentPenalty *float64 `json:"staminaKgToStaminaPercentPenalty,omitempty" yaml:"staminaKgToStaminaPercentPenalty,omitempty"`
-	// StaminaMinCap sets minimum stamina cap.
+	// StaminaMinCap sets the minimum size of the stamina cap. Setting it to zero may produce unexpected results.
 	StaminaMinCap *float64 `json:"staminaMinCap,omitempty" yaml:"staminaMinCap,omitempty"`
-	// SprintSwimmingStaminaModifier modifies swimming sprint drain.
+	// SprintSwimmingStaminaModifier scales stamina consumption during fast swimming.
 	SprintSwimmingStaminaModifier *float64 `json:"sprintSwimmingStaminaModifier,omitempty" yaml:"sprintSwimmingStaminaModifier,omitempty"`
-	// SprintLadderStaminaModifier modifies ladder sprint drain.
+	// SprintLadderStaminaModifier scales stamina consumption while climbing a ladder quickly.
 	SprintLadderStaminaModifier *float64 `json:"sprintLadderStaminaModifier,omitempty" yaml:"sprintLadderStaminaModifier,omitempty"`
-	// MeleeStaminaModifier modifies heavy melee stamina drain.
+	// MeleeStaminaModifier scales stamina consumption for heavy melee attacks and evasive moves.
 	MeleeStaminaModifier *float64 `json:"meleeStaminaModifier,omitempty" yaml:"meleeStaminaModifier,omitempty"`
-	// ObstacleTraversalStaminaModifier modifies jump/vault drain.
+	// ObstacleTraversalStaminaModifier scales stamina consumption when jumping, climbing, or vaulting over obstacles.
 	ObstacleTraversalStaminaModifier *float64 `json:"obstacleTraversalStaminaModifier,omitempty" yaml:"obstacleTraversalStaminaModifier,omitempty"`
-	// HoldBreathStaminaModifier modifies hold-breath stamina drain.
+	// HoldBreathStaminaModifier scales stamina consumption while holding breath.
 	HoldBreathStaminaModifier *float64 `json:"holdBreathStaminaModifier,omitempty" yaml:"holdBreathStaminaModifier,omitempty"`
 }
 
-// GameplayShockHandlingData stores shock refill settings.
+// GameplayShockHandlingData controls how quickly the player's shock value recovers in each consciousness state.
 type GameplayShockHandlingData struct {
-	// ShockRefillSpeedConscious is conscious refill speed per second.
+	// ShockRefillSpeedConscious sets shock recovery per second while the player is conscious.
 	ShockRefillSpeedConscious *float64 `json:"shockRefillSpeedConscious,omitempty" yaml:"shockRefillSpeedConscious,omitempty"`
-	// ShockRefillSpeedUnconscious is unconscious refill speed per second.
+	// ShockRefillSpeedUnconscious sets shock recovery per second while the player is unconscious.
 	ShockRefillSpeedUnconscious *float64 `json:"shockRefillSpeedUnconscious,omitempty" yaml:"shockRefillSpeedUnconscious,omitempty"`
-	// AllowRefillSpeedModifier enables ammo-type shock modifiers.
+	// AllowRefillSpeedModifier allows ammunition settings to modify shock recovery speed, which can change how quickly a shot player wakes up.
 	AllowRefillSpeedModifier *bool `json:"allowRefillSpeedModifier,omitempty" yaml:"allowRefillSpeedModifier,omitempty"`
 }
 
-// GameplayMovementData stores movement inertia settings.
+// GameplayMovementData controls how quickly jogging and sprinting movement transitions blend and how quickly the character can rotate.
+// Transition times and rotation speeds have a documented minimum of 0.01.
 type GameplayMovementData struct {
-	// TimeToStrafeJog is blend time for jogging strafe movement.
+	// TimeToStrafeJog sets the blend time for diagonal movement while jogging.
 	TimeToStrafeJog *float64 `json:"timeToStrafeJog,omitempty" yaml:"timeToStrafeJog,omitempty"`
-	// RotationSpeedJog is yaw rotation speed while jogging.
+	// RotationSpeedJog sets the character's rotation speed while jogging.
 	RotationSpeedJog *float64 `json:"rotationSpeedJog,omitempty" yaml:"rotationSpeedJog,omitempty"`
-	// TimeToSprint is blend time from jog to sprint.
+	// TimeToSprint sets the transition time from jogging to sprinting.
 	TimeToSprint *float64 `json:"timeToSprint,omitempty" yaml:"timeToSprint,omitempty"`
-	// TimeToStrafeSprint is blend time for sprint strafing.
+	// TimeToStrafeSprint sets the blend time for diagonal movement while sprinting.
 	TimeToStrafeSprint *float64 `json:"timeToStrafeSprint,omitempty" yaml:"timeToStrafeSprint,omitempty"`
-	// RotationSpeedSprint is yaw rotation speed while sprinting.
+	// RotationSpeedSprint sets the character's rotation speed while sprinting.
 	RotationSpeedSprint *float64 `json:"rotationSpeedSprint,omitempty" yaml:"rotationSpeedSprint,omitempty"`
-	// AllowStaminaAffectInertia enables stamina-inertia coupling.
+	// AllowStaminaAffectInertia lets the character's current stamina affect movement inertia.
 	AllowStaminaAffectInertia *bool `json:"allowStaminaAffectInertia,omitempty" yaml:"allowStaminaAffectInertia,omitempty"`
 }
 
-// GameplayDrowningData stores drowning depletion rates.
+// GameplayDrowningData sets how quickly player resources are depleted while drowning. Each speed is expressed as loss per second.
 type GameplayDrowningData struct {
-	// StaminaDepletionSpeed sets stamina loss per second in drowning.
+	// StaminaDepletionSpeed sets stamina points lost per second while drowning.
 	StaminaDepletionSpeed *float64 `json:"staminaDepletionSpeed,omitempty" yaml:"staminaDepletionSpeed,omitempty"`
-	// HealthDepletionSpeed sets health loss per second in drowning.
+	// HealthDepletionSpeed sets health lost per second while drowning.
 	HealthDepletionSpeed *float64 `json:"healthDepletionSpeed,omitempty" yaml:"healthDepletionSpeed,omitempty"`
-	// ShockDepletionSpeed sets shock loss per second in drowning.
+	// ShockDepletionSpeed sets shock lost per second while drowning.
 	ShockDepletionSpeed *float64 `json:"shockDepletionSpeed,omitempty" yaml:"shockDepletionSpeed,omitempty"`
 }
 
-// GameplayWeaponObstructionData stores obstruction mode settings.
+// GameplayWeaponObstructionData selects the response when an obstacle blocks a weapon.
+// Static objects are scenery; dynamic objects include entities that can move.
+// Mode 1 lets the weapon lift to clear the obstacle, while mode 2 keeps it obstructed.
 type GameplayWeaponObstructionData struct {
-	// StaticMode controls obstruction against static objects:
-	// 0=off, 1=obstruct+lift, 2=always obstruct.
+	// StaticMode selects obstruction handling for static objects:
+	//  - 0 does not obstruct but still lifts the weapon,
+	//  - 1 obstructs before lifting it,
+	//  - 2 always obstructs without lifting.
 	StaticMode *int `json:"staticMode,omitempty" yaml:"staticMode,omitempty"`
-	// DynamicMode controls obstruction against dynamic objects:
-	// 0=off, 1=obstruct+lift, 2=always obstruct.
+	// DynamicMode selects obstruction handling for dynamic objects:
+	//  - 0 does not obstruct but still lifts the weapon,
+	//  - 1 obstructs before lifting it,
+	//  - 2 always obstructs without lifting.
 	DynamicMode *int `json:"dynamicMode,omitempty" yaml:"dynamicMode,omitempty"`
 }
 
-// GameplayWorldsData stores world-level gameplay settings.
+// GameplayWorldsData controls environment behavior and additional world configuration files loaded by the mission.
 type GameplayWorldsData struct {
-	// LightingConfig selects night lighting mode (0=bright, 1=dark).
+	// BunkerBroadcastEnabled controls Morse-code broadcasts associated with discovering the bunker.
+	BunkerBroadcastEnabled *bool `json:"bunkerBroadcastEnabled,omitempty" yaml:"bunkerBroadcastEnabled,omitempty"`
+	// LightingConfig selects the night lighting preset: 0 is brighter and 1 is darker. World-specific settings may define additional values.
 	LightingConfig *int `json:"lightingConfig,omitempty" yaml:"lightingConfig,omitempty"`
-	// ObjectSpawnersArr lists object spawner config files.
+	// ObjectSpawnersArr lists mission-relative JSON files containing object spawner data. An empty or omitted list loads no custom spawner files.
 	ObjectSpawnersArr []string `json:"objectSpawnersArr,omitempty" yaml:"objectSpawnersArr,omitempty"`
-	// EnvironmentMinTemps stores monthly minimum temperatures (12 values).
+	// EnvironmentMinTemps sets the minimum ambient temperature for each month, ordered January through December.
+	// The game expects exactly 12 values.
 	EnvironmentMinTemps []float64 `json:"environmentMinTemps,omitempty" yaml:"environmentMinTemps,omitempty"`
-	// EnvironmentMaxTemps stores monthly maximum temperatures (12 values).
+	// EnvironmentMaxTemps sets the maximum ambient temperature for each month, ordered January through December.
+	// The game expects exactly 12 values.
 	EnvironmentMaxTemps []float64 `json:"environmentMaxTemps,omitempty" yaml:"environmentMaxTemps,omitempty"`
-	// WetnessWeightModifiers stores wetness-to-weight multipliers.
+	// WetnessWeightModifiers scales item weight at the five wetness levels, in order: dry, damp, wet, soaked, and drenched.
 	WetnessWeightModifiers []float64 `json:"wetnessWeightModifiers,omitempty" yaml:"wetnessWeightModifiers,omitempty"`
-	// PlayerRestrictedAreaFiles lists player restricted area config files.
+	// PlayerRestrictedAreaFiles lists mission-relative JSON files that define areas with player restrictions.
+	// A non-empty list enables loading them.
 	PlayerRestrictedAreaFiles []string `json:"playerRestrictedAreaFiles,omitempty" yaml:"playerRestrictedAreaFiles,omitempty"`
 }
 
-// GameplayBaseBuildingData stores base building restriction settings.
+// GameplayBaseBuildingData separates checks performed while placing an object hologram from checks performed when the construction action is completed.
 type GameplayBaseBuildingData struct {
-	// HologramData configures placement checks for holograms.
+	// HologramData controls preview-time placement checks. These checks decide whether the hologram is considered a valid placement before construction.
 	HologramData *GameplayHologramData `json:"HologramData,omitempty" yaml:"HologramData,omitempty"`
-	// ConstructionData configures checks for construction phase.
+	// ConstructionData controls checks and item handling during construction, after the placement preview has been accepted.
 	ConstructionData *GameplayConstructionData `json:"ConstructionData,omitempty" yaml:"ConstructionData,omitempty"`
 }
 
-// GameplayHologramData stores hologram placement check toggles.
+// GameplayHologramData controls validation performed while positioning a base-building hologram.
+// Each Disable field bypasses one named placement check, allowing placement in situations that check would reject.
 type GameplayHologramData struct {
-	// DisableIsCollidingBBoxCheck allows placement despite bbox overlap.
+	// DisableIsCollidingBBoxCheck permits placement when the hologram's bounding box overlaps objects in the world.
 	DisableIsCollidingBBoxCheck *bool `json:"disableIsCollidingBBoxCheck,omitempty" yaml:"disableIsCollidingBBoxCheck,omitempty"`
-	// DisableIsCollidingPlayerCheck allows placement despite player overlap.
+	// DisableIsCollidingPlayerCheck permits placement when the hologram overlaps a player.
 	DisableIsCollidingPlayerCheck *bool `json:"disableIsCollidingPlayerCheck,omitempty" yaml:"disableIsCollidingPlayerCheck,omitempty"`
-	// DisableIsClippingRoofCheck allows clipping through roofs.
+	// DisableIsClippingRoofCheck permits placement that would clip through a roof.
 	DisableIsClippingRoofCheck *bool `json:"disableIsClippingRoofCheck,omitempty" yaml:"disableIsClippingRoofCheck,omitempty"`
-	// DisableIsBaseViableCheck allows otherwise invalid base surfaces.
+	// DisableIsBaseViableCheck permits placement on dynamic objects or other surfaces that the game would otherwise reject as unsuitable.
 	DisableIsBaseViableCheck *bool `json:"disableIsBaseViableCheck,omitempty" yaml:"disableIsBaseViableCheck,omitempty"`
-	// DisableIsCollidingGPlotCheck allows garden plot collisions.
+	// DisableIsCollidingGPlotCheck permits garden plots on surface types that are normally incompatible.
 	DisableIsCollidingGPlotCheck *bool `json:"disableIsCollidingGPlotCheck,omitempty" yaml:"disableIsCollidingGPlotCheck,omitempty"`
-	// DisableIsCollidingAngleCheck allows placement beyond angle limits.
+	// DisableIsCollidingAngleCheck permits placement even when its roll, pitch, or yaw exceeds the normal angle limits.
 	DisableIsCollidingAngleCheck *bool `json:"disableIsCollidingAngleCheck,omitempty" yaml:"disableIsCollidingAngleCheck,omitempty"`
-	// DisableIsPlacementPermittedCheck allows placement when denied by checks.
+	// DisableIsPlacementPermittedCheck bypasses the general permission check that can reject a placement after the basic placement checks.
 	DisableIsPlacementPermittedCheck *bool `json:"disableIsPlacementPermittedCheck,omitempty" yaml:"disableIsPlacementPermittedCheck,omitempty"`
-	// DisableHeightPlacementCheck allows placement with limited height space.
+	// DisableHeightPlacementCheck permits placement when there is not enough vertical clearance for the object.
 	DisableHeightPlacementCheck *bool `json:"disableHeightPlacementCheck,omitempty" yaml:"disableHeightPlacementCheck,omitempty"`
-	// DisableIsUnderwaterCheck allows underwater placement.
+	// DisableIsUnderwaterCheck permits placement below the water surface.
 	DisableIsUnderwaterCheck *bool `json:"disableIsUnderwaterCheck,omitempty" yaml:"disableIsUnderwaterCheck,omitempty"`
-	// DisableIsInTerrainCheck allows placement intersecting terrain.
+	// DisableIsInTerrainCheck permits placement when the object intersects the terrain.
 	DisableIsInTerrainCheck *bool `json:"disableIsInTerrainCheck,omitempty" yaml:"disableIsInTerrainCheck,omitempty"`
-	// DisableColdAreaBuildingCheck is old key name used by some worlds.
+	// DisableColdAreaBuildingCheck is the legacy spelling found in some official mission files.
+	// The current gameplay script uses DisableColdAreaPlacementCheck for this rule.
 	DisableColdAreaBuildingCheck *bool `json:"disableColdAreaBuildingCheck,omitempty" yaml:"disableColdAreaBuildingCheck,omitempty"`
-	// DisableColdAreaPlacementCheck is new key name used by some worlds.
+	// DisableColdAreaPlacementCheck permits garden-plot placement on frozen ground.
+	// This is the key exposed by the current gameplay script.
 	DisableColdAreaPlacementCheck *bool `json:"disableColdAreaPlacementCheck,omitempty" yaml:"disableColdAreaPlacementCheck,omitempty"`
-	// DisallowedTypesInUnderground blocks listed kits in underground.
+	// DisallowedTypesInUnderground lists item types that cannot be placed in underground areas.
+	// The restriction also applies to inherited types.
 	DisallowedTypesInUnderground []string `json:"disallowedTypesInUnderground,omitempty" yaml:"disallowedTypesInUnderground,omitempty"`
 }
 
-// GameplayConstructionData stores construction check toggles.
+// GameplayConstructionData controls validation and item handling while a player completes base construction.
+// These settings are distinct from the checks used to position the hologram.
 type GameplayConstructionData struct {
-	// DisablePerformRoofCheck allows construction clipping through roof.
+	// DisablePerformRoofCheck permits construction that clips through a roof.
 	DisablePerformRoofCheck *bool `json:"disablePerformRoofCheck,omitempty" yaml:"disablePerformRoofCheck,omitempty"`
-	// DisableIsCollidingCheck allows construction despite collisions.
+	// DisableIsCollidingCheck permits construction when the object collides with objects in the world.
 	DisableIsCollidingCheck *bool `json:"disableIsCollidingCheck,omitempty" yaml:"disableIsCollidingCheck,omitempty"`
-	// DisableDistanceCheck disables range restriction checks.
+	// DisableDistanceCheck bypasses the normal distance restriction applied to the player during construction.
 	DisableDistanceCheck *bool `json:"disableDistanceCheck,omitempty" yaml:"disableDistanceCheck,omitempty"`
+	// DisableItemFalling prevents construction items dropped during the construction process from falling.
+	DisableItemFalling *bool `json:"disableItemFalling,omitempty" yaml:"disableItemFalling,omitempty"`
+	// DisableDropAttachmentsOnFall keeps attached items on a construction object when it falls.
+	DisableDropAttachmentsOnFall *bool `json:"disableDropAttachmentsOnFall,omitempty" yaml:"disableDropAttachmentsOnFall,omitempty"`
+	// DisableRefundMaterialsOnFall prevents construction materials from being refunded when the construction object falls.
+	DisableRefundMaterialsOnFall *bool `json:"disableRefundMaterialsOnFall,omitempty" yaml:"disableRefundMaterialsOnFall,omitempty"`
 }
 
-// GameplayUIData stores UI-specific settings.
+// GameplayUIData controls interface features that affect gameplay feedback or navigation.
 type GameplayUIData struct {
-	// Use3DMap enables only 3D map behavior.
+	// Use3DMap enables the 3D map and disables the default 2D map overlay.
 	Use3DMap *bool `json:"use3DMap,omitempty" yaml:"use3DMap,omitempty"`
-	// HitIndicationData configures hit indicator rendering.
+	// HitIndicationData configures the direction marker shown when the player takes damage, including its appearance and timing.
 	HitIndicationData *GameplayHitIndicationData `json:"HitIndicationData,omitempty" yaml:"HitIndicationData,omitempty"`
 }
 
-// GameplayHitIndicationData stores hit indicator settings.
+// GameplayHitIndicationData controls the directional damage indicator.
+// The game uses this section only when HitDirectionOverrideEnabled is true.
 type GameplayHitIndicationData struct {
-	// HitDirectionOverrideEnabled enables this section override.
+	// HitDirectionOverrideEnabled tells the game to use the values in this section.
+	// Unspecified fields are treated as zero when the section is used.
 	HitDirectionOverrideEnabled *bool `json:"hitDirectionOverrideEnabled,omitempty" yaml:"hitDirectionOverrideEnabled,omitempty"`
-	// HitDirectionBehaviour selects behavior mode:
-	// 0=disabled, 1=static, 2=dynamic.
+	// HitDirectionBehaviour selects indicator motion:
+	//   - 0 disables it,
+	//   - 1 keeps it static,
+	//   - 2 uses the moving dynamic behavior.
 	HitDirectionBehaviour *int `json:"hitDirectionBehaviour,omitempty" yaml:"hitDirectionBehaviour,omitempty"`
-	// HitDirectionStyle selects style preset:
-	// 0=splash, 1=spike, 2=arrow.
+	// HitDirectionStyle selects the indicator graphic: 0 splash, 1 spike, or 2 arrow.
 	HitDirectionStyle *int `json:"hitDirectionStyle,omitempty" yaml:"hitDirectionStyle,omitempty"`
-	// HitDirectionIndicatorColorStr stores ARGB color string.
+	// HitDirectionIndicatorColorStr sets the indicator color as a hexadecimal ARGB string, for example `0xFFBB0A1E`.
 	HitDirectionIndicatorColorStr *string `json:"hitDirectionIndicatorColorStr,omitempty" yaml:"hitDirectionIndicatorColorStr,omitempty"`
-	// HitDirectionMaxDuration sets maximum display duration.
+	// HitDirectionMaxDuration sets the upper bound for how long the indicator is displayed.
+	// Actual duration varies with hit severity and is between 60% and 100% of this value.
 	HitDirectionMaxDuration *float64 `json:"hitDirectionMaxDuration,omitempty" yaml:"hitDirectionMaxDuration,omitempty"`
-	// HitDirectionBreakPointRelative sets fade-start fraction.
+	// HitDirectionBreakPointRelative is the fraction of the actual display duration after which the indicator starts fading.
+	// 0 fades immediately; 1 leaves no time for fading.
 	HitDirectionBreakPointRelative *float64 `json:"hitDirectionBreakPointRelative,omitempty" yaml:"hitDirectionBreakPointRelative,omitempty"`
-	// HitDirectionScatter sets randomized directional inaccuracy.
+	// HitDirectionScatter is the maximum random angular offset applied to the indicated hit direction. The offset is randomized in both directions.
 	HitDirectionScatter *float64 `json:"hitDirectionScatter,omitempty" yaml:"hitDirectionScatter,omitempty"`
-	// HitIndicationPostProcessEnabled toggles postprocess effect.
+	// HitIndicationPostProcessEnabled controls the legacy red-flash postprocess effect that appears when the player is hit.
 	HitIndicationPostProcessEnabled *bool `json:"hitIndicationPostProcessEnabled,omitempty" yaml:"hitIndicationPostProcessEnabled,omitempty"`
 }
 
-// GameplayMapData stores map ownership/navigation settings.
+// GameplayMapData controls map access and the navigation information shown on the map interface.
 type GameplayMapData struct {
-	// IgnoreMapOwnership allows opening map without owning map item.
+	// IgnoreMapOwnership allows the player to open the map without carrying a map item.
 	IgnoreMapOwnership *bool `json:"ignoreMapOwnership,omitempty" yaml:"ignoreMapOwnership,omitempty"`
-	// IgnoreNavItemsOwnership bypasses compass/GPS ownership checks.
+	// IgnoreNavItemsOwnership allows map navigation helpers without requiring a compass or GPS receiver.
 	IgnoreNavItemsOwnership *bool `json:"ignoreNavItemsOwnership,omitempty" yaml:"ignoreNavItemsOwnership,omitempty"`
-	// DisplayPlayerPosition toggles red player marker on map.
+	// DisplayPlayerPosition shows the player's red position marker and heading on the map.
 	DisplayPlayerPosition *bool `json:"displayPlayerPosition,omitempty" yaml:"displayPlayerPosition,omitempty"`
-	// DisplayNavInfo toggles nav helper display on map.
+	// DisplayNavInfo controls whether compass and GPS information appears in the map legend, including when the player carries those items.
 	DisplayNavInfo *bool `json:"displayNavInfo,omitempty" yaml:"displayNavInfo,omitempty"`
 }
 
-// GameplayVehicleData stores vehicle-related settings.
+// GameplayVehicleData controls vehicle decay and wheel behavior.
+// Wheel fields apply to attached wheels; they do not determine whether a vehicle accepts a particular wheel type.
 type GameplayVehicleData struct {
-	// BoatDecayMultiplier multiplies decay speed for boats.
+	// BoatDecayMultiplier scales how quickly boats decay.
+	// A larger multiplier makes decay faster; 1 leaves the normal rate unchanged.
 	BoatDecayMultiplier *float64 `json:"boatDecayMultiplier,omitempty" yaml:"boatDecayMultiplier,omitempty"`
+	// CanDetachAttachedCarWheels allows attached car wheels to detach.
+	CanDetachAttachedCarWheels *bool `json:"canDetachAttachedCarWheels,omitempty" yaml:"canDetachAttachedCarWheels,omitempty"`
+	// CanDamageAttachedCarWheels allows damage to reduce the condition of wheels attached to cars.
+	CanDamageAttachedCarWheels *bool `json:"canDamageAttachedCarWheels,omitempty" yaml:"canDamageAttachedCarWheels,omitempty"`
+	// CanDetachAttachedBikeWheels allows attached motorcycle wheels to detach.
+	CanDetachAttachedBikeWheels *bool `json:"canDetachAttachedBikeWheels,omitempty" yaml:"canDetachAttachedBikeWheels,omitempty"`
+	// CanDamageAttachedBikeWheels allows damage to reduce the condition of wheels attached to motorcycles.
+	CanDamageAttachedBikeWheels *bool `json:"canDamageAttachedBikeWheels,omitempty" yaml:"canDamageAttachedBikeWheels,omitempty"`
+}
+
+// GameplayExternalLockData controls temporary lockouts after failed attempts to open an external lock.
+// Thresholds count failed attempts; durations are expressed in seconds.
+type GameplayExternalLockData struct {
+	// ProtectionCountStageOne sets the number of failed attempts before the first protection stage is applied.
+	ProtectionCountStageOne *int `json:"protectionCountStageOne,omitempty" yaml:"protectionCountStageOne,omitempty"`
+	// ProtectionCountStageTwo sets the number of failed attempts before the second protection stage is applied.
+	ProtectionCountStageTwo *int `json:"protectionCountStageTwo,omitempty" yaml:"protectionCountStageTwo,omitempty"`
+	// ProtectionTime sets the duration of the protection lockout in seconds.
+	ProtectionTime *float64 `json:"protectionTime,omitempty" yaml:"protectionTime,omitempty"`
+	// ProtectionResetTime sets how long the failed-attempt counter remains active before it is reset, in seconds.
+	ProtectionResetTime *float64 `json:"protectionResetTime,omitempty" yaml:"protectionResetTime,omitempty"`
+}
+
+// GameplaySandstormData controls the occurrence rate of sandstorms.
+type GameplaySandstormData struct {
+	// SandstormFrequency sets how often sandstorms occur:
+	//  - 0 disables them,
+	//  - 1 uses the normal rate,
+	//  - 2 makes them occur twice as often.
+	SandstormFrequency *float64 `json:"sandstormFrequency,omitempty" yaml:"sandstormFrequency,omitempty"`
 }
