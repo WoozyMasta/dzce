@@ -64,10 +64,11 @@ func newAreaFlagsWordLayout(
 
 	wordsPerRow := width / slotsPerWord
 	wordCount := uint64(wordsPerRow) * uint64(height)
-	byteSize64 := wordCount * 4
-	if byteSize64 > uint64(^uint(0)>>1) {
+	maxInt := uint64(^uint(0) >> 1)
+	if wordCount > maxInt/4 {
 		return layout, errors.New("packed section size overflow")
 	}
+	byteSize64 := wordCount * 4
 
 	mask := ^uint32(0)
 	if bitsPerPixel < 32 {

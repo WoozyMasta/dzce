@@ -57,25 +57,25 @@ func DecodeAreaFlagsMap(data []byte) (*AreaFlagsMapFile, error) {
 	}
 
 	usageDataStart := areaFlagsFixedHeaderSize + areaFlagsSectionBitsSize
-	usageDataEnd := usageDataStart + usageLayout.sectionByteSize
-	if usageDataEnd > len(data) {
+	if usageLayout.sectionByteSize > len(data)-usageDataStart {
 		return nil, fmt.Errorf(
 			"area flags payload too short for usage section: payload=%d need=%d",
 			len(data)-usageDataStart,
 			usageLayout.sectionByteSize,
 		)
 	}
+	usageDataEnd := usageDataStart + usageLayout.sectionByteSize
 
 	usageData := data[usageDataStart:usageDataEnd]
 	valueBitsStart := usageDataEnd
-	valueBitsEnd := valueBitsStart + areaFlagsSectionBitsSize
-	if valueBitsEnd > len(data) {
+	if areaFlagsSectionBitsSize > len(data)-valueBitsStart {
 		return nil, fmt.Errorf(
 			"area flags payload too short for value bit depth marker: payload=%d need=%d",
 			len(data)-valueBitsStart,
 			areaFlagsSectionBitsSize,
 		)
 	}
+	valueBitsEnd := valueBitsStart + areaFlagsSectionBitsSize
 
 	valueBits := binary.LittleEndian.Uint32(data[valueBitsStart:valueBitsEnd])
 	if valueBits > 32 {
@@ -84,7 +84,6 @@ func DecodeAreaFlagsMap(data []byte) (*AreaFlagsMapFile, error) {
 
 	var valueLayout areaFlagsWordLayout
 	valueDataStart := valueBitsEnd
-	valueDataEnd := valueDataStart
 	if valueBits != 0 {
 		valueLayout, err = newAreaFlagsWordLayout(
 			header.LayerWidth,
@@ -94,19 +93,16 @@ func DecodeAreaFlagsMap(data []byte) (*AreaFlagsMapFile, error) {
 		if err != nil {
 			return nil, err
 		}
-
-		valueDataEnd += valueLayout.sectionByteSize
-	} else {
-		valueLayout.sectionByteSize = 0
 	}
 
-	if valueDataEnd > len(data) {
+	if valueLayout.sectionByteSize > len(data)-valueDataStart {
 		return nil, fmt.Errorf(
 			"area flags payload too short for value section: payload=%d need=%d",
 			len(data)-valueDataStart,
 			valueLayout.sectionByteSize,
 		)
 	}
+	valueDataEnd := valueDataStart + valueLayout.sectionByteSize
 
 	if valueDataEnd != len(data) {
 		return nil, fmt.Errorf(

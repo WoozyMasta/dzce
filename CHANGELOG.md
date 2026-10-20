@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning][].
 * Models current official mission JSON and XML schemas and validates
   `areaflags.map` files in integration tests.
 
+### Fixed
+
+* Rejects overflowing `areaflags.map` section sizes before allocating layers.
+
 ## [0.2.0][] - 2026-04-07
 
 ### Added
