@@ -3,6 +3,8 @@
 
 # cfgeventspawns.xml schema reference
 
+Mission file: `cfgeventspawns.xml`.
+
 * Source file: [`schemas/event-spawns.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/event-spawns.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/event-spawns.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/event-spawns-file`

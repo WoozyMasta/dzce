@@ -7,6 +7,7 @@ mod2schema:
   type: TypesFile
 schema2doc:
   title: db/types.xml schema reference
+  description: "Mission file: `db/types.xml`."
   template: table
   output: docs/schemas/types.md
 ---
@@ -17,6 +18,7 @@ mod2schema:
   type: EventsFile
 schema2doc:
   title: db/events.xml schema reference
+  description: "Mission file: `db/events.xml`."
   template: table
   output: docs/schemas/events.md
 ---
@@ -27,6 +29,7 @@ mod2schema:
   type: EconomyFile
 schema2doc:
   title: db/economy.xml schema reference
+  description: "Mission file: `db/economy.xml`."
   template: table
   output: docs/schemas/economy.md
 ---
@@ -37,6 +40,7 @@ mod2schema:
   type: GlobalsFile
 schema2doc:
   title: db/globals.xml schema reference
+  description: "Mission file: `db/globals.xml`."
   template: table
   output: docs/schemas/globals.md
 ---
@@ -47,6 +51,7 @@ mod2schema:
   type: MessagesFile
 schema2doc:
   title: db/messages.xml schema reference
+  description: "Mission file: `db/messages.xml`."
   template: table
   output: docs/schemas/messages.md
 ---
@@ -57,6 +62,7 @@ mod2schema:
   type: SpawnableTypesFile
 schema2doc:
   title: cfgspawnabletypes.xml schema reference
+  description: "Mission file: `cfgspawnabletypes.xml`."
   template: table
   output: docs/schemas/spawnable-types.md
 ---
@@ -67,6 +73,7 @@ mod2schema:
   type: RandomPresetsFile
 schema2doc:
   title: cfgrandompresets.xml schema reference
+  description: "Mission file: `cfgrandompresets.xml`."
   template: table
   output: docs/schemas/random-presets.md
 ---
@@ -77,6 +84,7 @@ mod2schema:
   type: EconomyCoreFile
 schema2doc:
   title: cfgeconomycore.xml schema reference
+  description: "Mission file: `cfgeconomycore.xml`."
   template: table
   output: docs/schemas/economy-core.md
 ---
@@ -87,6 +95,7 @@ mod2schema:
   type: EnvironmentFile
 schema2doc:
   title: cfgenvironment.xml schema reference
+  description: "Mission file: `cfgenvironment.xml`."
   template: table
   output: docs/schemas/environment.md
 ---
@@ -97,6 +106,7 @@ mod2schema:
   type: EventSpawnsFile
 schema2doc:
   title: cfgeventspawns.xml schema reference
+  description: "Mission file: `cfgeventspawns.xml`."
   template: table
   output: docs/schemas/event-spawns.md
 ---
@@ -107,6 +117,7 @@ mod2schema:
   type: EventGroupsFile
 schema2doc:
   title: cfgeventgroups.xml schema reference
+  description: "Mission file: `cfgeventgroups.xml`."
   template: table
   output: docs/schemas/event-groups.md
 ---
@@ -117,6 +128,7 @@ mod2schema:
   type: PlayerSpawnPointsFile
 schema2doc:
   title: cfgplayerspawnpoints.xml schema reference
+  description: "Mission file: `cfgplayerspawnpoints.xml`."
   template: table
   output: docs/schemas/player-spawn-points.md
 ---
@@ -127,6 +139,7 @@ mod2schema:
   type: WeatherFile
 schema2doc:
   title: cfgweather.xml schema reference
+  description: "Mission file: `cfgweather.xml`."
   template: table
   output: docs/schemas/weather.md
 ---
@@ -137,6 +150,7 @@ mod2schema:
   type: LimitsDefinitionFile
 schema2doc:
   title: cfglimitsdefinition.xml schema reference
+  description: "Mission file: `cfglimitsdefinition.xml`."
   template: table
   output: docs/schemas/limits-definition.md
 ---
@@ -147,6 +161,7 @@ mod2schema:
   type: LimitsDefinitionUserFile
 schema2doc:
   title: cfglimitsdefinitionuser.xml schema reference
+  description: "Mission file: `cfglimitsdefinitionuser.xml`."
   template: table
   output: docs/schemas/limits-definition-user.md
 ---
@@ -157,6 +172,7 @@ mod2schema:
   type: IgnoreListFile
 schema2doc:
   title: cfgignorelist.xml schema reference
+  description: "Mission file: `cfgignorelist.xml`."
   template: table
   output: docs/schemas/ignore-list.md
 ---
@@ -167,6 +183,7 @@ mod2schema:
   type: TerritoryFile
 schema2doc:
   title: env/*_territories.xml schema reference
+  description: "Mission files matching `env/*_territories.xml`, referenced by `cfgenvironment.xml`."
   template: table
   output: docs/schemas/territory.md
 ---
@@ -177,6 +194,7 @@ mod2schema:
   type: MapGroupProtoFile
 schema2doc:
   title: mapgroupproto.xml schema reference
+  description: "Mission file: `mapgroupproto.xml`."
   template: table
   output: docs/schemas/map-group-proto.md
 ---
@@ -187,6 +205,7 @@ mod2schema:
   type: MapClusterProtoFile
 schema2doc:
   title: mapclusterproto.xml schema reference
+  description: "Mission file: `mapclusterproto.xml`."
   template: table
   output: docs/schemas/map-cluster-proto.md
 ---
@@ -197,6 +216,7 @@ mod2schema:
   type: MapGroupPosFile
 schema2doc:
   title: mapgrouppos.xml schema reference
+  description: "Mission file: `mapgrouppos.xml`."
   template: table
   output: docs/schemas/map-group-pos.md
 ---
@@ -207,6 +227,7 @@ mod2schema:
   type: MapGroupDirtFile
 schema2doc:
   title: mapgroupdirt.xml schema reference
+  description: "Mission file: `mapgroupdirt.xml`."
   template: table
   output: docs/schemas/map-group-dirt.md
 ---
@@ -217,6 +238,7 @@ mod2schema:
   type: MapGroupClusterFile
 schema2doc:
   title: mapgroupcluster*.xml schema reference
+  description: "Mission files matching `mapgroupcluster*.xml`."
   template: table
   output: docs/schemas/map-group-cluster.md
 ---
@@ -227,6 +249,7 @@ mod2schema:
   type: CEProjectConfigFile
 schema2doc:
   title: CEProject mapname.xml schema reference
+  description: "CEProject project file named `<mapname>.xml`."
   template: table
   output: docs/schemas/ce-project-config.md
 ---
@@ -237,6 +260,7 @@ mod2schema:
   type: UndergroundTriggersFile
 schema2doc:
   title: cfgundergroundtriggers.json schema reference
+  description: "Mission file: `cfgundergroundtriggers.json`."
   template: table
   output: docs/schemas/underground-triggers.md
 ---
@@ -247,6 +271,7 @@ mod2schema:
   type: EffectAreaFile
 schema2doc:
   title: cfgeffectarea.json schema reference
+  description: "Mission file: `cfgeffectarea.json`."
   template: table
   output: docs/schemas/effect-area.md
 ---
@@ -257,6 +282,7 @@ mod2schema:
   type: GameplayFile
 schema2doc:
   title: cfggameplay.json schema reference
+  description: "Mission file: `cfggameplay.json`."
   template: table
   output: docs/schemas/gameplay.md
 ---
@@ -267,6 +293,7 @@ mod2schema:
   type: BunkerBroadcastFile
 schema2doc:
   title: cfgbunkerbroadcast.json schema reference
+  description: "Mission file: `cfgbunkerbroadcast.json`; enabled by `bunkerBroadcastEnabled` in `cfggameplay.json`."
   template: table
   output: docs/schemas/bunker-broadcast.md
 ---
@@ -277,6 +304,7 @@ mod2schema:
   type: ExternalLocksFile
 schema2doc:
   title: cfgexternallocks.json schema reference
+  description: "Mission file: `cfgexternallocks.json`."
   template: table
   output: docs/schemas/external-locks.md
 ---
@@ -287,6 +315,7 @@ mod2schema:
   type: GameplayGearPresetsFile
 schema2doc:
   title: Gameplay gear preset JSON schema reference
+  description: "Mission-relative JSON files listed in `cfggameplay.json` under `PlayerData.spawnGearPresetFiles`."
   template: table
   output: docs/schemas/gameplay-gear-presets.md
 ---
@@ -297,6 +326,7 @@ mod2schema:
   type: ObjectSpawnerFile
 schema2doc:
   title: Object spawner JSON schema reference
+  description: "Mission-relative JSON files listed in `cfggameplay.json` under `WorldsData.objectSpawnersArr`."
   template: table
   output: docs/schemas/object-spawner.md
 ---
@@ -307,5 +337,6 @@ mod2schema:
   type: PlayerRestrictedAreaFile
 schema2doc:
   title: Player restricted area JSON schema reference
+  description: "Mission-relative JSON files listed in `cfggameplay.json` under `WorldsData.playerRestrictedAreaFiles`."
   template: table
   output: docs/schemas/player-restricted-area.md

@@ -3,6 +3,8 @@
 
 # cfgenvironment.xml schema reference
 
+Mission file: `cfgenvironment.xml`.
+
 * Source file: [`schemas/environment.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/environment.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/environment.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/environment-file`

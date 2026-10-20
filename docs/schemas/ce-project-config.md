@@ -3,6 +3,8 @@
 
 # CEProject mapname.xml schema reference
 
+CEProject project file named `<mapname>.xml`.
+
 * Source file: [`schemas/ce-project-config.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/ce-project-config.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/ce-project-config.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/ce-project-config-file`

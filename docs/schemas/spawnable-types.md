@@ -3,6 +3,8 @@
 
 # cfgspawnabletypes.xml schema reference
 
+Mission file: `cfgspawnabletypes.xml`.
+
 * Source file: [`schemas/spawnable-types.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/spawnable-types.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/spawnable-types.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/spawnable-types-file`

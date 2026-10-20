@@ -3,6 +3,8 @@
 
 # mapgroupproto.xml schema reference
 
+Mission file: `mapgroupproto.xml`.
+
 * Source file: [`schemas/map-group-proto.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/map-group-proto.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/map-group-proto.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/map-group-proto-file`

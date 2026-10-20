@@ -3,6 +3,8 @@
 
 # mapgroupdirt.xml schema reference
 
+Mission file: `mapgroupdirt.xml`.
+
 * Source file: [`schemas/map-group-dirt.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/map-group-dirt.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/map-group-dirt.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/map-group-dirt-file`

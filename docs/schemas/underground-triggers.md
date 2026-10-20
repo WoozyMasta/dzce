@@ -3,6 +3,8 @@
 
 # cfgundergroundtriggers.json schema reference
 
+Mission file: `cfgundergroundtriggers.json`.
+
 * Source file: [`schemas/underground-triggers.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/underground-triggers.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/underground-triggers.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/underground-triggers-file`

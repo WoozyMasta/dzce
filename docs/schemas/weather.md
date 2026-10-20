@@ -3,6 +3,8 @@
 
 # cfgweather.xml schema reference
 
+Mission file: `cfgweather.xml`.
+
 * Source file: [`schemas/weather.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/weather.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/weather.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/weather-file`

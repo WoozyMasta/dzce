@@ -3,6 +3,8 @@
 
 # cfgignorelist.xml schema reference
 
+Mission file: `cfgignorelist.xml`.
+
 * Source file: [`schemas/ignore-list.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/ignore-list.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/ignore-list.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/ignore-list-file`

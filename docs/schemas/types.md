@@ -3,6 +3,8 @@
 
 # db/types.xml schema reference
 
+Mission file: `db/types.xml`.
+
 * Source file: [`schemas/types.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/types.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/types.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/types-file`

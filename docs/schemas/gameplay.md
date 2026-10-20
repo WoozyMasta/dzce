@@ -3,6 +3,8 @@
 
 # cfggameplay.json schema reference
 
+Mission file: `cfggameplay.json`.
+
 * Source file: [`schemas/gameplay.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/gameplay.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/gameplay.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/gameplay-file`

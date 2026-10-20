@@ -3,6 +3,8 @@
 
 # cfgeffectarea.json schema reference
 
+Mission file: `cfgeffectarea.json`.
+
 * Source file: [`schemas/effect-area.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/effect-area.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/effect-area.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/effect-area-file`

@@ -3,6 +3,8 @@
 
 # Gameplay gear preset JSON schema reference
 
+Mission-relative JSON files listed in `cfggameplay.json` under `PlayerData.spawnGearPresetFiles`.
+
 * Source file: [`schemas/gameplay-gear-presets.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/gameplay-gear-presets.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/gameplay-gear-presets.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/gameplay-gear-presets-file`

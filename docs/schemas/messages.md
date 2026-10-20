@@ -3,6 +3,8 @@
 
 # db/messages.xml schema reference
 
+Mission file: `db/messages.xml`.
+
 * Source file: [`schemas/messages.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/messages.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/messages.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/messages-file`

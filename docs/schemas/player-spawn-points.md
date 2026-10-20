@@ -3,6 +3,8 @@
 
 # cfgplayerspawnpoints.xml schema reference
 
+Mission file: `cfgplayerspawnpoints.xml`.
+
 * Source file: [`schemas/player-spawn-points.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/player-spawn-points.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/player-spawn-points.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/player-spawn-points-file`

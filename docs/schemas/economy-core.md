@@ -3,6 +3,8 @@
 
 # cfgeconomycore.xml schema reference
 
+Mission file: `cfgeconomycore.xml`.
+
 * Source file: [`schemas/economy-core.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/economy-core.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/economy-core.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/economy-core-file`

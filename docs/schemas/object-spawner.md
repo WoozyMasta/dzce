@@ -3,6 +3,8 @@
 
 # Object spawner JSON schema reference
 
+Mission-relative JSON files listed in `cfggameplay.json` under `WorldsData.objectSpawnersArr`.
+
 * Source file: [`schemas/object-spawner.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/object-spawner.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/object-spawner.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/object-spawner-file`

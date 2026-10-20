@@ -3,6 +3,8 @@
 
 # cfgexternallocks.json schema reference
 
+Mission file: `cfgexternallocks.json`.
+
 * Source file: [`schemas/external-locks.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/external-locks.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/external-locks.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/external-locks-file`

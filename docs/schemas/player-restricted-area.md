@@ -3,6 +3,8 @@
 
 # Player restricted area JSON schema reference
 
+Mission-relative JSON files listed in `cfggameplay.json` under `WorldsData.playerRestrictedAreaFiles`.
+
 * Source file: [`schemas/player-restricted-area.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/player-restricted-area.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/player-restricted-area.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/player-restricted-area-file`

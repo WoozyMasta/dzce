@@ -3,6 +3,8 @@
 
 # cfgeventgroups.xml schema reference
 
+Mission file: `cfgeventgroups.xml`.
+
 * Source file: [`schemas/event-groups.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/event-groups.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/event-groups.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/event-groups-file`

@@ -3,6 +3,8 @@
 
 # db/globals.xml schema reference
 
+Mission file: `db/globals.xml`.
+
 * Source file: [`schemas/globals.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/globals.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/globals.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/globals-file`

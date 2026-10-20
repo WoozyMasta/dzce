@@ -3,6 +3,8 @@
 
 # mapgroupcluster*.xml schema reference
 
+Mission files matching `mapgroupcluster*.xml`.
+
 * Source file: [`schemas/map-group-cluster.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/map-group-cluster.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/map-group-cluster.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/map-group-cluster-file`

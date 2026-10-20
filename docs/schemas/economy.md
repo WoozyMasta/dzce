@@ -3,6 +3,8 @@
 
 # db/economy.xml schema reference
 
+Mission file: `db/economy.xml`.
+
 * Source file: [`schemas/economy.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/economy.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/economy.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/economy-file`

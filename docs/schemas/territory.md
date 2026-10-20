@@ -3,6 +3,8 @@
 
 # env/*_territories.xml schema reference
 
+Mission files matching `env/*_territories.xml`, referenced by `cfgenvironment.xml`.
+
 * Source file: [`schemas/territory.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/territory.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/territory.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/territory-file`

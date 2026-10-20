@@ -3,6 +3,8 @@
 
 # db/events.xml schema reference
 
+Mission file: `db/events.xml`.
+
 * Source file: [`schemas/events.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/events.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/events.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/events-file`

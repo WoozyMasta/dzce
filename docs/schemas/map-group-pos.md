@@ -3,6 +3,8 @@
 
 # mapgrouppos.xml schema reference
 
+Mission file: `mapgrouppos.xml`.
+
 * Source file: [`schemas/map-group-pos.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/map-group-pos.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/map-group-pos.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/map-group-pos-file`

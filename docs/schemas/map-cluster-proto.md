@@ -3,6 +3,8 @@
 
 # mapclusterproto.xml schema reference
 
+Mission file: `mapclusterproto.xml`.
+
 * Source file: [`schemas/map-cluster-proto.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/map-cluster-proto.schema.json)
 * Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/map-cluster-proto.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/map-cluster-proto-file`
