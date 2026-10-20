@@ -174,12 +174,8 @@ func KindFromEconomyCoreType(value string) Kind {
 
 // DetectKind returns CE file kind by file base name.
 func DetectKind(path string) Kind {
-	typ, ok := bimime.DetectByExtension(path)
-	if !ok {
-		return KindUnknown
-	}
-
-	return kindFromTypeID(typ.ID)
+	result := bimime.Analyze(path, nil, bimime.ProfileFast)
+	return kindFromTypeID(string(result.Type))
 }
 
 // kindFromTypeID resolves dzce Kind from bimime type id.

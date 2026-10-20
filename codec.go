@@ -222,13 +222,8 @@ func SaveFile(path string, value any) error {
 
 // detectKindByContent detects known dynamic-name CE formats by payload.
 func detectKindByContent(path string, data []byte) Kind {
-	result := bimime.Analyze(bimime.AnalyzeOptions{
-		Path:        path,
-		Prefix:      data,
-		DefaultPlan: bimime.PlanNormal(),
-	})
-
-	kind := kindFromTypeID(result.Probe.Resolved.ID)
+	result := bimime.Analyze(path, data, bimime.ProfileNormal)
+	kind := kindFromTypeID(string(result.Type))
 	if kind != KindUnknown {
 		return kind
 	}
