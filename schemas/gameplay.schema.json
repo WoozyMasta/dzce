@@ -1,0 +1,546 @@
+{
+  "$defs": {
+    "GameplayBaseBuildingData": {
+      "additionalProperties": false,
+      "description": "GameplayBaseBuildingData separates checks performed while placing an object hologram from checks performed when the construction action is completed.",
+      "properties": {
+        "ConstructionData": {
+          "$ref": "#/$defs/GameplayConstructionData",
+          "description": "ConstructionData controls checks and item handling during construction, after the placement preview has been accepted."
+        },
+        "HologramData": {
+          "$ref": "#/$defs/GameplayHologramData",
+          "description": "HologramData controls preview-time placement checks. These checks decide whether the hologram is considered a valid placement before construction."
+        }
+      },
+      "type": "object"
+    },
+    "GameplayConstructionData": {
+      "additionalProperties": false,
+      "description": "GameplayConstructionData controls validation and item handling while a player completes base construction.",
+      "properties": {
+        "disableDistanceCheck": {
+          "description": "DisableDistanceCheck bypasses the normal distance restriction applied to the player during construction.",
+          "type": "boolean"
+        },
+        "disableDropAttachmentsOnFall": {
+          "description": "DisableDropAttachmentsOnFall keeps attached items on a construction object when it falls.",
+          "type": "boolean"
+        },
+        "disableIsCollidingCheck": {
+          "description": "DisableIsCollidingCheck permits construction when the object collides with objects in the world.",
+          "type": "boolean"
+        },
+        "disableItemFalling": {
+          "description": "DisableItemFalling prevents construction items dropped during the construction process from falling.",
+          "type": "boolean"
+        },
+        "disablePerformRoofCheck": {
+          "description": "DisablePerformRoofCheck permits construction that clips through a roof.",
+          "type": "boolean"
+        },
+        "disableRefundMaterialsOnFall": {
+          "description": "DisableRefundMaterialsOnFall prevents construction materials from being refunded when the construction object falls.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayDrowningData": {
+      "additionalProperties": false,
+      "description": "GameplayDrowningData sets how quickly player resources are depleted while drowning.",
+      "properties": {
+        "healthDepletionSpeed": {
+          "description": "HealthDepletionSpeed sets health lost per second while drowning.",
+          "type": "number"
+        },
+        "shockDepletionSpeed": {
+          "description": "ShockDepletionSpeed sets shock lost per second while drowning.",
+          "type": "number"
+        },
+        "staminaDepletionSpeed": {
+          "description": "StaminaDepletionSpeed sets stamina points lost per second while drowning.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayExternalLockData": {
+      "additionalProperties": false,
+      "description": "GameplayExternalLockData controls temporary lockouts after failed attempts to open an external lock.",
+      "properties": {
+        "protectionCountStageOne": {
+          "description": "ProtectionCountStageOne sets the number of failed attempts before the first protection stage is applied.",
+          "type": "integer"
+        },
+        "protectionCountStageTwo": {
+          "description": "ProtectionCountStageTwo sets the number of failed attempts before the second protection stage is applied.",
+          "type": "integer"
+        },
+        "protectionResetTime": {
+          "description": "ProtectionResetTime sets how long the failed-attempt counter remains active before it is reset, in seconds.",
+          "type": "number"
+        },
+        "protectionTime": {
+          "description": "ProtectionTime sets the duration of the protection lockout in seconds.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayFile": {
+      "additionalProperties": false,
+      "description": "GameplayFile is the root of `cfggameplay.json`, the mission-level file for server-side gameplay rules.",
+      "properties": {
+        "BaseBuildingData": {
+          "$ref": "#/$defs/GameplayBaseBuildingData",
+          "description": "BaseBuildingData controls checks applied when previewing and constructing base-building objects.\nDisabling a check permits placements that thecorresponding rule would otherwise reject."
+        },
+        "ExternalLockData": {
+          "$ref": "#/$defs/GameplayExternalLockData",
+          "description": "ExternalLockData configures lockout thresholds and timers that slow repeated failed attempts to open an external lock."
+        },
+        "GeneralData": {
+          "$ref": "#/$defs/GameplayGeneralData",
+          "description": "GeneralData controls general rules such as damage to base structures and containers, and the availability of respawn actions."
+        },
+        "MapData": {
+          "$ref": "#/$defs/GameplayMapData",
+          "description": "MapData controls whether map and navigation features require their corresponding inventory items and which navigation details are shown."
+        },
+        "PlayerData": {
+          "$ref": "#/$defs/GameplayPlayerData",
+          "description": "PlayerData controls player-side rules, including stamina, movement, shock recovery, drowning, weapon obstruction, and spawn gear presets."
+        },
+        "SandstormData": {
+          "$ref": "#/$defs/GameplaySandstormData",
+          "description": "SandstormData scales how frequently sandstorms occur in worlds that use the sandstorm system."
+        },
+        "UIData": {
+          "$ref": "#/$defs/GameplayUIData",
+          "description": "UIData controls gameplay-related interface behavior, including the directional hit indicator and map presentation."
+        },
+        "VehicleData": {
+          "$ref": "#/$defs/GameplayVehicleData",
+          "description": "VehicleData controls vehicle behavior such as boat decay and whether attached car or bike wheels can detach or take damage."
+        },
+        "WorldsData": {
+          "$ref": "#/$defs/GameplayWorldsData",
+          "description": "WorldsData controls world-level settings such as night lighting, temperature and wetness effects, object spawners, and restricted areas."
+        },
+        "version": {
+          "description": "Version is the game's internal version marker for this configuration format.\nIt is maintained by the game and is not a gameplay setting.",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayGeneralData": {
+      "additionalProperties": false,
+      "description": "GameplayGeneralData controls mission-wide damage and respawn behavior.",
+      "properties": {
+        "disableBaseDamage": {
+          "description": "DisableBaseDamage prevents damage to structures built through the base-building system, such as fences and watchtowers.",
+          "type": "boolean"
+        },
+        "disableContainerDamage": {
+          "description": "DisableContainerDamage prevents damage to storage containers such as tents and barrels.\nIt is separate from damage to base-building structures.",
+          "type": "boolean"
+        },
+        "disableRespawnDialog": {
+          "description": "DisableRespawnDialog removes the dialog that lets a player choose a respawn type after requesting respawn.",
+          "type": "boolean"
+        },
+        "disableRespawnInUnconsciousness": {
+          "description": "DisableRespawnInUnconsciousness hides the pause-menu Respawn action while the player is unconscious, preventing respawn from that state.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayHitIndicationData": {
+      "additionalProperties": false,
+      "description": "GameplayHitIndicationData controls the directional damage indicator.",
+      "properties": {
+        "hitDirectionBehaviour": {
+          "description": "HitDirectionBehaviour selects indicator motion:\n  - 0 disables it,\n  - 1 keeps it static,\n  - 2 uses the moving dynamic behavior.",
+          "type": "integer"
+        },
+        "hitDirectionBreakPointRelative": {
+          "description": "HitDirectionBreakPointRelative is the fraction of the actual display duration after which the indicator starts fading.\n0 fades immediately; 1 leaves no time for fading.",
+          "type": "number"
+        },
+        "hitDirectionIndicatorColorStr": {
+          "description": "HitDirectionIndicatorColorStr sets the indicator color as a hexadecimal ARGB string, for example `0xFFBB0A1E`.",
+          "type": "string"
+        },
+        "hitDirectionMaxDuration": {
+          "description": "HitDirectionMaxDuration sets the upper bound for how long the indicator is displayed.\nActual duration varies with hit severity and is between 60% and 100% of this value.",
+          "type": "number"
+        },
+        "hitDirectionOverrideEnabled": {
+          "description": "HitDirectionOverrideEnabled tells the game to use the values in this section.\nUnspecified fields are treated as zero when the section is used.",
+          "type": "boolean"
+        },
+        "hitDirectionScatter": {
+          "description": "HitDirectionScatter is the maximum random angular offset applied to the indicated hit direction. The offset is randomized in both directions.",
+          "type": "number"
+        },
+        "hitDirectionStyle": {
+          "description": "HitDirectionStyle selects the indicator graphic: 0 splash, 1 spike, or 2 arrow.",
+          "type": "integer"
+        },
+        "hitIndicationPostProcessEnabled": {
+          "description": "HitIndicationPostProcessEnabled controls the legacy red-flash postprocess effect that appears when the player is hit.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayHologramData": {
+      "additionalProperties": false,
+      "description": "GameplayHologramData controls validation performed while positioning a base-building hologram.",
+      "properties": {
+        "disableColdAreaBuildingCheck": {
+          "description": "DisableColdAreaBuildingCheck is the legacy spelling found in some official mission files.\nThe current gameplay script uses DisableColdAreaPlacementCheck for this rule.",
+          "type": "boolean"
+        },
+        "disableColdAreaPlacementCheck": {
+          "description": "DisableColdAreaPlacementCheck permits garden-plot placement on frozen ground.\nThis is the key exposed by the current gameplay script.",
+          "type": "boolean"
+        },
+        "disableHeightPlacementCheck": {
+          "description": "DisableHeightPlacementCheck permits placement when there is not enough vertical clearance for the object.",
+          "type": "boolean"
+        },
+        "disableIsBaseViableCheck": {
+          "description": "DisableIsBaseViableCheck permits placement on dynamic objects or other surfaces that the game would otherwise reject as unsuitable.",
+          "type": "boolean"
+        },
+        "disableIsClippingRoofCheck": {
+          "description": "DisableIsClippingRoofCheck permits placement that would clip through a roof.",
+          "type": "boolean"
+        },
+        "disableIsCollidingAngleCheck": {
+          "description": "DisableIsCollidingAngleCheck permits placement even when its roll, pitch, or yaw exceeds the normal angle limits.",
+          "type": "boolean"
+        },
+        "disableIsCollidingBBoxCheck": {
+          "description": "DisableIsCollidingBBoxCheck permits placement when the hologram's bounding box overlaps objects in the world.",
+          "type": "boolean"
+        },
+        "disableIsCollidingGPlotCheck": {
+          "description": "DisableIsCollidingGPlotCheck permits garden plots on surface types that are normally incompatible.",
+          "type": "boolean"
+        },
+        "disableIsCollidingPlayerCheck": {
+          "description": "DisableIsCollidingPlayerCheck permits placement when the hologram overlaps a player.",
+          "type": "boolean"
+        },
+        "disableIsInTerrainCheck": {
+          "description": "DisableIsInTerrainCheck permits placement when the object intersects the terrain.",
+          "type": "boolean"
+        },
+        "disableIsPlacementPermittedCheck": {
+          "description": "DisableIsPlacementPermittedCheck bypasses the general permission check that can reject a placement after the basic placement checks.",
+          "type": "boolean"
+        },
+        "disableIsUnderwaterCheck": {
+          "description": "DisableIsUnderwaterCheck permits placement below the water surface.",
+          "type": "boolean"
+        },
+        "disallowedTypesInUnderground": {
+          "description": "DisallowedTypesInUnderground lists item types that cannot be placed in underground areas.\nThe restriction also applies to inherited types.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayMapData": {
+      "additionalProperties": false,
+      "description": "GameplayMapData controls map access and the navigation information shown on the map interface.",
+      "properties": {
+        "displayNavInfo": {
+          "description": "DisplayNavInfo controls whether compass and GPS information appears in the map legend, including when the player carries those items.",
+          "type": "boolean"
+        },
+        "displayPlayerPosition": {
+          "description": "DisplayPlayerPosition shows the player's red position marker and heading on the map.",
+          "type": "boolean"
+        },
+        "ignoreMapOwnership": {
+          "description": "IgnoreMapOwnership allows the player to open the map without carrying a map item.",
+          "type": "boolean"
+        },
+        "ignoreNavItemsOwnership": {
+          "description": "IgnoreNavItemsOwnership allows map navigation helpers without requiring a compass or GPS receiver.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayMovementData": {
+      "additionalProperties": false,
+      "description": "GameplayMovementData controls how quickly jogging and sprinting movement transitions blend and how quickly the character can rotate.",
+      "properties": {
+        "allowStaminaAffectInertia": {
+          "description": "AllowStaminaAffectInertia lets the character's current stamina affect movement inertia.",
+          "type": "boolean"
+        },
+        "rotationSpeedJog": {
+          "description": "RotationSpeedJog sets the character's rotation speed while jogging.",
+          "type": "number"
+        },
+        "rotationSpeedSprint": {
+          "description": "RotationSpeedSprint sets the character's rotation speed while sprinting.",
+          "type": "number"
+        },
+        "timeToSprint": {
+          "description": "TimeToSprint sets the transition time from jogging to sprinting.",
+          "type": "number"
+        },
+        "timeToStrafeJog": {
+          "description": "TimeToStrafeJog sets the blend time for diagonal movement while jogging.",
+          "type": "number"
+        },
+        "timeToStrafeSprint": {
+          "description": "TimeToStrafeSprint sets the blend time for diagonal movement while sprinting.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayPlayerData": {
+      "additionalProperties": false,
+      "description": "GameplayPlayerData groups rules that affect a player's controls, movement, survival, and initial equipment.",
+      "properties": {
+        "DrowningData": {
+          "$ref": "#/$defs/GameplayDrowningData",
+          "description": "DrowningData sets the per-second stamina, health, and shock loss while a character is drowning."
+        },
+        "MovementData": {
+          "$ref": "#/$defs/GameplayMovementData",
+          "description": "MovementData sets transition times and turning rates for jogging and sprinting, and whether stamina affects movement inertia."
+        },
+        "ShockHandlingData": {
+          "$ref": "#/$defs/GameplayShockHandlingData",
+          "description": "ShockHandlingData sets how quickly shock recovers while conscious or unconscious and whether ammunition can modify that recovery."
+        },
+        "StaminaData": {
+          "$ref": "#/$defs/GameplayStaminaData",
+          "description": "StaminaData sets the stamina pool and the rates at which common actions consume it, including sprinting, swimming, and climbing."
+        },
+        "WeaponObstructionData": {
+          "$ref": "#/$defs/GameplayWeaponObstructionData",
+          "description": "WeaponObstructionData selects how the game handles a weapon blocked by static scenery or by dynamic objects."
+        },
+        "disablePersonalLight": {
+          "description": "DisablePersonalLight turns off the local light that normally illuminates nearby objects around a player at night.",
+          "type": "boolean"
+        },
+        "spawnGearPresetFiles": {
+          "description": "SpawnGearPresetFiles lists mission-relative JSON files that define server spawn gear presets.\nFiles may be in subdirectories; when the list is non-empty,\nthese presets control character equipment at spawn and replace the usual StartingEquipSetup behavior.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "GameplaySandstormData": {
+      "additionalProperties": false,
+      "description": "GameplaySandstormData controls the occurrence rate of sandstorms.",
+      "properties": {
+        "sandstormFrequency": {
+          "description": "SandstormFrequency sets how often sandstorms occur:\n - 0 disables them,\n - 1 uses the normal rate,\n - 2 makes them occur twice as often.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayShockHandlingData": {
+      "additionalProperties": false,
+      "description": "GameplayShockHandlingData controls how quickly the player's shock value recovers in each consciousness state.",
+      "properties": {
+        "allowRefillSpeedModifier": {
+          "description": "AllowRefillSpeedModifier allows ammunition settings to modify shock recovery speed, which can change how quickly a shot player wakes up.",
+          "type": "boolean"
+        },
+        "shockRefillSpeedConscious": {
+          "description": "ShockRefillSpeedConscious sets shock recovery per second while the player is conscious.",
+          "type": "number"
+        },
+        "shockRefillSpeedUnconscious": {
+          "description": "ShockRefillSpeedUnconscious sets shock recovery per second while the player is unconscious.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayStaminaData": {
+      "additionalProperties": false,
+      "description": "GameplayStaminaData controls the stamina pool and action-specific stamina costs.",
+      "properties": {
+        "holdBreathStaminaModifier": {
+          "description": "HoldBreathStaminaModifier scales stamina consumption while holding breath.",
+          "type": "number"
+        },
+        "meleeStaminaModifier": {
+          "description": "MeleeStaminaModifier scales stamina consumption for heavy melee attacks and evasive moves.",
+          "type": "number"
+        },
+        "obstacleTraversalStaminaModifier": {
+          "description": "ObstacleTraversalStaminaModifier scales stamina consumption when jumping, climbing, or vaulting over obstacles.",
+          "type": "number"
+        },
+        "sprintLadderStaminaModifier": {
+          "description": "SprintLadderStaminaModifier scales stamina consumption while climbing a ladder quickly.",
+          "type": "number"
+        },
+        "sprintStaminaModifierCro": {
+          "description": "SprintStaminaModifierCro scales stamina consumption while sprinting crouched.",
+          "type": "number"
+        },
+        "sprintStaminaModifierErc": {
+          "description": "SprintStaminaModifierErc scales stamina consumption while sprinting upright.",
+          "type": "number"
+        },
+        "sprintSwimmingStaminaModifier": {
+          "description": "SprintSwimmingStaminaModifier scales stamina consumption during fast swimming.",
+          "type": "number"
+        },
+        "staminaKgToStaminaPercentPenalty": {
+          "description": "StaminaKgToStaminaPercentPenalty scales the reduction of maximum stamina calculated from the character's carried load.",
+          "type": "number"
+        },
+        "staminaMax": {
+          "description": "StaminaMax sets the maximum stamina pool. Setting it to zero may produce unexpected results.",
+          "type": "number"
+        },
+        "staminaMinCap": {
+          "description": "StaminaMinCap sets the minimum size of the stamina cap. Setting it to zero may produce unexpected results.",
+          "type": "number"
+        },
+        "staminaWeightLimitThreshold": {
+          "description": "StaminaWeightLimitThreshold is the amount of stamina points, divided by 1000, excluded from the load-based reduction of maximum stamina.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayUIData": {
+      "additionalProperties": false,
+      "description": "GameplayUIData controls interface features that affect gameplay feedback or navigation.",
+      "properties": {
+        "HitIndicationData": {
+          "$ref": "#/$defs/GameplayHitIndicationData",
+          "description": "HitIndicationData configures the direction marker shown when the player takes damage, including its appearance and timing."
+        },
+        "use3DMap": {
+          "description": "Use3DMap enables the 3D map and disables the default 2D map overlay.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayVehicleData": {
+      "additionalProperties": false,
+      "description": "GameplayVehicleData controls vehicle decay and wheel behavior.",
+      "properties": {
+        "boatDecayMultiplier": {
+          "description": "BoatDecayMultiplier scales how quickly boats decay.\nA larger multiplier makes decay faster; 1 leaves the normal rate unchanged.",
+          "type": "number"
+        },
+        "canDamageAttachedBikeWheels": {
+          "description": "CanDamageAttachedBikeWheels allows damage to reduce the condition of wheels attached to motorcycles.",
+          "type": "boolean"
+        },
+        "canDamageAttachedCarWheels": {
+          "description": "CanDamageAttachedCarWheels allows damage to reduce the condition of wheels attached to cars.",
+          "type": "boolean"
+        },
+        "canDetachAttachedBikeWheels": {
+          "description": "CanDetachAttachedBikeWheels allows attached motorcycle wheels to detach.",
+          "type": "boolean"
+        },
+        "canDetachAttachedCarWheels": {
+          "description": "CanDetachAttachedCarWheels allows attached car wheels to detach.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayWeaponObstructionData": {
+      "additionalProperties": false,
+      "description": "GameplayWeaponObstructionData selects the response when an obstacle blocks a weapon.",
+      "properties": {
+        "dynamicMode": {
+          "description": "DynamicMode selects obstruction handling for dynamic objects:\n - 0 does not obstruct but still lifts the weapon,\n - 1 obstructs before lifting it,\n - 2 always obstructs without lifting.",
+          "type": "integer"
+        },
+        "staticMode": {
+          "description": "StaticMode selects obstruction handling for static objects:\n - 0 does not obstruct but still lifts the weapon,\n - 1 obstructs before lifting it,\n - 2 always obstructs without lifting.",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayWorldsData": {
+      "additionalProperties": false,
+      "description": "GameplayWorldsData controls environment behavior and additional world configuration files loaded by the mission.",
+      "properties": {
+        "bunkerBroadcastEnabled": {
+          "description": "BunkerBroadcastEnabled controls Morse-code broadcasts associated with discovering the bunker.",
+          "type": "boolean"
+        },
+        "environmentMaxTemps": {
+          "description": "EnvironmentMaxTemps sets the maximum ambient temperature for each month, ordered January through December.\nThe game expects exactly 12 values.",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "environmentMinTemps": {
+          "description": "EnvironmentMinTemps sets the minimum ambient temperature for each month, ordered January through December.\nThe game expects exactly 12 values.",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "lightingConfig": {
+          "description": "LightingConfig selects the night lighting preset: 0 is brighter and 1 is darker. World-specific settings may define additional values.",
+          "type": "integer"
+        },
+        "objectSpawnersArr": {
+          "description": "ObjectSpawnersArr lists mission-relative JSON files containing object spawner data. An empty or omitted list loads no custom spawner files.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "playerRestrictedAreaFiles": {
+          "description": "PlayerRestrictedAreaFiles lists mission-relative JSON files that define areas with player restrictions.\nA non-empty list enables loading them.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "wetnessWeightModifiers": {
+          "description": "WetnessWeightModifiers scales item weight at the five wetness levels, in order: dry, damp, wet, soaked, and drenched.",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/gameplay-file",
+  "$ref": "#/$defs/GameplayFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

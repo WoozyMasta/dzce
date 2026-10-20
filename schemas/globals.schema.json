@@ -1,0 +1,68 @@
+{
+  "$defs": {
+    "GlobalVar": {
+      "additionalProperties": false,
+      "description": "GlobalVar overrides one named Central Economy variable.",
+      "properties": {
+        "name": {
+          "description": "Name is the built-in CE variable identifier, such as `AnimalMaxCount` or `CleanupLifetimeDefault`.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type tells CE how to parse Value: 0 for integer, 1 for floating-point, and 2 for string.",
+          "type": "integer"
+        },
+        "value": {
+          "description": "Value is the variable's configured value encoded as text and interpreted according to Type.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "type"
+      ],
+      "type": "object"
+    },
+    "GlobalsFile": {
+      "additionalProperties": false,
+      "description": "GlobalsFile sets mission-wide Central Economy variables in `db/globals.xml`, including spawn limits, cleanup timing, and persistence-related behavior.",
+      "properties": {
+        "var": {
+          "description": "Vars are the CE variables overridden by this mission.",
+          "items": {
+            "$ref": "#/$defs/GlobalVar"
+          },
+          "type": "array"
+        },
+        "variables": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName identifies the required `<variables>` document root."
+        }
+      },
+      "required": [
+        "variables"
+      ],
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/globals-file",
+  "$ref": "#/$defs/GlobalsFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

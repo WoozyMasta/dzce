@@ -1,0 +1,67 @@
+{
+  "$defs": {
+    "MapGroupDirtFile": {
+      "additionalProperties": false,
+      "description": "MapGroupDirtFile places dirt and other terrain-specific map groups at world positions in `mapgroupdirt.xml`.",
+      "properties": {
+        "group": {
+          "description": "Groups lists prototype names and their world positions and rotations.",
+          "items": {
+            "$ref": "#/$defs/MapGroupInstance"
+          },
+          "type": "array"
+        },
+        "map": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName identifies the required `<map>` document root."
+        }
+      },
+      "required": [
+        "map"
+      ],
+      "type": "object"
+    },
+    "MapGroupInstance": {
+      "additionalProperties": false,
+      "description": "MapGroupInstance places one prototype at a concrete map location in a map group file.",
+      "properties": {
+        "a": {
+          "description": "A is the instance's heading angle in degrees when the placement uses a single yaw value.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the prototype or group identifier resolved by CE.",
+          "type": "string"
+        },
+        "pos": {
+          "description": "Pos is the instance's world position as an X/Y/Z vector.",
+          "type": "string"
+        },
+        "rpy": {
+          "description": "RPY is the instance's roll, pitch, and yaw rotation when the placement uses all three angles.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/map-group-dirt-file",
+  "$ref": "#/$defs/MapGroupDirtFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,58 @@
+{
+  "$defs": {
+    "ObjectSpawnerEntry": {
+      "additionalProperties": false,
+      "description": "ObjectSpawnerEntry defines one object placement created by the mission object spawner.",
+      "properties": {
+        "customString": {
+          "description": "CustomString passes custom data to the spawned class's OnSpawnByObjectSpawner script callback.",
+          "type": "string"
+        },
+        "enableCEPersistency": {
+          "description": "EnableCEPersistency spawns the object without Central Economy persistence.\nIf a player takes it, persistence is enabled when the item supports it.",
+          "type": "boolean"
+        },
+        "name": {
+          "description": "Name is either a game config class name or a P3D model path.\nP3D spawning is limited to DZ/plants, DZ/plants_bliss, DZ/plants_sakhal, DZ/rocks, DZ/rocks_bliss, and DZ/rocks_sakhal.",
+          "type": "string"
+        },
+        "pos": {
+          "description": "Pos is the object's world position as an X/Y/Z vector in meters; Y is the vertical coordinate.",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        },
+        "scale": {
+          "description": "Scale is the size multiplier applied to the spawned object or model.",
+          "type": "number"
+        },
+        "ypr": {
+          "description": "YPR is the object's rotation in yaw, pitch, and roll order, in degrees. An empty vector leaves rotation unspecified.",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "ObjectSpawnerFile": {
+      "additionalProperties": false,
+      "description": "ObjectSpawnerFile is a mission object list loaded through `cfggameplay.json -> WorldsData.objectSpawnersArr`.",
+      "properties": {
+        "Objects": {
+          "description": "Objects are the map objects to create with the configured class or model, transform, and persistence behavior.",
+          "items": {
+            "$ref": "#/$defs/ObjectSpawnerEntry"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/object-spawner-file",
+  "$ref": "#/$defs/ObjectSpawnerFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,41 @@
+{
+  "$defs": {
+    "PlayerRestrictedAreaFile": {
+      "additionalProperties": false,
+      "description": "PlayerRestrictedAreaFile defines a restricted player area and safe positions for that area.",
+      "properties": {
+        "PRABoxes": {
+          "description": "PRABoxes defines rotated 3D boxes. Each box contains three XYZ vectors in order: size, rotation, and world position.",
+          "items": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        },
+        "areaName": {
+          "description": "AreaName is an optional label used to identify the area in game diagnostics.",
+          "type": "string"
+        },
+        "safePositions3D": {
+          "description": "SafePositions3D lists explicit XYZ destinations used when selecting a safe position for this area.",
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/player-restricted-area-file",
+  "$ref": "#/$defs/PlayerRestrictedAreaFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

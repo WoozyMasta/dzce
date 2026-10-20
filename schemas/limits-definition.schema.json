@@ -1,0 +1,109 @@
+{
+  "$defs": {
+    "LimitsCategoryList": {
+      "additionalProperties": false,
+      "description": "LimitsCategoryList declares the category names that item types may use in their Central Economy filters.",
+      "properties": {
+        "category": {
+          "description": "Categories are category identifiers accepted by the economy's item definitions.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "LimitsDefinitionFile": {
+      "additionalProperties": false,
+      "description": "LimitsDefinitionFile declares the category, tag, usage, and value names referenced by Central Economy item filters.",
+      "properties": {
+        "categories": {
+          "$ref": "#/$defs/LimitsCategoryList",
+          "description": "Categories defines the item categories recognized by the economy."
+        },
+        "lists": {
+          "additionalProperties": false,
+          "description": "XMLName identifies the required `<lists>` document root.",
+          "properties": {},
+          "type": "object"
+        },
+        "tags": {
+          "$ref": "#/$defs/LimitsTagList",
+          "description": "Tags defines the item tags recognized by the economy."
+        },
+        "usageflags": {
+          "$ref": "#/$defs/LimitsUsageList",
+          "description": "UsageFlags defines location-purpose flags used to filter spawn locations."
+        },
+        "valueflags": {
+          "$ref": "#/$defs/LimitsValueList",
+          "description": "ValueFlags defines loot-tier flags used to filter spawn locations."
+        }
+      },
+      "required": [
+        "lists"
+      ],
+      "type": "object"
+    },
+    "LimitsTagList": {
+      "additionalProperties": false,
+      "description": "LimitsTagList declares the tag names that item types may use in their Central Economy filters.",
+      "properties": {
+        "tag": {
+          "description": "Tags are tag identifiers accepted by the economy's item definitions.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "LimitsUsageList": {
+      "additionalProperties": false,
+      "description": "LimitsUsageList declares location-purpose flags used to restrict where an item type can spawn.",
+      "properties": {
+        "usage": {
+          "description": "Usages are identifiers assigned to map areas and referenced by item spawn filters.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "LimitsValueList": {
+      "additionalProperties": false,
+      "description": "LimitsValueList declares loot-tier flags used to restrict item spawning by map region or economy value.",
+      "properties": {
+        "value": {
+          "description": "Values are tier or value identifiers referenced by item spawn filters.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "NamedRef": {
+      "additionalProperties": false,
+      "description": "NamedRef stores the name attribute used by CE reference elements such as usage, category, tag, value, type, and group.",
+      "properties": {
+        "name": {
+          "description": "Name is the identifier referenced by the containing CE element.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/limits-definition-file",
+  "$ref": "#/$defs/LimitsDefinitionFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

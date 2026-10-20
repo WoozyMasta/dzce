@@ -1,0 +1,123 @@
+{
+  "$defs": {
+    "EventSpawnEntry": {
+      "additionalProperties": false,
+      "description": "EventSpawnEntry associates an event from db/events.xml with mission-defined positions and optional settings for infected spawned around those positions.",
+      "properties": {
+        "name": {
+          "description": "Name matches the event identifier in db/events.xml.",
+          "type": "string"
+        },
+        "pos": {
+          "description": "Pos lists positions where this event may spawn.\nA position may reference a reusable object group from cfgeventgroups.xml.",
+          "items": {
+            "$ref": "#/$defs/EventSpawnPos"
+          },
+          "type": "array"
+        },
+        "zone": {
+          "$ref": "#/$defs/EventSpawnZone",
+          "description": "Zone sets infected-count ranges and their spawn radius for positions in this event.\nIt is used when the event has a secondary infected event."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "EventSpawnPos": {
+      "additionalProperties": false,
+      "description": "EventSpawnPos stores one mission-defined event position in map coordinates.",
+      "properties": {
+        "a": {
+          "description": "A is the event's yaw rotation in degrees. Shipped mission data also uses -1,\nso retain the supplied value instead of normalizing it.",
+          "type": "string"
+        },
+        "group": {
+          "description": "Group names a cfgeventgroups.xml group to create at this position.",
+          "type": "string"
+        },
+        "x": {
+          "description": "X is the map's horizontal X coordinate.",
+          "type": "string"
+        },
+        "y": {
+          "description": "Y is the optional world height. It may be omitted when placement uses terrain height.",
+          "type": "string"
+        },
+        "z": {
+          "description": "Z is the map's horizontal Z coordinate.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "EventSpawnZone": {
+      "additionalProperties": false,
+      "description": "EventSpawnZone controls the number and spread of infected spawned around an event position when the event defines a secondary infected event.",
+      "properties": {
+        "dmax": {
+          "description": "DMax is the upper bound for the dynamic infected count.",
+          "type": "string"
+        },
+        "dmin": {
+          "description": "DMin is the lower bound for the dynamic infected count.",
+          "type": "string"
+        },
+        "r": {
+          "description": "R is the radius in meters around the event position where infected may spawn.",
+          "type": "string"
+        },
+        "smax": {
+          "description": "SMax is the upper bound for the static infected count.",
+          "type": "string"
+        },
+        "smin": {
+          "description": "SMin is the lower bound for the static infected count.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "EventSpawnsFile": {
+      "additionalProperties": false,
+      "description": "EventSpawnsFile is the root of `cfgeventspawns.xml`.",
+      "properties": {
+        "event": {
+          "description": "Events is list of event spawn definitions.",
+          "items": {
+            "$ref": "#/$defs/EventSpawnEntry"
+          },
+          "type": "array"
+        },
+        "eventposdef": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName is XML root marker for `<eventposdef>`."
+        }
+      },
+      "required": [
+        "eventposdef"
+      ],
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/event-spawns-file",
+  "$ref": "#/$defs/EventSpawnsFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

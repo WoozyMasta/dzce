@@ -1,0 +1,160 @@
+{
+  "$defs": {
+    "WeatherCurrent": {
+      "additionalProperties": false,
+      "description": "WeatherCurrent sets the initial target and transition schedule for one weather channel.",
+      "properties": {
+        "actual": {
+          "description": "Actual is the initial target value for the channel, within its Limits.",
+          "type": "string"
+        },
+        "duration": {
+          "description": "Duration is how long the channel holds Actual after reaching it, in seconds.",
+          "type": "string"
+        },
+        "time": {
+          "description": "Time is how long the channel takes to reach Actual, in seconds.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "WeatherFile": {
+      "additionalProperties": false,
+      "description": "WeatherFile configures global weather simulation and the target ranges and transition behavior for each weather channel in `cfgweather.xml`.",
+      "properties": {
+        "enable": {
+          "description": "Enable determines whether the server runs the configured weather simulation.",
+          "type": "integer"
+        },
+        "fog": {
+          "$ref": "#/$defs/WeatherSection",
+          "description": "Fog configures fog channel behavior."
+        },
+        "overcast": {
+          "$ref": "#/$defs/WeatherSection",
+          "description": "Overcast configures cloudiness channel behavior."
+        },
+        "rain": {
+          "$ref": "#/$defs/WeatherSection",
+          "description": "Rain configures rain channel behavior."
+        },
+        "reset": {
+          "description": "Reset determines whether mission startup replaces persisted weather with the values configured in this file.",
+          "type": "integer"
+        },
+        "snowfall": {
+          "$ref": "#/$defs/WeatherSection",
+          "description": "Snowfall configures snowfall behavior."
+        },
+        "storm": {
+          "$ref": "#/$defs/WeatherStorm",
+          "description": "Storm configures when storms can occur and how long their thunder effects remain active."
+        },
+        "weather": {
+          "additionalProperties": false,
+          "description": "XMLName identifies the required `<weather>` document root.",
+          "properties": {},
+          "type": "object"
+        },
+        "windDirection": {
+          "$ref": "#/$defs/WeatherSection",
+          "description": "WindDirection configures wind direction behavior."
+        },
+        "windMagnitude": {
+          "$ref": "#/$defs/WeatherSection",
+          "description": "WindMagnitude configures wind speed behavior."
+        }
+      },
+      "required": [
+        "reset",
+        "enable",
+        "weather"
+      ],
+      "type": "object"
+    },
+    "WeatherMinMax": {
+      "additionalProperties": false,
+      "description": "WeatherMinMax stores lower and upper numeric bounds for a weather setting.",
+      "properties": {
+        "max": {
+          "description": "Max is the upper bound or maximum transition value.",
+          "type": "string"
+        },
+        "min": {
+          "description": "Min is the lower bound or minimum transition value.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "WeatherSection": {
+      "additionalProperties": false,
+      "description": "WeatherSection configures one weather channel, such as rain, fog, or wind.",
+      "properties": {
+        "changelimits": {
+          "$ref": "#/$defs/WeatherMinMax",
+          "description": "ChangeLimits sets the minimum and maximum size of a change between successive channel targets."
+        },
+        "current": {
+          "$ref": "#/$defs/WeatherCurrent",
+          "description": "Current sets the initial target value, the time to reach it, and how long to hold it before the channel changes again."
+        },
+        "limits": {
+          "$ref": "#/$defs/WeatherMinMax",
+          "description": "Limits sets the absolute minimum and maximum values allowed for this channel."
+        },
+        "thresholds": {
+          "$ref": "#/$defs/WeatherThresholds",
+          "description": "Thresholds gates a dependent channel on the value of its controlling channel.\nFor rain and snowfall, the controlling channel is overcast."
+        },
+        "timelimits": {
+          "$ref": "#/$defs/WeatherMinMax",
+          "description": "TimeLimits sets the minimum and maximum duration, in seconds, between transitions to new channel targets."
+        }
+      },
+      "type": "object"
+    },
+    "WeatherStorm": {
+      "additionalProperties": false,
+      "description": "WeatherStorm configures lightning generation during storms.",
+      "properties": {
+        "density": {
+          "description": "Density controls lightning strike density on a scale from 0 to 1.",
+          "type": "string"
+        },
+        "threshold": {
+          "description": "Threshold is the overcast value, from 0 to 1, above which lightning may appear.",
+          "type": "string"
+        },
+        "timeout": {
+          "description": "Timeout is the delay between lightning strikes, in seconds.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "WeatherThresholds": {
+      "additionalProperties": false,
+      "description": "WeatherThresholds controls when a dependent channel may be active based on the value of its controlling channel, and how quickly it stops when the value leaves the allowed range.",
+      "properties": {
+        "end": {
+          "description": "End is how long, in seconds, the dependent channel takes to stop after the controlling value leaves the allowed range.",
+          "type": "string"
+        },
+        "max": {
+          "description": "Max is the maximum controlling-channel value that permits this channel.",
+          "type": "string"
+        },
+        "min": {
+          "description": "Min is the minimum controlling-channel value that permits this channel.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/weather-file",
+  "$ref": "#/$defs/WeatherFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

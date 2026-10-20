@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD024 -->
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -12,6 +13,14 @@ and this project adheres to [Semantic Versioning][].
 ### Changed
 ### Removed
 -->
+
+## Unreleased
+
+### Added
+
+* Generated JSON Schema and Markdown references for supported CE models.
+* Models current official mission JSON and XML schemas and validates
+  `areaflags.map` files in integration tests.
 
 ## [0.2.0][] - 2026-04-07
 

@@ -1,0 +1,340 @@
+{
+  "$defs": {
+    "MapClusterProtoFile": {
+      "additionalProperties": false,
+      "description": "MapClusterProtoFile defines reusable cluster prototypes for grouped map objects and their loot placement.",
+      "properties": {
+        "cluster": {
+          "description": "ClusterGroups defines reusable groups of nearby objects and their loot containers.",
+          "items": {
+            "$ref": "#/$defs/MapPrototypeEntry"
+          },
+          "type": "array"
+        },
+        "clusters": {
+          "$ref": "#/$defs/MapPrototypeExports",
+          "description": "Clusters maps terrain model shapes to logical cluster prototype names."
+        },
+        "defaults": {
+          "$ref": "#/$defs/MapPrototypeDefaults",
+          "description": "Defaults provides shared property values inherited by prototypes that do not specify those values directly."
+        },
+        "group": {
+          "description": "Groups defines building prototypes and their lootable containers.",
+          "items": {
+            "$ref": "#/$defs/MapPrototypeEntry"
+          },
+          "type": "array"
+        },
+        "prototype": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName identifies the required `<prototype>` document root."
+        }
+      },
+      "required": [
+        "prototype"
+      ],
+      "type": "object"
+    },
+    "MapPrototypeContainer": {
+      "additionalProperties": false,
+      "description": "MapPrototypeContainer defines one lootable part of a building prototype and the spawn points available within it.",
+      "properties": {
+        "category": {
+          "description": "Categories restrict which item categories can select this container.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "lootmax": {
+          "description": "LootMax caps how many items CE may spawn in this container. Each spawn point can hold at most one item.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the container identifier used by the building's game model.",
+          "type": "string"
+        },
+        "point": {
+          "description": "Points are the individual positions where CE can place one loot item.",
+          "items": {
+            "$ref": "#/$defs/MapPrototypePoint"
+          },
+          "type": "array"
+        },
+        "tag": {
+          "description": "Tags restrict which item tags can select this container.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "usage": {
+          "description": "Usages restrict which item usage filters can select this container.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "value": {
+          "description": "Values restrict which item value tiers can select this container.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "MapPrototypeDE": {
+      "additionalProperties": false,
+      "description": "MapPrototypeDE links a prototype to a named dynamic-event trajectory.",
+      "properties": {
+        "name": {
+          "description": "Name is the trajectory identifier used by the dynamic-event system.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "MapPrototypeDefault": {
+      "additionalProperties": false,
+      "description": "MapPrototypeDefault sets one shared property for a prototype category.",
+      "properties": {
+        "de": {
+          "description": "DE names the dynamic-event trajectory associated with the prototype.",
+          "type": "string"
+        },
+        "enabled": {
+          "description": "Enabled turns the selected default behavior on or off.",
+          "type": "string"
+        },
+        "height": {
+          "description": "Height sets the height of a generated cluster matrix.",
+          "type": "string"
+        },
+        "lootmax": {
+          "description": "LootMax is the default maximum amount of loot used for matching groups or containers.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name identifies the prototype category or class this default applies to.",
+          "type": "string"
+        },
+        "width": {
+          "description": "Width sets the width of a generated cluster matrix.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "MapPrototypeDefaults": {
+      "additionalProperties": false,
+      "description": "MapPrototypeDefaults stores values inherited by map-group or cluster prototypes when their own entries omit those properties.",
+      "properties": {
+        "default": {
+          "description": "Defaults are shared defaults applied to matching prototype entries.",
+          "items": {
+            "$ref": "#/$defs/MapPrototypeDefault"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "MapPrototypeDispatch": {
+      "additionalProperties": false,
+      "description": "MapPrototypeDispatch defines the chance and proxy objects for one dynamic event dispatch from a prototype.",
+      "properties": {
+        "dechance": {
+          "description": "DEChance is the probability that CE dispatches this dynamic event.",
+          "type": "string"
+        },
+        "proxy": {
+          "description": "Proxies are the objects created by the dispatch, with positions and rotations relative to the prototype.",
+          "items": {
+            "$ref": "#/$defs/MapPrototypeProxy"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "MapPrototypeEntry": {
+      "additionalProperties": false,
+      "description": "MapPrototypeEntry defines one building group or cluster prototype: its loot limits, spawn filters, containers, and optional dynamic-event dispatches.",
+      "properties": {
+        "category": {
+          "description": "Categories restrict which loot categories can use this group.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "container": {
+          "description": "Containers define lootable spaces and spawn points within the group.",
+          "items": {
+            "$ref": "#/$defs/MapPrototypeContainer"
+          },
+          "type": "array"
+        },
+        "de": {
+          "description": "DELinks associate this prototype with dynamic-event trajectory presets.",
+          "items": {
+            "$ref": "#/$defs/MapPrototypeDE"
+          },
+          "type": "array"
+        },
+        "dispatch": {
+          "description": "Dispatches define optional objects created through a dynamic event at this prototype.",
+          "items": {
+            "$ref": "#/$defs/MapPrototypeDispatch"
+          },
+          "type": "array"
+        },
+        "lootmax": {
+          "description": "LootMax caps the total loot spawned in this group.",
+          "type": "string"
+        },
+        "maxinstances": {
+          "description": "MaxInstances caps how many instances of this cluster prototype can be used across the map.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the prototype identifier used by map instances or cluster data.",
+          "type": "string"
+        },
+        "tag": {
+          "description": "Tags restrict which loot tags can use this group.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "usage": {
+          "description": "Usages restrict which usage filters can select this group.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "value": {
+          "description": "Values restrict which loot value tiers can use this group.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "MapPrototypeExport": {
+      "additionalProperties": false,
+      "description": "MapPrototypeExport associates a model shape with the logical name used for its cluster prototype.",
+      "properties": {
+        "name": {
+          "description": "Name is the logical cluster group identifier referenced by prototype entries.",
+          "type": "string"
+        },
+        "shape": {
+          "description": "Shape is the P3D model path whose terrain placements use this mapping.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "MapPrototypeExports": {
+      "additionalProperties": false,
+      "description": "MapPrototypeExports maps cluster model shapes to logical cluster group names used by CE.",
+      "properties": {
+        "export": {
+          "description": "Exports are the model-to-cluster mappings exported by the terrain.",
+          "items": {
+            "$ref": "#/$defs/MapPrototypeExport"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "MapPrototypePoint": {
+      "additionalProperties": false,
+      "description": "MapPrototypePoint defines one candidate loot placement in a prototype's local model coordinates.",
+      "properties": {
+        "flags": {
+          "description": "Flags is the bitmask of CE placement behaviors enabled for this point.",
+          "type": "string"
+        },
+        "height": {
+          "description": "Height is the vertical clearance available for an item at this point.",
+          "type": "string"
+        },
+        "pos": {
+          "description": "Pos is the local X/Y/Z position relative to the model origin, not a map position.",
+          "type": "string"
+        },
+        "range": {
+          "description": "Range is the placement radius around the point.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "MapPrototypeProxy": {
+      "additionalProperties": false,
+      "description": "MapPrototypeProxy defines one object created by a dynamic-event dispatch.",
+      "properties": {
+        "dechance": {
+          "description": "DEChance is the probability that this proxy is created by the dispatch.",
+          "type": "string"
+        },
+        "pos": {
+          "description": "Pos is the object's position relative to the prototype.",
+          "type": "string"
+        },
+        "rpy": {
+          "description": "RPY is the object's rotation relative to the prototype, in roll, pitch, yaw order.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type is the game class name of the dispatched object.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "NamedRef": {
+      "additionalProperties": false,
+      "description": "NamedRef stores the name attribute used by CE reference elements such as usage, category, tag, value, type, and group.",
+      "properties": {
+        "name": {
+          "description": "Name is the identifier referenced by the containing CE element.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/map-cluster-proto-file",
+  "$ref": "#/$defs/MapClusterProtoFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

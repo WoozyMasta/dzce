@@ -1,0 +1,75 @@
+{
+  "$defs": {
+    "MessageDef": {
+      "additionalProperties": false,
+      "description": "MessageDef is one `<message>` entry in messages.xml.",
+      "properties": {
+        "deadline": {
+          "description": "Deadline is the countdown duration in minutes.\nA positive value enables countdown messages and determines when the countdown reaches zero.",
+          "type": "integer"
+        },
+        "delay": {
+          "description": "Delay is the wait in minutes before sending an OnConnect message.\nero sends it immediately after the player connects.",
+          "type": "integer"
+        },
+        "onconnect": {
+          "description": "OnConnect set to 1 sends the message once after each player connects; 0 disables connection-triggered delivery.\nDelay sets the wait before sending.",
+          "type": "integer"
+        },
+        "repeat": {
+          "description": "Repeat is the interval in minutes between message deliveries.\nA positive value enables recurring delivery; zero disables it.",
+          "type": "integer"
+        },
+        "shutdown": {
+          "description": "Shutdown set to 1 stops the server when the deadline countdown reaches zero.\nIt has no effect when Deadline is zero or omitted.",
+          "type": "integer"
+        },
+        "text": {
+          "description": "Text is localized message template text.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "MessagesFile": {
+      "additionalProperties": false,
+      "description": "MessagesFile is the root of `db/messages.xml`.",
+      "properties": {
+        "message": {
+          "description": "Messages is server message schedule entries.",
+          "items": {
+            "$ref": "#/$defs/MessageDef"
+          },
+          "type": "array"
+        },
+        "messages": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName is XML root marker for `<messages>`."
+        }
+      },
+      "required": [
+        "messages"
+      ],
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/messages-file",
+  "$ref": "#/$defs/MessagesFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

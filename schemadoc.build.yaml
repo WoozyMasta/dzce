@@ -1,0 +1,311 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/WoozyMasta/schemadoc/refs/heads/master/cmd/schemadoc/doc/config.schema.json
+---
+schema: schemas/types.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: TypesFile
+schema2doc:
+  title: db/types.xml schema reference
+  template: table
+  output: docs/schemas/types.md
+---
+schema: schemas/events.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: EventsFile
+schema2doc:
+  title: db/events.xml schema reference
+  template: table
+  output: docs/schemas/events.md
+---
+schema: schemas/economy.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: EconomyFile
+schema2doc:
+  title: db/economy.xml schema reference
+  template: table
+  output: docs/schemas/economy.md
+---
+schema: schemas/globals.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: GlobalsFile
+schema2doc:
+  title: db/globals.xml schema reference
+  template: table
+  output: docs/schemas/globals.md
+---
+schema: schemas/messages.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: MessagesFile
+schema2doc:
+  title: db/messages.xml schema reference
+  template: table
+  output: docs/schemas/messages.md
+---
+schema: schemas/spawnable-types.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: SpawnableTypesFile
+schema2doc:
+  title: cfgspawnabletypes.xml schema reference
+  template: table
+  output: docs/schemas/spawnable-types.md
+---
+schema: schemas/random-presets.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: RandomPresetsFile
+schema2doc:
+  title: cfgrandompresets.xml schema reference
+  template: table
+  output: docs/schemas/random-presets.md
+---
+schema: schemas/economy-core.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: EconomyCoreFile
+schema2doc:
+  title: cfgeconomycore.xml schema reference
+  template: table
+  output: docs/schemas/economy-core.md
+---
+schema: schemas/environment.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: EnvironmentFile
+schema2doc:
+  title: cfgenvironment.xml schema reference
+  template: table
+  output: docs/schemas/environment.md
+---
+schema: schemas/event-spawns.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: EventSpawnsFile
+schema2doc:
+  title: cfgeventspawns.xml schema reference
+  template: table
+  output: docs/schemas/event-spawns.md
+---
+schema: schemas/event-groups.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: EventGroupsFile
+schema2doc:
+  title: cfgeventgroups.xml schema reference
+  template: table
+  output: docs/schemas/event-groups.md
+---
+schema: schemas/player-spawn-points.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: PlayerSpawnPointsFile
+schema2doc:
+  title: cfgplayerspawnpoints.xml schema reference
+  template: table
+  output: docs/schemas/player-spawn-points.md
+---
+schema: schemas/weather.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: WeatherFile
+schema2doc:
+  title: cfgweather.xml schema reference
+  template: table
+  output: docs/schemas/weather.md
+---
+schema: schemas/limits-definition.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: LimitsDefinitionFile
+schema2doc:
+  title: cfglimitsdefinition.xml schema reference
+  template: table
+  output: docs/schemas/limits-definition.md
+---
+schema: schemas/limits-definition-user.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: LimitsDefinitionUserFile
+schema2doc:
+  title: cfglimitsdefinitionuser.xml schema reference
+  template: table
+  output: docs/schemas/limits-definition-user.md
+---
+schema: schemas/ignore-list.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: IgnoreListFile
+schema2doc:
+  title: cfgignorelist.xml schema reference
+  template: table
+  output: docs/schemas/ignore-list.md
+---
+schema: schemas/territory.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: TerritoryFile
+schema2doc:
+  title: env/*_territories.xml schema reference
+  template: table
+  output: docs/schemas/territory.md
+---
+schema: schemas/map-group-proto.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: MapGroupProtoFile
+schema2doc:
+  title: mapgroupproto.xml schema reference
+  template: table
+  output: docs/schemas/map-group-proto.md
+---
+schema: schemas/map-cluster-proto.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: MapClusterProtoFile
+schema2doc:
+  title: mapclusterproto.xml schema reference
+  template: table
+  output: docs/schemas/map-cluster-proto.md
+---
+schema: schemas/map-group-pos.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: MapGroupPosFile
+schema2doc:
+  title: mapgrouppos.xml schema reference
+  template: table
+  output: docs/schemas/map-group-pos.md
+---
+schema: schemas/map-group-dirt.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: MapGroupDirtFile
+schema2doc:
+  title: mapgroupdirt.xml schema reference
+  template: table
+  output: docs/schemas/map-group-dirt.md
+---
+schema: schemas/map-group-cluster.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: MapGroupClusterFile
+schema2doc:
+  title: mapgroupcluster*.xml schema reference
+  template: table
+  output: docs/schemas/map-group-cluster.md
+---
+schema: schemas/ce-project-config.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: CEProjectConfigFile
+schema2doc:
+  title: CEProject mapname.xml schema reference
+  template: table
+  output: docs/schemas/ce-project-config.md
+---
+schema: schemas/underground-triggers.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: UndergroundTriggersFile
+schema2doc:
+  title: cfgundergroundtriggers.json schema reference
+  template: table
+  output: docs/schemas/underground-triggers.md
+---
+schema: schemas/effect-area.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: EffectAreaFile
+schema2doc:
+  title: cfgeffectarea.json schema reference
+  template: table
+  output: docs/schemas/effect-area.md
+---
+schema: schemas/gameplay.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: GameplayFile
+schema2doc:
+  title: cfggameplay.json schema reference
+  template: table
+  output: docs/schemas/gameplay.md
+---
+schema: schemas/bunker-broadcast.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: BunkerBroadcastFile
+schema2doc:
+  title: cfgbunkerbroadcast.json schema reference
+  template: table
+  output: docs/schemas/bunker-broadcast.md
+---
+schema: schemas/external-locks.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: ExternalLocksFile
+schema2doc:
+  title: cfgexternallocks.json schema reference
+  template: table
+  output: docs/schemas/external-locks.md
+---
+schema: schemas/gameplay-gear-presets.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: GameplayGearPresetsFile
+schema2doc:
+  title: Gameplay gear preset JSON schema reference
+  template: table
+  output: docs/schemas/gameplay-gear-presets.md
+---
+schema: schemas/object-spawner.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: ObjectSpawnerFile
+schema2doc:
+  title: Object spawner JSON schema reference
+  template: table
+  output: docs/schemas/object-spawner.md
+---
+schema: schemas/player-restricted-area.schema.json
+mod2schema:
+  module: .
+  package: github.com/woozymasta/dzce
+  type: PlayerRestrictedAreaFile
+schema2doc:
+  title: Player restricted area JSON schema reference
+  template: table
+  output: docs/schemas/player-restricted-area.md

@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "BunkerBroadcastBunkerSettings": {
+      "additionalProperties": false,
+      "description": "BunkerBroadcastBunkerSettings controls bunker selection and access-code generation for each broadcast batch.",
+      "properties": {
+        "lockCodeLength": {
+          "description": "LockCodeLength is the number of digits in generated access codes. The game accepts values from 3 through 6.",
+          "type": "integer"
+        },
+        "lockCodeMode": {
+          "description": "LockCodeMode selects the access-code generation mode. The game accepts only 0 or 1.",
+          "type": "integer"
+        },
+        "numberOfActive": {
+          "description": "NumberOfActive is how many bunkers receive fresh codes in each batch. The game accepts values from 1 through 30.",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "BunkerBroadcastFile": {
+      "additionalProperties": false,
+      "description": "BunkerBroadcastFile configures the bunker locations, broadcast schedule, access-code options, and Morse playback.",
+      "properties": {
+        "bunkerSettings": {
+          "$ref": "#/$defs/BunkerBroadcastBunkerSettings",
+          "description": "BunkerSettings sets how many bunkers participate in a broadcast batch and how their access codes are generated."
+        },
+        "playbackSettings": {
+          "$ref": "#/$defs/BunkerBroadcastPlaybackSettings",
+          "description": "PlaybackSettings controls Morse tone lengths, pauses, and repetitions."
+        },
+        "proxies": {
+          "description": "Proxies are world-space positions associated with bunker broadcasts; each position contains X, Y, and Z coordinates.",
+          "items": {
+            "$ref": "#/$defs/BunkerBroadcastProxy"
+          },
+          "type": "array"
+        },
+        "schedulerSettings": {
+          "$ref": "#/$defs/BunkerBroadcastSchedulerSettings",
+          "description": "SchedulerSettings controls batch lifetime, report cadence, and the in-game time windows when broadcasts may run."
+        }
+      },
+      "type": "object"
+    },
+    "BunkerBroadcastPeriod": {
+      "additionalProperties": false,
+      "description": "BunkerBroadcastPeriod defines one allowed window on the in-game clock.",
+      "properties": {
+        "endTime": {
+          "description": "EndTime is the window end as four digits in HHMM form, such as `1930`.",
+          "type": "string"
+        },
+        "startTime": {
+          "description": "StartTime is the window start as four digits in HHMM form, such as `0700`.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "BunkerBroadcastPlaybackSettings": {
+      "additionalProperties": false,
+      "description": "BunkerBroadcastPlaybackSettings controls the timing and repetition of Morse messages sent by bunker broadcasts.",
+      "properties": {
+        "bunkerRepetitions": {
+          "description": "BunkerRepetitions is the number of additional times the current bunker's Morse broadcast is played\nbefore playback moves to the next bunker.",
+          "type": "integer"
+        },
+        "dashDuration": {
+          "description": "DashDuration is the sound duration of one Morse dash, in seconds.",
+          "type": "number"
+        },
+        "dotDuration": {
+          "description": "DotDuration is the sound duration of one Morse dot, in seconds.",
+          "type": "number"
+        },
+        "messageRepetitions": {
+          "description": "MessageRepetitions is the number of additional times a message is repeated.",
+          "type": "integer"
+        },
+        "pauseBetweenBunkers": {
+          "description": "PauseBetweenBunkers is the pause before playback moves to the next bunker, in seconds.",
+          "type": "number"
+        },
+        "symbolGapDuration": {
+          "description": "SymbolGapDuration is the pause between symbols within a Morse character, in seconds.",
+          "type": "number"
+        },
+        "wordGapDuration": {
+          "description": "WordGapDuration is the pause between Morse words, in seconds.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "BunkerBroadcastProxy": {
+      "additionalProperties": false,
+      "description": "BunkerBroadcastProxy stores a world-space position where the game creates a proxy object for the bunker broadcast system.",
+      "properties": {
+        "position": {
+          "description": "Position is the proxy's X, Y, and Z world coordinate.\nThe position should correspond to a bunker location that can be activated by the broadcast.",
+          "items": {
+            "type": "number"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "BunkerBroadcastSchedulerSettings": {
+      "additionalProperties": false,
+      "description": "BunkerBroadcastSchedulerSettings configures when broadcasts are scheduled and how long each generated batch remains active.",
+      "properties": {
+        "batchLifetimeLength": {
+          "description": "BatchLifetimeLength is the batch lifetime in in-game minutes. Valid values are 1 through 1000.",
+          "type": "integer"
+        },
+        "periods": {
+          "description": "Periods are in-game clock windows during which broadcasts may play.\nThe start and end use HHMM strings, and a window may continue past midnight.",
+          "items": {
+            "$ref": "#/$defs/BunkerBroadcastPeriod"
+          },
+          "type": "array"
+        },
+        "reportInterval": {
+          "description": "ReportInterval is the scheduler report interval in in-game minutes. Valid values are 1 through 120.",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/bunker-broadcast-file",
+  "$ref": "#/$defs/BunkerBroadcastFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

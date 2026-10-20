@@ -1,0 +1,87 @@
+{
+  "$defs": {
+    "LimitsDefinitionUserFile": {
+      "additionalProperties": false,
+      "description": "LimitsDefinitionUserFile defines named shorthand groups that combine existing usage or value flags for reuse in item filters.",
+      "properties": {
+        "usageflags": {
+          "$ref": "#/$defs/LimitsUserBindingList",
+          "description": "UsageFlags maps shorthand names to groups of usage flags."
+        },
+        "user_lists": {
+          "additionalProperties": false,
+          "description": "XMLName identifies the required `<user_lists>` document root.",
+          "properties": {},
+          "type": "object"
+        },
+        "valueflags": {
+          "$ref": "#/$defs/LimitsUserBindingList",
+          "description": "ValueFlags maps shorthand names to groups of value flags."
+        }
+      },
+      "required": [
+        "user_lists"
+      ],
+      "type": "object"
+    },
+    "LimitsUserBinding": {
+      "additionalProperties": false,
+      "description": "LimitsUserBinding maps one shorthand name to the usage or value flags it represents.",
+      "properties": {
+        "name": {
+          "description": "Name is the shorthand identifier referenced from an item definition.",
+          "type": "string"
+        },
+        "usage": {
+          "description": "Usages are the location-purpose flags included in this shorthand group.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "value": {
+          "description": "Values are the loot-tier flags included in this shorthand group.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "LimitsUserBindingList": {
+      "additionalProperties": false,
+      "description": "LimitsUserBindingList defines shorthand names that expand to several usage or value flags in Central Economy item definitions.",
+      "properties": {
+        "user": {
+          "description": "Users are the named flag groups available to item definitions.",
+          "items": {
+            "$ref": "#/$defs/LimitsUserBinding"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "NamedRef": {
+      "additionalProperties": false,
+      "description": "NamedRef stores the name attribute used by CE reference elements such as usage, category, tag, value, type, and group.",
+      "properties": {
+        "name": {
+          "description": "Name is the identifier referenced by the containing CE element.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/limits-definition-user-file",
+  "$ref": "#/$defs/LimitsDefinitionUserFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

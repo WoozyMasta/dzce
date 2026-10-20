@@ -1,0 +1,111 @@
+{
+  "$defs": {
+    "EventGroup": {
+      "additionalProperties": false,
+      "description": "EventGroup defines the objects placed together when a position in cfgeventspawns.xml references this group.",
+      "properties": {
+        "child": {
+          "description": "Children are the objects in the composition. Their positions are offsets from the event spawn position.",
+          "items": {
+            "$ref": "#/$defs/EventGroupChild"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Name is the identifier matched by the event spawn's `group` attribute.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "EventGroupChild": {
+      "additionalProperties": false,
+      "description": "EventGroupChild defines one object and its placement or loot behavior within an event group.",
+      "properties": {
+        "a": {
+          "description": "A is the object's yaw rotation in degrees.",
+          "type": "string"
+        },
+        "deloot": {
+          "description": "Deloot sets the amount of dynamic-event loot requested for this object, overriding the default amount.",
+          "type": "string"
+        },
+        "lootmax": {
+          "description": "LootMax is the maximum number of random items requested for this event child.",
+          "type": "string"
+        },
+        "lootmin": {
+          "description": "LootMin is the minimum number of random items requested for this event child.",
+          "type": "string"
+        },
+        "spawnsecondary": {
+          "description": "SpawnSecondary controls whether spawning this object starts its secondary infected event.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type is the game class spawned as this object in the composition.",
+          "type": "string"
+        },
+        "x": {
+          "description": "X is the horizontal X offset from the event spawn position.",
+          "type": "string"
+        },
+        "y": {
+          "description": "Y is the vertical offset from the event spawn position.",
+          "type": "string"
+        },
+        "z": {
+          "description": "Z is the horizontal Z offset from the event spawn position.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "EventGroupsFile": {
+      "additionalProperties": false,
+      "description": "EventGroupsFile is the root of `cfgeventgroups.xml`.",
+      "properties": {
+        "eventgroupdef": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName is XML root marker for `<eventgroupdef>`."
+        },
+        "group": {
+          "description": "Groups is list of reusable static object groups.",
+          "items": {
+            "$ref": "#/$defs/EventGroup"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "eventgroupdef"
+      ],
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/event-groups-file",
+  "$ref": "#/$defs/EventGroupsFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,213 @@
+{
+  "$defs": {
+    "PlayerGeneratorBubbles": {
+      "additionalProperties": false,
+      "description": "PlayerGeneratorBubbles contains the map positions used as spawn-grid centers, optionally organized into named groups.",
+      "properties": {
+        "group": {
+          "description": "Groups are named sets of centers used by group-based spawn selection.",
+          "items": {
+            "$ref": "#/$defs/PlayerSpawnGroup"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "PlayerGeneratorParams": {
+      "additionalProperties": false,
+      "description": "PlayerGeneratorParams defines the rectangular sampling grid around each generator position and filters candidate points by water, nearby geometry, and terrain slope.",
+      "properties": {
+        "allow_in_water": {
+          "description": "AllowInWater permits candidate points in water when set to a true value.",
+          "type": "string"
+        },
+        "grid_density": {
+          "description": "GridDensity sets the density of candidate samples across the generated rectangle.",
+          "type": "string"
+        },
+        "grid_height": {
+          "description": "GridHeight sets the generated rectangle's total height, in meters.",
+          "type": "string"
+        },
+        "grid_width": {
+          "description": "GridWidth sets the generated rectangle's total width, in meters.",
+          "type": "string"
+        },
+        "max_dist_static": {
+          "description": "MaxDistStatic is the upper distance from buildings used to rate a valid candidate point, in meters.",
+          "type": "string"
+        },
+        "max_steepness": {
+          "description": "MaxSteepness is the maximum terrain slope accepted for a candidate.",
+          "type": "string"
+        },
+        "min_dist_static": {
+          "description": "MinDistStatic is the minimum distance from buildings required for a candidate point to be valid, in meters.",
+          "type": "string"
+        },
+        "min_steepness": {
+          "description": "MinSteepness is the minimum terrain slope accepted for a candidate.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PlayerGroupParams": {
+      "additionalProperties": false,
+      "description": "PlayerGroupParams controls rotation through named groups of spawn centers.",
+      "properties": {
+        "counter": {
+          "description": "Counter is how many player spawns in the active group reset its lifetime. A value of -1 disables the counter.",
+          "type": "string"
+        },
+        "enablegroups": {
+          "description": "EnableGroups enables group-based point selection. When disabled, points are treated as a regular candidate list.",
+          "type": "string"
+        },
+        "groups_as_regular": {
+          "description": "GroupsAsRegular allows points inside groups to be used as regular spawn candidates instead of being selected only through group rotation.",
+          "type": "string"
+        },
+        "lifetime": {
+          "description": "Lifetime is how long a selected group remains active before CE rotates to another group. A value of -1 disables the timer.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PlayerSpawnGroup": {
+      "additionalProperties": false,
+      "description": "PlayerSpawnGroup defines one named spawn region and the centers used to generate candidate points in that region.",
+      "properties": {
+        "lifetime": {
+          "description": "Lifetime overrides the shared group lifetime, in seconds. A value of -1 disables the group timer.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name identifies the region for selection, configuration, and diagnostics.",
+          "type": "string"
+        },
+        "pos": {
+          "description": "Pos are centers around which the generator creates candidate spawn grids.",
+          "items": {
+            "$ref": "#/$defs/PlayerSpawnPos"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "PlayerSpawnParams": {
+      "additionalProperties": false,
+      "description": "PlayerSpawnParams provides runtime distance bands used to rate candidate points.",
+      "properties": {
+        "max_dist_infected": {
+          "description": "MaxDistInfected is the distance from infected beyond which extra distance no longer improves the candidate's rating, in meters.",
+          "type": "string"
+        },
+        "max_dist_player": {
+          "description": "MaxDistPlayer is the distance from other players beyond which extra distance no longer improves the candidate's rating, in meters.",
+          "type": "string"
+        },
+        "max_dist_static": {
+          "description": "MaxDistStatic is the upper end of the favorable distance band from static geometry, in meters.",
+          "type": "string"
+        },
+        "max_dist_trigger": {
+          "description": "MaxDistTrigger is the upper end of the favorable distance band from trigger volumes, in meters.",
+          "type": "string"
+        },
+        "min_dist_infected": {
+          "description": "MinDistInfected is the minimum allowed distance from infected, in meters.",
+          "type": "string"
+        },
+        "min_dist_player": {
+          "description": "MinDistPlayer is the minimum allowed distance from other players, in meters.",
+          "type": "string"
+        },
+        "min_dist_static": {
+          "description": "MinDistStatic is the minimum allowed distance from buildings and other static geometry, in meters.",
+          "type": "string"
+        },
+        "min_dist_trigger": {
+          "description": "MinDistTrigger is the minimum allowed distance from trigger volumes, in meters.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PlayerSpawnPointsFile": {
+      "additionalProperties": false,
+      "description": "PlayerSpawnPointsFile configures candidate locations and selection rules for fresh-character, server-hop, and travel spawns.",
+      "properties": {
+        "fresh": {
+          "$ref": "#/$defs/PlayerSpawnProfile",
+          "description": "Fresh configures locations and selection rules for newly created characters."
+        },
+        "hop": {
+          "$ref": "#/$defs/PlayerSpawnProfile",
+          "description": "Hop configures locations and selection rules for characters returning after connecting to another server."
+        },
+        "playerspawnpoints": {
+          "additionalProperties": false,
+          "description": "XMLName identifies the required `<playerspawnpoints>` document root.",
+          "properties": {},
+          "type": "object"
+        },
+        "travel": {
+          "$ref": "#/$defs/PlayerSpawnProfile",
+          "description": "Travel configures locations and selection rules for characters moved between servers in a travel connection."
+        }
+      },
+      "required": [
+        "playerspawnpoints"
+      ],
+      "type": "object"
+    },
+    "PlayerSpawnPos": {
+      "additionalProperties": false,
+      "description": "PlayerSpawnPos stores one horizontal map coordinate used as a spawn-grid center.",
+      "properties": {
+        "x": {
+          "description": "X is the map's horizontal X coordinate.",
+          "type": "string"
+        },
+        "z": {
+          "description": "Z is the map's horizontal Z coordinate.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PlayerSpawnProfile": {
+      "additionalProperties": false,
+      "description": "PlayerSpawnProfile defines spawn selection and candidate generation for one player category: fresh characters, same-map server hops, or map travel.",
+      "properties": {
+        "generator_params": {
+          "$ref": "#/$defs/PlayerGeneratorParams",
+          "description": "GeneratorParams defines how candidate points are generated around the configured centers and which terrain or geometry is acceptable."
+        },
+        "generator_posbubbles": {
+          "$ref": "#/$defs/PlayerGeneratorBubbles",
+          "description": "GeneratorPosBubbles lists the map positions around which the generator builds candidate spawn grids.\nPositions can be grouped for group-based selection."
+        },
+        "group_params": {
+          "$ref": "#/$defs/PlayerGroupParams",
+          "description": "GroupParams enables rotating groups of spawn centers and sets their shared lifetime and reuse counter."
+        },
+        "spawn_params": {
+          "$ref": "#/$defs/PlayerSpawnParams",
+          "description": "SpawnParams scores candidate points by their distance from players, infected, buildings, and trigger volumes at spawn time."
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/player-spawn-points-file",
+  "$ref": "#/$defs/PlayerSpawnPointsFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

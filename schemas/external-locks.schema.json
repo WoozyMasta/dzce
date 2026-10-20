@@ -1,0 +1,41 @@
+{
+  "$defs": {
+    "ExternalLocksFile": {
+      "additionalProperties": false,
+      "description": "ExternalLocksFile configures brute-force protection for external locks.",
+      "properties": {
+        "locksSettings": {
+          "$ref": "#/$defs/GameplayExternalLockData",
+          "description": "LocksSettings contains gameplay limits applied when players try external locks."
+        }
+      },
+      "type": "object"
+    },
+    "GameplayExternalLockData": {
+      "additionalProperties": false,
+      "description": "GameplayExternalLockData controls temporary lockouts after failed attempts to open an external lock.",
+      "properties": {
+        "protectionCountStageOne": {
+          "description": "ProtectionCountStageOne sets the number of failed attempts before the first protection stage is applied.",
+          "type": "integer"
+        },
+        "protectionCountStageTwo": {
+          "description": "ProtectionCountStageTwo sets the number of failed attempts before the second protection stage is applied.",
+          "type": "integer"
+        },
+        "protectionResetTime": {
+          "description": "ProtectionResetTime sets how long the failed-attempt counter remains active before it is reset, in seconds.",
+          "type": "number"
+        },
+        "protectionTime": {
+          "description": "ProtectionTime sets the duration of the protection lockout in seconds.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/external-locks-file",
+  "$ref": "#/$defs/ExternalLocksFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

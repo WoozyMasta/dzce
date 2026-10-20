@@ -4,32 +4,16 @@ ALIGNER     ?= betteralign
 VULNCHECK   ?= govulncheck
 BENCHSTAT   ?= benchstat
 LINTKIT     ?= lintkit
+SCHEMADOC   ?= schemadoc
 BENCH_COUNT ?= 6
 BENCH_REF   ?= bench_baseline.txt
 
-.PHONY: test test-race test-short bench bench-fast bench-reset verify vet check ci \
-	fmt fmt-check lint lint-fix align align-fix tidy tidy-check download deps-update \
-	tools tools-ci tool-golangci-lint tool-betteralign tool-govulncheck tool-benchstat \
-	release-notes
+.PHONY: check ci
 
-check: verify vulncheck tidy fmt vet lint-fix align-fix test
-check: diag-doc
-ci: download tools-ci verify vulncheck tidy-check fmt-check vet lint align test
-ci: diag-doc-check
+check: verify tidy fmt vulncheck vet lint-fix align-fix test test-race generate
+ci: download tools-ci verify tidy-check fmt-check generate-check vulncheck vet lint align test
 
-fmt:
-	gofmt -w .
-
-fmt-check:
-	@files=$$(gofmt -l .); \
-	if [ -n "$$files" ]; then \
-		echo "$$files" 1>&2; \
-		echo "gofmt: files need formatting" 1>&2; \
-		exit 1; \
-	fi
-
-vet:
-	$(GO) vet ./...
+.PHONY: test test-race
 
 test:
 	$(GO) test ./...
@@ -37,8 +21,7 @@ test:
 test-race:
 	$(GO) test -race ./...
 
-test-short:
-	$(GO) test -short ./...
+.PHONY: bench bench-fast bench-reset
 
 bench:
 	@tmp=$$(mktemp); \
@@ -56,8 +39,19 @@ bench-fast:
 bench-reset:
 	rm -f "$(BENCH_REF)"
 
+.PHONY: download verify vet tidy tidy-check fmt fmt-check vulncheck lint lint-fix align align-fix
+
+download:
+	$(GO) mod download
+
 verify:
 	$(GO) mod verify
+
+vet:
+	$(GO) vet ./...
+
+tidy:
+	$(GO) mod tidy
 
 tidy-check:
 	@$(GO) mod tidy
@@ -66,15 +60,19 @@ tidy-check:
 		exit 1; \
 	)
 
-tidy:
-	$(GO) mod tidy
+fmt:
+	gofmt -w .
 
-download:
-	$(GO) mod download
+fmt-check:
+	@files="$$(gofmt -l .)"; \
+	if [ -n "$$files" ]; then \
+		echo "$$files"; \
+		echo "gofmt: files need formatting"; \
+		exit 1; \
+	fi
 
-deps-update:
-	$(GO) get -u ./...
-	$(GO) mod tidy
+vulncheck:
+	$(VULNCHECK) ./...
 
 lint:
 	$(LINTER) run ./...
@@ -89,13 +87,10 @@ align-fix:
 	-$(ALIGNER) -apply ./...
 	$(ALIGNER) ./...
 
-vulncheck:
-	$(VULNCHECK) ./...
+.PHONY: tools tools-ci tool-golangci-lint tool-betteralign tool-benchstat
 
-tools: tool-golangci-lint tool-betteralign tool-govulncheck tool-benchstat
-tools: tool-lintkit
-tools-ci: tool-golangci-lint tool-betteralign tool-govulncheck
-tools-ci: tool-lintkit
+tools: tool-golangci-lint tool-betteralign tool-govulncheck tool-benchstat tool-lintkit tool-schemadoc
+tools-ci: tool-golangci-lint tool-govulncheck tool-betteralign tool-lintkit tool-schemadoc
 
 tool-golangci-lint:
 	$(GO) install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
@@ -111,6 +106,30 @@ tool-benchstat:
 
 tool-lintkit:
 	$(GO) install github.com/woozymasta/lintkit/cmd/lintkit@latest
+
+tool-schemadoc:
+	$(GO) install github.com/woozymasta/schemadoc/cmd/schemadoc@latest
+
+.PHONY: generate generate-check schema-gen schema-check lint-gen lint-check
+
+generate: schema-gen lint-gen
+generate-check: schema-check lint-check
+
+schema-gen:
+	$(SCHEMADOC) build schemadoc.build.yaml
+
+schema-check:
+	$(SCHEMADOC) build schemadoc.check.yaml
+
+lint-gen:
+	$(LINTKIT) snapshot -f yaml rules.yaml
+	$(LINTKIT) doc -t table -w 76 rules.yaml docs/RULES.md
+
+lint-check:
+	$(LINTKIT) snapshot -cf yaml rules.yaml
+	$(LINTKIT) doc -ct table -w 76 rules.yaml docs/RULES.md
+
+.PHONY: release-notes
 
 release-notes:
 	@awk '\
@@ -128,11 +147,3 @@ release-notes:
 	function flush() { if (buf != "") { print buf; buf = "" } } \
 	END { flush() } \
 	' CHANGELOG.md
-
-diag-doc:
-	$(LINTKIT) snapshot -f yaml rules.yaml
-	$(LINTKIT) doc -t table -w 76 rules.yaml RULES.md
-
-diag-doc-check:
-	$(LINTKIT) snapshot -cf yaml rules.yaml
-	$(LINTKIT) doc -ct table -w 76 rules.yaml RULES.md

@@ -1,0 +1,206 @@
+{
+  "$defs": {
+    "EmptyElement": {
+      "additionalProperties": false,
+      "description": "EmptyElement represents a presence-only XML flag such as <unique/> or <hoarder/>.",
+      "properties": {},
+      "type": "object"
+    },
+    "NamedRef": {
+      "additionalProperties": false,
+      "description": "NamedRef stores the name attribute used by CE reference elements such as usage, category, tag, value, type, and group.",
+      "properties": {
+        "name": {
+          "description": "Name is the identifier referenced by the containing CE element.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "SpawnableAttachment": {
+      "additionalProperties": false,
+      "description": "SpawnableAttachment defines one attachment-generation rule for an item.",
+      "properties": {
+        "chance": {
+          "description": "Chance is the probability, from 0 to 1, that this attachment rule is selected.",
+          "type": "number"
+        },
+        "item": {
+          "description": "Items are attachment candidates listed directly instead of in a named preset.",
+          "items": {
+            "$ref": "#/$defs/SpawnableItem"
+          },
+          "type": "array"
+        },
+        "preset": {
+          "description": "Preset names an attachment preset from cfgrandompresets.xml.\nWhen set, the preset provides the candidate items for this attachment rule.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SpawnableCargo": {
+      "additionalProperties": false,
+      "description": "SpawnableCargo defines one cargo-generation rule for an item.",
+      "properties": {
+        "chance": {
+          "description": "Chance is the probability, from 0 to 1, that this cargo rule is selected.",
+          "type": "number"
+        },
+        "item": {
+          "description": "Items are item candidates listed directly instead of in a named preset.",
+          "items": {
+            "$ref": "#/$defs/SpawnableItem"
+          },
+          "type": "array"
+        },
+        "preset": {
+          "description": "Preset names a cargo preset from cfgrandompresets.xml.\nWhen set, the preset provides the candidate items for this cargo rule.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "SpawnableItem": {
+      "additionalProperties": false,
+      "description": "SpawnableItem is one item candidate in cargo, attachment, or random-preset rules.",
+      "properties": {
+        "attachments": {
+          "description": "Attachments defines items that may be attached to this item.",
+          "items": {
+            "$ref": "#/$defs/SpawnableAttachment"
+          },
+          "type": "array"
+        },
+        "cargo": {
+          "description": "Cargo defines items that may be generated inside this item.",
+          "items": {
+            "$ref": "#/$defs/SpawnableCargo"
+          },
+          "type": "array"
+        },
+        "chance": {
+          "description": "Chance is this candidate's probability, from 0 to 1, within its parent list.",
+          "type": "number"
+        },
+        "damage": {
+          "$ref": "#/$defs/SpawnableMinMax",
+          "description": "Damage sets the health range for this item when it is spawned."
+        },
+        "name": {
+          "description": "Name is the game class name of the candidate item.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "SpawnableMinMax": {
+      "additionalProperties": false,
+      "description": "SpawnableMinMax stores a lower and upper bound used to randomize a numeric property when an item is created.",
+      "properties": {
+        "max": {
+          "description": "Max is the inclusive upper bound for the generated property.",
+          "type": "number"
+        },
+        "min": {
+          "description": "Min is the inclusive lower bound for the generated property.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "SpawnableTypeDef": {
+      "additionalProperties": false,
+      "description": "SpawnableTypeDef defines randomized cargo and attachment contents for one item class.",
+      "properties": {
+        "attachments": {
+          "description": "Attachments defines the items or named preset that can be attached to this item.\nDefining attachments in an override replaces the original attachment rules for this type.",
+          "items": {
+            "$ref": "#/$defs/SpawnableAttachment"
+          },
+          "type": "array"
+        },
+        "cargo": {
+          "description": "Cargo defines the items or named preset that can be generated inside this item's cargo.\nDefining cargo in an override replaces the original cargo rules for this type.",
+          "items": {
+            "$ref": "#/$defs/SpawnableCargo"
+          },
+          "type": "array"
+        },
+        "damage": {
+          "$ref": "#/$defs/SpawnableMinMax",
+          "description": "Damage sets the minimum and maximum health for the spawned item.\nIn an override file, this setting affects only new or redefined types."
+        },
+        "hoarder": {
+          "$ref": "#/$defs/EmptyElement",
+          "description": "Hoarder marks this class for hoarder-related spawn handling."
+        },
+        "name": {
+          "description": "Name is the game class whose cargo and attachment spawn rules are defined.",
+          "type": "string"
+        },
+        "tag": {
+          "description": "Tags attach named filters used to select compatible spawn presets.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "unique": {
+          "$ref": "#/$defs/EmptyElement",
+          "description": "Unique marks this type's spawn rules as unique. In an override file, this flag replaces the original type's flag set."
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "SpawnableTypesFile": {
+      "additionalProperties": false,
+      "description": "SpawnableTypesFile defines which cargo items and attachments may be created when CE spawns an item, vehicle, or other configured class.",
+      "properties": {
+        "spawnabletypes": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName identifies the required `<spawnabletypes>` document root."
+        },
+        "type": {
+          "description": "Types map game classes to their cargo and attachment generation rules.",
+          "items": {
+            "$ref": "#/$defs/SpawnableTypeDef"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "spawnabletypes"
+      ],
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/spawnable-types-file",
+  "$ref": "#/$defs/SpawnableTypesFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,101 @@
+{
+  "$defs": {
+    "TerritoryBlock": {
+      "additionalProperties": false,
+      "description": "TerritoryBlock groups zones for one territory profile and supplies their shared display color for Central Economy tooling.",
+      "properties": {
+        "color": {
+          "description": "Color is the ARGB color used to display this territory in tooling.",
+          "type": "string"
+        },
+        "zone": {
+          "description": "Zones are circular spawn areas used by territory behaviors.",
+          "items": {
+            "$ref": "#/$defs/TerritoryZone"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "TerritoryFile": {
+      "additionalProperties": false,
+      "description": "TerritoryFile defines named spawn zones used by territory profiles in `cfgenvironment.xml`.",
+      "properties": {
+        "territory": {
+          "description": "Territories defines zone positions and static and dynamic entity count\nlimits for territory behaviors.",
+          "items": {
+            "$ref": "#/$defs/TerritoryBlock"
+          },
+          "type": "array"
+        },
+        "territory-type": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName identifies the required `<territory-type>` document root."
+        }
+      },
+      "required": [
+        "territory-type"
+      ],
+      "type": "object"
+    },
+    "TerritoryZone": {
+      "additionalProperties": false,
+      "description": "TerritoryZone defines one circular spawn area and its static and dynamic entity count limits.",
+      "properties": {
+        "dmax": {
+          "description": "DMax is the upper bound for the dynamic entity count in this zone.\nFor an ambient event, its global max can still cap the count across all zones.",
+          "type": "string"
+        },
+        "dmin": {
+          "description": "DMin is the lower bound for the dynamic entity count in this zone.\nFor ambient spawners, the count is chosen from DMin through DMax, inclusive, when the zone activates.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name identifies the zone for references and diagnostics.",
+          "type": "string"
+        },
+        "r": {
+          "description": "R is the radius of the area where the zone's entities may spawn, in meters.",
+          "type": "string"
+        },
+        "smax": {
+          "description": "SMax is the upper bound for the static entity count when the territory behavior supports static spawning.",
+          "type": "string"
+        },
+        "smin": {
+          "description": "SMin is the lower bound for the static entity count when the territory behavior supports static spawning.",
+          "type": "string"
+        },
+        "x": {
+          "description": "X is the map's horizontal X coordinate for the center of the zone.",
+          "type": "string"
+        },
+        "z": {
+          "description": "Z is the map's horizontal Z coordinate for the center of the zone.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/territory-file",
+  "$ref": "#/$defs/TerritoryFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

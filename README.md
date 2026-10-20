@@ -17,7 +17,8 @@ Main CE families:
 * binary `areaflags.map`
 * CE project `zg-config` (`mapname.xml`)
 
-Detailed areaflags/zg-config format notes in [AREAFLAGS.md](./AREAFLAGS.md).
+Documentation and generated schema references are listed in
+[docs/README.md](docs/README.md).
 
 ## Quick Start
 

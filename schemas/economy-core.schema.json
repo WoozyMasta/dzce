@@ -1,0 +1,161 @@
+{
+  "$defs": {
+    "EconomyCoreCE": {
+      "additionalProperties": false,
+      "description": "EconomyCoreCE registers a folder of mission-provided Central Economy files.",
+      "properties": {
+        "file": {
+          "description": "Files lists the source file and CE data type to append or override.",
+          "items": {
+            "$ref": "#/$defs/EconomyCoreCEFile"
+          },
+          "type": "array"
+        },
+        "folder": {
+          "description": "Folder is the mission-relative directory containing the registered CE files.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "folder"
+      ],
+      "type": "object"
+    },
+    "EconomyCoreCEFile": {
+      "additionalProperties": false,
+      "description": "EconomyCoreCEFile registers one mission file in an economycore.xml <ce> block.",
+      "properties": {
+        "name": {
+          "description": "Name is the file name relative to the folder on the parent <ce> element.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type selects how Central Economy interprets the registered file.\nThe game documents types, spawnabletypes, globals, economy, events, and messages;\ndzce also accepts economycore when traversing nested includes.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "type": "object"
+    },
+    "EconomyCoreClasses": {
+      "additionalProperties": false,
+      "description": "EconomyCoreClasses lists entity-class roots that Central Economy tracks.",
+      "properties": {
+        "rootclass": {
+          "description": "RootClasses are class inheritance roots registered with CE.",
+          "items": {
+            "$ref": "#/$defs/EconomyCoreRootClass"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "EconomyCoreDefault": {
+      "additionalProperties": false,
+      "description": "EconomyCoreDefault assigns a value to one Central Economy default variable.",
+      "properties": {
+        "name": {
+          "description": "Name is the CE variable name being overridden.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Value is the configured value encoded as text. Its expected format is determined by the named variable.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "type": "object"
+    },
+    "EconomyCoreDefaults": {
+      "additionalProperties": false,
+      "description": "EconomyCoreDefaults overrides built-in Central Economy default variables.",
+      "properties": {
+        "default": {
+          "description": "Defaults are named CE default values applied by the mission.",
+          "items": {
+            "$ref": "#/$defs/EconomyCoreDefault"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "EconomyCoreFile": {
+      "additionalProperties": false,
+      "description": "EconomyCoreFile configures the CE class registry, default variables, and mission-provided CE file additions or overrides.",
+      "properties": {
+        "ce": {
+          "description": "CE registers mission-relative folders containing CE files to append or use as overrides.",
+          "items": {
+            "$ref": "#/$defs/EconomyCoreCE"
+          },
+          "type": "array"
+        },
+        "classes": {
+          "$ref": "#/$defs/EconomyCoreClasses",
+          "description": "Classes declares the game class hierarchies tracked by CE."
+        },
+        "defaults": {
+          "$ref": "#/$defs/EconomyCoreDefaults",
+          "description": "Defaults overrides built-in CE default variables for this mission."
+        },
+        "economycore": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName identifies the required `<economycore>` document root."
+        }
+      },
+      "required": [
+        "economycore"
+      ],
+      "type": "object"
+    },
+    "EconomyCoreRootClass": {
+      "additionalProperties": false,
+      "description": "EconomyCoreRootClass registers one game class hierarchy with Central Economy and identifies whether its instances are loot, characters, or cars.",
+      "properties": {
+        "act": {
+          "description": "Act tells CE how to initialize this class: `character` for players, infected, and animals;\n`car` for vehicles; or omitted/`none` for ordinary economy items.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name is the root class name from the game's configuration inheritance.",
+          "type": "string"
+        },
+        "reportMemoryLOD": {
+          "description": "ReportMemoryLOD controls warnings for missing Memory LODs on instances of this class (`yes` or `no`). The documented default is `yes`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/economy-core-file",
+  "$ref": "#/$defs/EconomyCoreFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

@@ -1,0 +1,162 @@
+{
+  "$defs": {
+    "EnvironmentAgent": {
+      "additionalProperties": false,
+      "description": "EnvironmentAgent defines one agent variant and the classes available for that variant in a territory behavior.",
+      "properties": {
+        "chance": {
+          "description": "Chance is the selection weight for this agent variant.",
+          "type": "string"
+        },
+        "item": {
+          "description": "Items provide agent-specific settings consumed by the selected behavior.",
+          "items": {
+            "$ref": "#/$defs/EnvironmentItem"
+          },
+          "type": "array"
+        },
+        "spawn": {
+          "description": "Spawns are the game classes this agent variant can create.",
+          "items": {
+            "$ref": "#/$defs/EnvironmentSpawn"
+          },
+          "type": "array"
+        },
+        "type": {
+          "description": "Type is the agent variant used by this block, such as `Male` or `Female`.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "EnvironmentFile": {
+      "additionalProperties": false,
+      "description": "EnvironmentFile configures territory profiles, their spawn behaviors, and the files that provide their zones in `cfgenvironment.xml`.",
+      "properties": {
+        "env": {
+          "additionalProperties": false,
+          "description": "XMLName identifies the required `<env>` document root.",
+          "properties": {},
+          "type": "object"
+        },
+        "territories": {
+          "$ref": "#/$defs/EnvironmentTerritories",
+          "description": "Territories declares territory behaviors, zone sources, and the agent classes that can populate those territories."
+        }
+      },
+      "required": [
+        "env"
+      ],
+      "type": "object"
+    },
+    "EnvironmentItem": {
+      "additionalProperties": false,
+      "description": "EnvironmentItem stores one behavior-specific setting as a named text value.",
+      "properties": {
+        "name": {
+          "description": "Name is the setting key interpreted by the selected territory behavior.",
+          "type": "string"
+        },
+        "val": {
+          "description": "Value is the setting value encoded as text.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "EnvironmentSpawn": {
+      "additionalProperties": false,
+      "description": "EnvironmentSpawn assigns a game class and selection weight to a territory agent variant.",
+      "properties": {
+        "chance": {
+          "description": "Chance is the selection weight for this class within its agent variant.",
+          "type": "string"
+        },
+        "configName": {
+          "description": "ConfigName is the game class name that may be spawned.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "EnvironmentTerritories": {
+      "additionalProperties": false,
+      "description": "EnvironmentTerritories configures territory spawning systems by including territory data files and binding those files to spawn behaviors.",
+      "properties": {
+        "file": {
+          "description": "Files declares territory files that can be referenced by a territory's usable identifier.",
+          "items": {
+            "$ref": "#/$defs/EnvironmentTerritoryFile"
+          },
+          "type": "array"
+        },
+        "territory": {
+          "description": "Territories bind a territory profile to its script behavior, zone data, agent classes, and behavior-specific settings.",
+          "items": {
+            "$ref": "#/$defs/EnvironmentTerritory"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "EnvironmentTerritory": {
+      "additionalProperties": false,
+      "description": "EnvironmentTerritory connects a named territory profile to the behavior that consumes its zones and agent definitions.",
+      "properties": {
+        "agent": {
+          "description": "Agents define the agent variants and game classes that may spawn in the territory.",
+          "items": {
+            "$ref": "#/$defs/EnvironmentAgent"
+          },
+          "type": "array"
+        },
+        "behavior": {
+          "description": "Behavior is the Enforce Script behavior class that implements this territory's runtime logic.",
+          "type": "string"
+        },
+        "file": {
+          "description": "Files select the territory-zone data used by this profile.\nEntries can refer to paths directly or to usable identifiers declared above.",
+          "items": {
+            "$ref": "#/$defs/EnvironmentTerritoryFile"
+          },
+          "type": "array"
+        },
+        "item": {
+          "description": "Items provide named, behavior-specific settings as text values.",
+          "items": {
+            "$ref": "#/$defs/EnvironmentItem"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Name identifies the profile used by the corresponding Central Economy spawner or event configuration.",
+          "type": "string"
+        },
+        "type": {
+          "description": "Type selects the territory system category, such as `Herd` or `Ambient`.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "EnvironmentTerritoryFile": {
+      "additionalProperties": false,
+      "description": "EnvironmentTerritoryFile selects territory-zone data for a territory profile.",
+      "properties": {
+        "path": {
+          "description": "Path is the direct path to a territory data file.",
+          "type": "string"
+        },
+        "usable": {
+          "description": "Usable references a reusable territory file declaration by its identifier.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/environment-file",
+  "$ref": "#/$defs/EnvironmentFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

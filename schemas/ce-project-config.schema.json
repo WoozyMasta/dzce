@@ -1,0 +1,343 @@
+{
+  "$defs": {
+    "CEProjectAreaUsageList": {
+      "additionalProperties": false,
+      "description": "CEProjectAreaUsageList stores usage flag labels in bit-position order.",
+      "properties": {
+        "usage": {
+          "description": "Items are the names shown by CEProject for usage flags.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectAreaValueList": {
+      "additionalProperties": false,
+      "description": "CEProjectAreaValueList stores value flag labels in bit-position order.",
+      "properties": {
+        "value": {
+          "description": "Items are the names shown by CEProject for value flags.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectAreas": {
+      "additionalProperties": false,
+      "description": "CEProjectAreas stores the ordered flag labels displayed in the editor.",
+      "properties": {
+        "usages": {
+          "$ref": "#/$defs/CEProjectAreaUsageList",
+          "description": "Usages defines labels for area usage bits.\nThe list order corresponds to bit positions in `layers/layer@usage_flags`."
+        },
+        "values": {
+          "$ref": "#/$defs/CEProjectAreaValueList",
+          "description": "Values defines labels for area value bits, commonly used for loot tiers.\nThe list order corresponds to bit positions in `layers/layer@value_flags`."
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectBackground": {
+      "additionalProperties": false,
+      "description": "CEProjectBackground stores the editor map preview image and its tint.",
+      "properties": {
+        "file": {
+          "description": "File is the map image path opened for the editor preview.",
+          "type": "string"
+        },
+        "rgba": {
+          "description": "RGBA is the packed color tint applied to the preview image.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectBrush": {
+      "additionalProperties": false,
+      "description": "CEProjectBrush stores the editor's current painting tool settings.",
+      "properties": {
+        "color": {
+          "description": "Color is the packed fill color used to preview the brush.",
+          "type": "string"
+        },
+        "outline": {
+          "description": "Outline controls whether the brush preview draws an outline.",
+          "type": "string"
+        },
+        "outline_color": {
+          "description": "OutlineColor is the packed color used for the brush preview outline.",
+          "type": "string"
+        },
+        "outline_width": {
+          "description": "OutlineWidth is the brush preview outline width.",
+          "type": "string"
+        },
+        "size": {
+          "description": "Size is the brush size used when painting source masks.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectConfigFile": {
+      "additionalProperties": false,
+      "description": "CEProjectConfigFile is a CEProject workspace file (`mapname.xml`).",
+      "properties": {
+        "areas": {
+          "$ref": "#/$defs/CEProjectAreas",
+          "description": "Areas declares the usage and value labels available in the editor.\nTheir order maps labels to bit positions in layer masks."
+        },
+        "brush": {
+          "$ref": "#/$defs/CEProjectBrush",
+          "description": "Brush stores editor painting defaults; it is not an area-flags layer."
+        },
+        "global": {
+          "$ref": "#/$defs/CEProjectGlobal",
+          "description": "Global defines the map preview and the raster and world dimensions used by the project."
+        },
+        "layers": {
+          "$ref": "#/$defs/CEProjectLayers",
+          "description": "Layers maps named source masks to usage/value masks and editor display properties."
+        },
+        "selected": {
+          "$ref": "#/$defs/CEProjectSelected",
+          "description": "Selected stores editor selection state and does not describe map data."
+        },
+        "territory-type-list": {
+          "$ref": "#/$defs/CEProjectTerritoryTypeList",
+          "description": "TerritoryTypeList embeds territory definitions in the project file.\nCEProject may rewrite this section from the separate territory XML files when saving or exporting the project."
+        },
+        "zg-config": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName identifies the CEProject document root."
+        }
+      },
+      "required": [
+        "zg-config"
+      ],
+      "type": "object"
+    },
+    "CEProjectDimension": {
+      "additionalProperties": false,
+      "description": "CEProjectDimension stores a dimension value from a CEProject `size` attribute.",
+      "properties": {
+        "size": {
+          "description": "Size is the raster or world dimension, depending on its parent element.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectGlobal": {
+      "additionalProperties": false,
+      "description": "CEProjectGlobal stores map preview metadata and project dimensions.",
+      "properties": {
+        "background": {
+          "$ref": "#/$defs/CEProjectBackground",
+          "description": "Background selects and tints the map image shown in the editor."
+        },
+        "layer": {
+          "$ref": "#/$defs/CEProjectDimension",
+          "description": "Layer.Size is the width and height of the square area-flags raster."
+        },
+        "world": {
+          "$ref": "#/$defs/CEProjectDimension",
+          "description": "World.Size is the world-map extent used to relate raster cells to map coordinates."
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectLayer": {
+      "additionalProperties": false,
+      "description": "CEProjectLayer describes one source mask and how its painted cells contribute to the compiled area-flags map.",
+      "properties": {
+        "color": {
+          "description": "Color is the packed color used to display this layer in the editor.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name identifies the layer and provides the base name for its source mask.",
+          "type": "string"
+        },
+        "usage_flags": {
+          "description": "UsageFlags is the decimal bitmask of usage flags written by this layer.",
+          "type": "string"
+        },
+        "value_flags": {
+          "description": "ValueFlags is the decimal bitmask of value flags written by this layer.",
+          "type": "string"
+        },
+        "visible": {
+          "description": "Visible controls editor visibility only; it does not change the compiled area-flags data.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectLayers": {
+      "additionalProperties": false,
+      "description": "CEProjectLayers stores named source-mask layers used to paint area flags.",
+      "properties": {
+        "layer": {
+          "description": "Layers associate source mask files with area-flag bitmasks.",
+          "items": {
+            "$ref": "#/$defs/CEProjectLayer"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectSelected": {
+      "additionalProperties": false,
+      "description": "CEProjectSelected stores the editor's current row selection.",
+      "properties": {
+        "row": {
+          "description": "Row is the selected row value persisted by the editor.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectTerritory": {
+      "additionalProperties": false,
+      "description": "CEProjectTerritory stores one named territory and its editor display state.",
+      "properties": {
+        "color": {
+          "description": "Color is the packed display color used for the territory.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name identifies this territory in the editor and exported XML.",
+          "type": "string"
+        },
+        "visible": {
+          "description": "Visible controls whether the territory is drawn in the editor.",
+          "type": "string"
+        },
+        "zone": {
+          "description": "Zones define the named spawn areas and their static/dynamic population limits.",
+          "items": {
+            "$ref": "#/$defs/CEProjectTerritoryZone"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectTerritoryType": {
+      "additionalProperties": false,
+      "description": "CEProjectTerritoryType groups territories under the type name used for a separate territory definition file.",
+      "properties": {
+        "name": {
+          "description": "Name is the territory type identifier and commonly matches the output file name, such as `sheep_goat_territories`.",
+          "type": "string"
+        },
+        "territory": {
+          "description": "Territories are the named regions and their spawn zones for this type.",
+          "items": {
+            "$ref": "#/$defs/CEProjectTerritory"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectTerritoryTypeList": {
+      "additionalProperties": false,
+      "description": "CEProjectTerritoryTypeList stores territory definitions embedded in the editor project.",
+      "properties": {
+        "territory-type": {
+          "description": "Types stores individual `<territory-type>` entries.\nCEProject save/export may rewrite this section from `territoryTypes/*.xml`.",
+          "items": {
+            "$ref": "#/$defs/CEProjectTerritoryType"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "CEProjectTerritoryZone": {
+      "additionalProperties": false,
+      "description": "CEProjectTerritoryZone stores one circular spawn area in a territory.",
+      "properties": {
+        "d": {
+          "description": "D is an optional CEProject zone attribute.\nIts runtime meaning is not established by the available format references.",
+          "type": "string"
+        },
+        "dmax": {
+          "description": "DMax is the maximum number of dynamic members allowed in this zone.",
+          "type": "string"
+        },
+        "dmin": {
+          "description": "DMin is the minimum number of dynamic members maintained in this zone.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Name identifies the zone's role, such as `Graze`, `Rest`, or `Water`.",
+          "type": "string"
+        },
+        "r": {
+          "description": "R is the zone radius in world units.",
+          "type": "string"
+        },
+        "smax": {
+          "description": "SMax is the maximum number of static members allowed in this zone.",
+          "type": "string"
+        },
+        "smin": {
+          "description": "SMin is the minimum number of static members maintained in this zone.",
+          "type": "string"
+        },
+        "x": {
+          "description": "X is the zone center's world X coordinate.",
+          "type": "string"
+        },
+        "z": {
+          "description": "Z is the zone center's world Z coordinate.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "NamedRef": {
+      "additionalProperties": false,
+      "description": "NamedRef stores the name attribute used by CE reference elements such as usage, category, tag, value, type, and group.",
+      "properties": {
+        "name": {
+          "description": "Name is the identifier referenced by the containing CE element.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/ce-project-config-file",
+  "$ref": "#/$defs/CEProjectConfigFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

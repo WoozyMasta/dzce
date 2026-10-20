@@ -1,0 +1,58 @@
+{
+  "$defs": {
+    "IgnoreListFile": {
+      "additionalProperties": false,
+      "description": "IgnoreListFile is the root of `cfgignorelist.xml`.",
+      "properties": {
+        "ignore": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName is XML root marker for `<ignore>`."
+        },
+        "type": {
+          "description": "Types is list of item class names ignored by CE.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "ignore"
+      ],
+      "type": "object"
+    },
+    "NamedRef": {
+      "additionalProperties": false,
+      "description": "NamedRef stores the name attribute used by CE reference elements such as usage, category, tag, value, type, and group.",
+      "properties": {
+        "name": {
+          "description": "Name is the identifier referenced by the containing CE element.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/ignore-list-file",
+  "$ref": "#/$defs/IgnoreListFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

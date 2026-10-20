@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "GameplayGearAttachmentSlotSet": {
+      "additionalProperties": false,
+      "description": "GameplayGearAttachmentSlotSet defines the candidate items for one character attachment slot.",
+      "properties": {
+        "discreteItemSets": {
+          "description": "DiscreteItemSets are the weighted alternative items that may occupy this slot.",
+          "items": {
+            "$ref": "#/$defs/GameplayGearDiscreteItemSet"
+          },
+          "type": "array"
+        },
+        "slotName": {
+          "description": "SlotName is the inventory slot name from CfgSlots, such as `Body`, `Back`, or `shoulderL`.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayGearComplexChild": {
+      "additionalProperties": false,
+      "description": "GameplayGearComplexChild defines an item created inside a selected parent item or cargo loadout, with optional nested simple cargo.",
+      "properties": {
+        "attributes": {
+          "$ref": "#/$defs/GameplayGearItemAttributes",
+          "description": "Attributes supplies the health and quantity ranges rolled for this item."
+        },
+        "itemType": {
+          "description": "ItemType is the game class name of the nested item to create.",
+          "type": "string"
+        },
+        "quickBarSlot": {
+          "description": "QuickBarSlot assigns the item to a quickbar slot; -1 leaves it unassigned.",
+          "type": "integer"
+        },
+        "simpleChildrenTypes": {
+          "description": "SimpleChildrenTypes are game class names of items created inside this item without per-child settings.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "simpleChildrenUseDefaultAttributes": {
+          "description": "SimpleChildrenUseDefaultAttributes makes simple child items inherit the attributes from this item instead of using configuration defaults.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayGearDiscreteItemSet": {
+      "additionalProperties": false,
+      "description": "GameplayGearDiscreteItemSet defines one weighted item choice and any cargo or attachments created inside it.",
+      "properties": {
+        "attributes": {
+          "$ref": "#/$defs/GameplayGearItemAttributes",
+          "description": "Attributes supplies the health and quantity ranges rolled for this item."
+        },
+        "complexChildrenTypes": {
+          "description": "ComplexChildrenTypes are items created inside the selected item, each with its own attributes, quickbar assignment, and optional simple cargo.",
+          "items": {
+            "$ref": "#/$defs/GameplayGearComplexChild"
+          },
+          "type": "array"
+        },
+        "itemType": {
+          "description": "ItemType is the game class name of the item created in this slot.",
+          "type": "string"
+        },
+        "quickBarSlot": {
+          "description": "QuickBarSlot assigns the item to a quickbar slot; -1 leaves it unassigned.",
+          "type": "integer"
+        },
+        "simpleChildrenTypes": {
+          "description": "SimpleChildrenTypes are game class names of child items created inside the selected item without per-child settings.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "simpleChildrenUseDefaultAttributes": {
+          "description": "SimpleChildrenUseDefaultAttributes makes simple child items inherit the attributes from this item set instead of using configuration defaults.",
+          "type": "boolean"
+        },
+        "spawnWeight": {
+          "description": "SpawnWeight is this item's relative selection weight among alternatives for the slot or set. It must be at least 1.",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayGearItemAttributes": {
+      "additionalProperties": false,
+      "description": "GameplayGearItemAttributes defines the inclusive numeric ranges from which item health and quantity are selected during spawning.",
+      "properties": {
+        "healthMax": {
+          "description": "HealthMax is the upper bound for the spawned item's health value.",
+          "type": "number"
+        },
+        "healthMin": {
+          "description": "HealthMin is the lower bound for the spawned item's health value.",
+          "type": "number"
+        },
+        "quantityMax": {
+          "description": "QuantityMax is the upper bound for the spawned item's quantity value.",
+          "type": "number"
+        },
+        "quantityMin": {
+          "description": "QuantityMin is the lower bound for the spawned item's quantity value.",
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayGearPreset": {
+      "additionalProperties": false,
+      "description": "GameplayGearPreset defines the character classes, equipment slots, and cargo variants available for one starting loadout.",
+      "properties": {
+        "attachmentSlotItemSets": {
+          "description": "AttachmentSlotItemSets defines weighted equipment choices for character attachment slots such as body, back, and shoulders.",
+          "items": {
+            "$ref": "#/$defs/GameplayGearAttachmentSlotSet"
+          },
+          "type": "array"
+        },
+        "characterTypes": {
+          "description": "CharacterTypes lists survivor classes eligible for this preset.\nWhen omitted or empty, the character type selected in the creation menu is used.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "discreteUnsortedItemSets": {
+          "description": "DiscreteUnsortedItemSets defines weighted cargo loadouts added to the character independently of a specific attachment slot.",
+          "items": {
+            "$ref": "#/$defs/GameplayGearUnsortedSet"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Name labels the preset for identification in configuration and logs.",
+          "type": "string"
+        },
+        "spawnWeight": {
+          "description": "SpawnWeight is the preset's relative selection weight.\nIt must be at least 1; higher values make the preset more likely to be selected.",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "GameplayGearPresetsFile": {
+      "description": "GameplayGearPresetsFile defines character equipment presets loaded through `cfggameplay.json -> PlayerData.spawnGearPresetFiles`.",
+      "items": {
+        "$ref": "#/$defs/GameplayGearPreset"
+      },
+      "type": "array"
+    },
+    "GameplayGearUnsortedSet": {
+      "additionalProperties": false,
+      "description": "GameplayGearUnsortedSet defines one weighted cargo loadout that can be selected independently of a character attachment slot.",
+      "properties": {
+        "attributes": {
+          "$ref": "#/$defs/GameplayGearItemAttributes",
+          "description": "Attributes provides default health and quantity ranges for nested items that inherit attributes from this set."
+        },
+        "complexChildrenTypes": {
+          "description": "ComplexChildrenTypes are cargo items with their own attributes, quickbar assignment, and optional simple child items.",
+          "items": {
+            "$ref": "#/$defs/GameplayGearComplexChild"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "Name identifies the cargo loadout in configuration and diagnostics.",
+          "type": "string"
+        },
+        "simpleChildrenTypes": {
+          "description": "SimpleChildrenTypes are game class names of cargo items created without per-item settings.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "simpleChildrenUseDefaultAttributes": {
+          "description": "SimpleChildrenUseDefaultAttributes makes simple child items inherit the attributes from this cargo set instead of using configuration defaults.",
+          "type": "boolean"
+        },
+        "spawnWeight": {
+          "description": "SpawnWeight is this cargo loadout's relative selection weight among alternatives. It must be at least 1.",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/gameplay-gear-presets-file",
+  "$ref": "#/$defs/GameplayGearPresetsFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

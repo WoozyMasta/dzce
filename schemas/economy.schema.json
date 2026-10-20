@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "EconomyFile": {
+      "additionalProperties": false,
+      "description": "EconomyFile controls initialization, persistence, and respawning for Central Economy subsystems in `db/economy.xml`.",
+      "properties": {
+        "animals": {
+          "$ref": "#/$defs/EconomySection",
+          "description": "Animals controls initialization and persistence of non-ambient wildlife."
+        },
+        "building": {
+          "$ref": "#/$defs/EconomySection",
+          "description": "Building controls initialization and persistence of building state, such as randomized or saved door states."
+        },
+        "custom": {
+          "$ref": "#/$defs/EconomySection",
+          "description": "Custom controls initialization and persistence for custom CE entities."
+        },
+        "dynamic": {
+          "$ref": "#/$defs/EconomySection",
+          "description": "Dynamic controls CE initialization, persistence, and respawning for dynamic economy entities such as world loot."
+        },
+        "economy": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName identifies the required `<economy>` document root."
+        },
+        "player": {
+          "$ref": "#/$defs/EconomySection",
+          "description": "Player controls initialization and persistence of player CE state."
+        },
+        "randoms": {
+          "$ref": "#/$defs/EconomySection",
+          "description": "Randoms controls initialization and persistence for random economy entities."
+        },
+        "vehicles": {
+          "$ref": "#/$defs/EconomySection",
+          "description": "Vehicles controls initialization and persistence of CE-managed vehicles."
+        },
+        "zombies": {
+          "$ref": "#/$defs/EconomySection",
+          "description": "Zombies controls initialization and persistence of infected entities."
+        }
+      },
+      "required": [
+        "economy"
+      ],
+      "type": "object"
+    },
+    "EconomySection": {
+      "additionalProperties": false,
+      "description": "EconomySection selects which lifecycle operations Central Economy performs for one subsystem: initialization, loading and saving persistent state, and runtime respawning.",
+      "properties": {
+        "init": {
+          "description": "Init allows CE to initialize this subsystem when the mission starts.",
+          "type": "integer"
+        },
+        "load": {
+          "description": "Load allows CE to restore this subsystem's saved state from server storage.",
+          "type": "integer"
+        },
+        "respawn": {
+          "description": "Respawn allows CE to replenish entities managed by this subsystem during runtime.",
+          "type": "integer"
+        },
+        "save": {
+          "description": "Save allows CE to write this subsystem's state to server storage.",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/economy-file",
+  "$ref": "#/$defs/EconomyFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

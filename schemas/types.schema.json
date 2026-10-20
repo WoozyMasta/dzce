@@ -1,0 +1,163 @@
+{
+  "$defs": {
+    "NamedRef": {
+      "additionalProperties": false,
+      "description": "NamedRef stores the name attribute used by CE reference elements such as usage, category, tag, value, type, and group.",
+      "properties": {
+        "name": {
+          "description": "Name is the identifier referenced by the containing CE element.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "TypeDef": {
+      "additionalProperties": false,
+      "description": "TypeDef defines how Central Economy counts and replenishes one game class.",
+      "properties": {
+        "category": {
+          "description": "Categories classify the item and can constrain which loot locations accept it. Names must be defined in cfglimitsdefinition.xml.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "cost": {
+          "description": "Cost is the economy cost assigned to spawning this class and is used when the CE schedules eligible types for replenishment.",
+          "type": "integer"
+        },
+        "flags": {
+          "$ref": "#/$defs/TypeFlags",
+          "description": "Flags determine which existing instances count toward the economy target and whether this entry is treated as crafted or dynamic-event loot."
+        },
+        "lifetime": {
+          "description": "Lifetime is how long, in seconds, an eligible spawned instance can remain before economy cleanup removes it.",
+          "type": "integer"
+        },
+        "min": {
+          "description": "Min is the lower count threshold for this class. When the counted amount falls below it, the economy prioritizes bringing the amount back up.",
+          "type": "integer"
+        },
+        "name": {
+          "description": "Name is the game configuration class name whose economy rules are set by this entry.",
+          "type": "string"
+        },
+        "nominal": {
+          "description": "Nominal is the target number of counted instances the economy maintains for this class across the world.",
+          "type": "integer"
+        },
+        "quantmax": {
+          "description": "QuantityMax is the maximum fill percentage for items with a variable quantity, such as magazines, food, or liquid containers.",
+          "type": "integer"
+        },
+        "quantmin": {
+          "description": "QuantityMin is the minimum fill percentage for items with a variable quantity, such as magazines, food, or liquid containers.",
+          "type": "integer"
+        },
+        "restock": {
+          "description": "Restock is the delay, in seconds, used by the economy before it can replenish this class after its count falls below target.",
+          "type": "integer"
+        },
+        "tag": {
+          "description": "Tags provide additional location filters, commonly selecting placement within a building. Names must be defined in cfglimitsdefinition.xml.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "usage": {
+          "description": "Usages identify the location contexts in which the item may spawn, such as military or town. Names must be defined in cfglimitsdefinition.xml.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        },
+        "value": {
+          "description": "Values classify the item's tier or special status and can constrain its spawn locations. Names must be defined in cfglimitsdefinition.xml.",
+          "items": {
+            "$ref": "#/$defs/NamedRef"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "TypeFlags": {
+      "additionalProperties": false,
+      "description": "TypeFlags controls which locations contribute existing instances to the type's economy count and marks special spawn handling.",
+      "properties": {
+        "count_in_cargo": {
+          "description": "CountInCargo includes instances stored inside another item's cargo when the CE compares the current count with Nominal and Min.",
+          "type": "integer"
+        },
+        "count_in_hoarder": {
+          "description": "CountInHoarder includes instances kept in hoarder storage, such as tents, barrels, and buried stashes.",
+          "type": "integer"
+        },
+        "count_in_map": {
+          "description": "CountInMap includes instances placed in the world, including loot at ordinary spawn locations.",
+          "type": "integer"
+        },
+        "count_in_player": {
+          "description": "CountInPlayer includes instances in player inventories when calculating the economy count.",
+          "type": "integer"
+        },
+        "crafted": {
+          "description": "Crafted marks a type as crafted for CE handling; it does not define a crafting recipe.",
+          "type": "integer"
+        },
+        "deloot": {
+          "description": "Deloot marks a type for dynamic-event loot handling rather than ordinary building loot placement.",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "TypesFile": {
+      "additionalProperties": false,
+      "description": "TypesFile is the Central Economy item catalog in `db/types.xml`.",
+      "properties": {
+        "type": {
+          "description": "Types are the item classes whose loot economy rules are defined here.",
+          "items": {
+            "$ref": "#/$defs/TypeDef"
+          },
+          "type": "array"
+        },
+        "types": {
+          "$ref": "#/$defs/xml_Name",
+          "description": "XMLName identifies the required `<types>` document root."
+        }
+      },
+      "required": [
+        "types"
+      ],
+      "type": "object"
+    },
+    "xml_Name": {
+      "additionalProperties": false,
+      "properties": {
+        "Local": {
+          "type": "string"
+        },
+        "Space": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "Space",
+        "Local"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/woozymasta/dzce/types-file",
+  "$ref": "#/$defs/TypesFile",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
