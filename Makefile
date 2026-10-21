@@ -126,7 +126,7 @@ schema-gen:
 	$(SCHEMADOC) build schemadoc.build.yaml
 
 schema-check:
-	$(SCHEMADOC) build schemadoc.check.yaml
+	$(SCHEMADOC) build --check schemadoc.build.yaml
 
 lint-gen:
 	$(LINTKIT) snapshot -f yaml rules.yaml
