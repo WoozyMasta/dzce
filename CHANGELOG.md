@@ -18,7 +18,9 @@ and this project adheres to [Semantic Versioning][].
 
 ### Added
 
-* Generated JSON Schema and Markdown references for supported CE models.
+* Generated JSON Schemas and Markdown references for supported CE models,
+  with a typed catalog, exact field lookup,
+  and ranked search with weighted aliases for common and technical terms.
 * Models current official mission JSON and XML schemas and validates
   `areaflags.map` files in integration tests.
 
