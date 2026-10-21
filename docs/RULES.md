@@ -4,7 +4,7 @@
 
 This document contains the current registry of lint rules.
 
-Total rules: 34.
+Total rules: 35.
 
 ## dzce
 
@@ -115,6 +115,7 @@ Duplicate type override across includes
 Codes:
 [DZCE1001](#dzce1001),
 [DZCE1002](#dzce1002),
+[DZCE1003](#dzce1003),
 
 #### `DZCE1001`
 
@@ -140,6 +141,20 @@ Unsupported xml root
 | Field | Value |
 | --- | --- |
 | Rule ID | `dzce.parse.unsupported-xml-root` |
+| Scope | `parse` |
+| Severity | `error` |
+| Enabled | `true` (implicit) |
+
+#### `DZCE1003`
+
+Json decode failed
+
+> CE JSON file is malformed and cannot be parsed. Check JSON syntax and field
+> values.
+
+| Field | Value |
+| --- | --- |
+| Rule ID | `dzce.parse.json-decode-failed` |
 | Scope | `parse` |
 | Severity | `error` |
 | Enabled | `true` (implicit) |
@@ -387,8 +402,9 @@ Invalid spawnable damage range
 
 Invalid spawnable chance range
 
-> `cfgspawnabletypes.xml` chance values are inconsistent for CE spawn rules.
-> Use one mode consistently: normalized 0..1 or percent 0..100.
+> `cfgspawnabletypes.xml` group chances use finite probabilities in 0..1.
+> Candidate chances use probabilities in 0..1 or percentage weights in 0..100
+> that total 100.
 
 | Field | Value |
 | --- | --- |

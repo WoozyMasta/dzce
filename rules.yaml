@@ -59,6 +59,14 @@ rules:
     message: unsupported xml root
     description: XML is valid, but root tag is not a supported CE file model for this check set. Use a supported CE root or exclude this file from CE lint input.
     default_severity: error
+  - id: dzce.parse.json-decode-failed
+    module: dzce
+    scope: parse
+    scope_description: Parse diagnostics for CE input payloads.
+    code: DZCE1003
+    message: json decode failed
+    description: CE JSON file is malformed and cannot be parsed. Check JSON syntax and field values.
+    default_severity: error
   - id: dzce.semantic.duplicate-type-name
     module: dzce
     scope: semantic
@@ -185,7 +193,7 @@ rules:
     scope_description: Semantic validation diagnostics for decoded CE models.
     code: DZCE3305
     message: invalid spawnable chance range
-    description: '`cfgspawnabletypes.xml` chance values are inconsistent for CE spawn rules. Use one mode consistently: normalized 0..1 or percent 0..100.'
+    description: '`cfgspawnabletypes.xml` group chances use finite probabilities in 0..1. Candidate chances use probabilities in 0..1 or percentage weights in 0..100 that total 100.'
     default_severity: warning
   - id: dzce.semantic.duplicate-event-name
     module: dzce

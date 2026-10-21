@@ -227,8 +227,9 @@ type SpawnableAttachment struct {
 type SpawnableItem struct {
 	// Damage sets the health range for this item when it is spawned.
 	Damage *SpawnableMinMax `json:"damage,omitempty" yaml:"damage,omitempty" xml:"damage,omitempty"`
-	// Chance is this candidate's probability, from 0 to 1, within its parent list.
-	Chance *float64 `json:"chance,omitempty" yaml:"chance,omitempty" xml:"chance,attr,omitempty" jsonschema:"minimum=0,maximum=1,example=0.11"`
+	// Chance is a probability from 0 to 1, or a percentage weight
+	// when the explicit chance values in its parent group use the 0 to 100 scale.
+	Chance *float64 `json:"chance,omitempty" yaml:"chance,omitempty" xml:"chance,attr,omitempty" jsonschema:"minimum=0,example=0.11"`
 	// Name is the game class name of the candidate item.
 	Name string `json:"name" yaml:"name" xml:"name,attr" jsonschema:"example=TunaCan"`
 	// Cargo defines items that may be generated inside this item.

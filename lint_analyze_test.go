@@ -209,23 +209,112 @@ func TestAnalyzeLintContentSpawnableRules(t *testing.T) {
 	}
 }
 
-func TestAnalyzeLintContentSpawnableChanceUsesPerValueRange(t *testing.T) {
+func TestAnalyzeLintContentSpawnableChanceModes(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name            string
+		content         string
+		wantDiagnostics int
+	}{
+		{
+			name: "probability values do not need to sum to one",
+			content: `<spawnabletypes><type name="T1">
+			<attachments chance="0.8">
+				<item name="A" chance="0.3"/><item name="B" chance="0.2"/>
+			</attachments>
+		</type></spawnabletypes>`,
+		},
+		{
+			name: "percentage weights totaling one hundred",
+			content: `<spawnabletypes><type name="AKM">
+			<attachments chance="1">
+				<item name="A" chance="40"/><item name="B" chance="30"/>
+				<item name="C" chance="20"/><item name="D" chance="5"/>
+				<item name="E" chance="5"/>
+			</attachments>
+		</type></spawnabletypes>`,
+		},
+		{
+			name: "mixed scales totaling one hundred are diagnosed",
+			content: `<spawnabletypes><type name="T1">
+			<cargo chance="0.5">
+				<item name="A" chance="99"/><item name="B" chance="0.5"/>
+				<item name="C" chance="0.5"/>
+			</cargo>
+		</type></spawnabletypes>`,
+			wantDiagnostics: 1,
+		},
+		{
+			name: "percentage weights with a minority fractional value",
+			content: `<spawnabletypes><type name="T1">
+			<cargo chance="0.5">
+				<item name="A" chance="40"/><item name="B" chance="30"/>
+				<item name="C" chance="29.5"/><item name="D" chance="0.5"/>
+			</cargo>
+		</type></spawnabletypes>`,
+		},
+		{
+			name: "percentage weights with a non-one-hundred total",
+			content: `<spawnabletypes><type name="T1">
+			<cargo chance="0.5">
+				<item name="A" chance="40"/><item name="B" chance="50"/>
+			</cargo>
+		</type></spawnabletypes>`,
+			wantDiagnostics: 1,
+		},
+		{
+			name: "percentage weight above one hundred",
+			content: `<spawnabletypes><type name="T1">
+			<cargo chance="0.5"><item name="A" chance="101"/></cargo>
+		</type></spawnabletypes>`,
+			wantDiagnostics: 1,
+		},
+		{
+			name: "incomplete percentage weights skip total check",
+			content: `<spawnabletypes><type name="T1">
+			<cargo chance="0.5">
+				<item name="A" chance="40"/><item name="B"/>
+			</cargo>
+		</type></spawnabletypes>`,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			diagnostics := AnalyzeLintContent(
+				"cfgspawnabletypes.xml",
+				[]byte(test.content),
+			)
+			if got := countCode(diagnostics, CodeSpawnableChanceRange); got != test.wantDiagnostics {
+				t.Fatalf(
+					"chance diagnostics = %d, want %d; diagnostics: %#v",
+					got,
+					test.wantDiagnostics,
+					diagnostics,
+				)
+			}
+		})
+	}
+}
+
+func TestAnalyzeLintContentSpawnableItemChanceRejectsNonFiniteValues(t *testing.T) {
 	t.Parallel()
 
 	content := []byte(
 		`<?xml version="1.0"?>
 <spawnabletypes>
 	<type name="T1">
-		<cargo chance="0.5">
-			<item name="Rag" chance="50"/>
-		</cargo>
+		<attachments chance="1">
+			<item name="A" chance="NaN"/>
+		</attachments>
 	</type>
 </spawnabletypes>`,
 	)
 
 	diagnostics := AnalyzeLintContent("cfgspawnabletypes.xml", content)
-	if got := countCode(diagnostics, CodeSpawnableChanceRange); got != 1 {
-		t.Fatalf("chance diagnostics = %d, want 1; diagnostics: %#v", got, diagnostics)
+	if !hasCode(diagnostics, CodeSpawnableChanceRange) {
+		t.Fatalf("expected %s code in diagnostics", codeToken(CodeSpawnableChanceRange))
 	}
 }
 

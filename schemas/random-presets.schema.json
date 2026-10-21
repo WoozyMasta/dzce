@@ -140,11 +140,10 @@
           "type": "array"
         },
         "chance": {
-          "description": "Chance is this candidate's probability, from 0 to 1, within its parent list.",
+          "description": "Chance is a probability from 0 to 1, or a percentage weight when the\nexplicit chance values in its parent group use the 0 to 100 scale.",
           "examples": [
             0.11
           ],
-          "maximum": 1,
           "minimum": 0,
           "type": "number"
         },

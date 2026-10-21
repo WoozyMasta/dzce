@@ -233,14 +233,15 @@ Paths:
 * [`attachments`](#randompresetsfileattachments).`[]`.[`item`](#randompresetitem).`[]`.`chance`
 * [`cargo`](#randompresetsfilecargo).`[]`.[`item`](#randompresetitem).`[]`.`chance`
 
-Chance is this candidate's probability, from 0 to 1, within its parent list.
+Chance is a probability from 0 to 1, or a percentage weight when the explicit
+chance values in its parent group use the 0 to 100 scale.
 
 | Attribute | Value |
 | --- | --- |
 | Type | `number` |
 | Required | no |
 | Examples | `0.11` |
-| Constraints | `minimum=0`; `maximum=1` |
+| Constraints | `minimum=0` |
 
 ### SpawnableItem.SpawnableMinMax
 

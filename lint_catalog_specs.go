@@ -217,8 +217,9 @@ var diagnosticCatalog = []lint.CodeSpec{
 			StageSemantic,
 			"invalid spawnable chance range",
 		),
-		"`cfgspawnabletypes.xml` chance values are inconsistent for CE spawn rules. "+
-			"Use a finite probability in the inclusive 0..1 range.",
+		"`cfgspawnabletypes.xml` group chances use finite probabilities in 0..1. "+
+			"Candidate chances use probabilities in 0..1 or percentage weights "+
+			"in 0..100 that total 100.",
 	),
 	withDescription(
 		lint.ErrorCodeSpec(

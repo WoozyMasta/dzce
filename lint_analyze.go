@@ -639,17 +639,15 @@ func analyzeSpawnableTypesFile(
 					item.Cargo[cargoIndex].Items,
 				)...,
 			)
-
-			for childIndex := range item.Cargo[cargoIndex].Items {
-				if item.Cargo[cargoIndex].Items[childIndex].Chance != nil {
-					diagnostics = append(diagnostics, checkSpawnableChance(
-						path,
-						item.Name,
-						fmt.Sprintf("cargo item %q", item.Cargo[cargoIndex].Items[childIndex].Name),
-						*item.Cargo[cargoIndex].Items[childIndex].Chance,
-					)...)
-				}
-			}
+			diagnostics = append(
+				diagnostics,
+				checkSpawnableItemChances(
+					path,
+					item.Name,
+					"cargo",
+					item.Cargo[cargoIndex].Items,
+				)...,
+			)
 		}
 
 		for attachmentIndex := range item.Attachments {
@@ -671,16 +669,15 @@ func analyzeSpawnableTypesFile(
 				)...,
 			)
 
-			for childIndex := range item.Attachments[attachmentIndex].Items {
-				if item.Attachments[attachmentIndex].Items[childIndex].Chance != nil {
-					diagnostics = append(diagnostics, checkSpawnableChance(
-						path,
-						item.Name,
-						fmt.Sprintf("attachment item %q", item.Attachments[attachmentIndex].Items[childIndex].Name),
-						*item.Attachments[attachmentIndex].Items[childIndex].Chance,
-					)...)
-				}
-			}
+			diagnostics = append(
+				diagnostics,
+				checkSpawnableItemChances(
+					path,
+					item.Name,
+					"attachments",
+					item.Attachments[attachmentIndex].Items,
+				)...,
+			)
 		}
 	}
 
@@ -807,7 +804,7 @@ func checkSpawnableMinMax(
 	return diagnostics
 }
 
-// checkSpawnableChance validates one spawn probability in the inclusive 0..1 range.
+// checkSpawnableChance validates a cargo or attachment group probability.
 func checkSpawnableChance(
 	path string,
 	typeName string,
@@ -823,13 +820,134 @@ func checkSpawnableChance(
 			CodeSpawnableChanceRange,
 			path,
 			fmt.Sprintf(
-				"type %q has %s chance=%v outside finite range 0..1",
+				"type %q has %s group chance=%v outside finite range 0..1",
 				typeName,
 				field,
 				value,
 			),
 		),
 	}
+}
+
+// checkSpawnableItemChances validates candidate probabilities or percentage weights.
+func checkSpawnableItemChances(
+	path string,
+	typeName string,
+	group string,
+	items []SpawnableItem,
+) []lint.Diagnostic {
+	diagnostics := make([]lint.Diagnostic, 0, 2)
+	percentWeights := false
+	allChancesPresent := true
+	invalidValue := false
+
+	for index := range items {
+		chance := items[index].Chance
+		if chance == nil {
+			allChancesPresent = false
+
+			continue
+		}
+
+		value := *chance
+		if !isFiniteFloat64(value) || value < 0 {
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeSpawnableChanceRange,
+				path,
+				fmt.Sprintf(
+					"type %q has %s item %q chance=%v outside finite non-negative range",
+					typeName,
+					group,
+					items[index].Name,
+					value,
+				),
+			))
+			invalidValue = true
+
+			continue
+		}
+
+		if value > 1 {
+			percentWeights = true
+		}
+	}
+
+	if !percentWeights || invalidValue {
+		return diagnostics
+	}
+
+	sum := 0.0
+	weightCount := 0
+	fractionalCount := 0
+	for index := range items {
+		chance := items[index].Chance
+		if chance == nil {
+			continue
+		}
+
+		sum += *chance
+		if *chance > 1 {
+			weightCount++
+		} else if *chance > 0 {
+			fractionalCount++
+		}
+
+		if *chance <= 100 {
+			continue
+		}
+
+		diagnostics = append(diagnostics, newDiagnostic(
+			CodeSpawnableChanceRange,
+			path,
+			fmt.Sprintf(
+				"type %q has %s item %q weight=%v outside range 0..100",
+				typeName,
+				group,
+				items[index].Name,
+				*chance,
+			),
+		))
+		invalidValue = true
+	}
+
+	if invalidValue || !allChancesPresent {
+		return diagnostics
+	}
+
+	// TODO: Confirm this percentage-weight interpretation against the CE engine.
+	// BI's mission-file docs omit item chance bounds; vanilla Sakhal groups use
+	// values above 1 that sum to 100, while community references disagree.
+	if math.Abs(sum-100) > 0.01 {
+		diagnostics = append(diagnostics, newDiagnostic(
+			CodeSpawnableChanceRange,
+			path,
+			fmt.Sprintf(
+				"type %q has %s item chance weights summing to %v, want 100",
+				typeName,
+				group,
+				sum,
+			),
+		))
+
+		return diagnostics
+	}
+
+	// A group totaling 100 can still mix probability and percentage scales.
+	// Ignore zero and exact-one values because they do not identify a scale.
+	// TODO: This majority check is a heuristic; tiny percentage weights may be valid.
+	if fractionalCount > weightCount {
+		diagnostics = append(diagnostics, newDiagnostic(
+			CodeSpawnableChanceRange,
+			path,
+			fmt.Sprintf(
+				"type %q has %s item chances mixing probabilities and percentage weights",
+				typeName,
+				group,
+			),
+		))
+	}
+
+	return diagnostics
 }
 
 // checkGlobalsRange validates one parsed globals value against baseline range.

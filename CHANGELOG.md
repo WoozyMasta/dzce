@@ -24,6 +24,11 @@ and this project adheres to [Semantic Versioning][].
 * Models current official mission JSON and XML schemas and validates
   `areaflags.map` files in integration tests.
 
+### Changed
+
+* Validates spawnable candidate chances as probabilities
+  or percentage weights within each cargo or attachment group.
+
 ### Fixed
 
 * Rejects overflowing `areaflags.map` section sizes before allocating layers.
