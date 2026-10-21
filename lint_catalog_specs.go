@@ -33,6 +33,14 @@ var diagnosticCatalog = []lint.CodeSpec{
 	),
 	withDescription(
 		lint.ErrorCodeSpec(
+			CodeParseInvalidJSON,
+			StageParse,
+			"json decode failed",
+		),
+		"CE JSON file is malformed and cannot be parsed. Check JSON syntax and field values.",
+	),
+	withDescription(
+		lint.ErrorCodeSpec(
 			CodeValidateMissingRequiredAttr,
 			StageValidate,
 			"missing required attribute",
@@ -210,7 +218,7 @@ var diagnosticCatalog = []lint.CodeSpec{
 			"invalid spawnable chance range",
 		),
 		"`cfgspawnabletypes.xml` chance values are inconsistent for CE spawn rules. "+
-			"Use one mode consistently: normalized 0..1 or percent 0..100.",
+			"Use a finite probability in the inclusive 0..1 range.",
 	),
 	withDescription(
 		lint.ErrorCodeSpec(

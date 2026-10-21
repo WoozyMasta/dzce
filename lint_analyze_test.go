@@ -16,6 +16,15 @@ func TestAnalyzeLintContentUnknownRoot(t *testing.T) {
 	}
 }
 
+func TestAnalyzeLintContentJSONDecodeError(t *testing.T) {
+	t.Parallel()
+
+	diagnostics := AnalyzeLintContent("cfggameplay.json", []byte(`{"version":`))
+	if !hasCode(diagnostics, CodeParseInvalidJSON) {
+		t.Fatalf("expected %s code in diagnostics", codeToken(CodeParseInvalidJSON))
+	}
+}
+
 func TestAnalyzeLintContentGlobalsTypeAndRange(t *testing.T) {
 	t.Parallel()
 
@@ -107,6 +116,9 @@ func TestAnalyzeLintContentEconomySectionFlags(t *testing.T) {
 			codeToken(CodeEconomyIncompleteSection),
 		)
 	}
+	if hasCode(diagnostics, CodeValidateInvalidBool) {
+		t.Fatalf("economy flag diagnostic must not be duplicated by generic bool code: %#v", diagnostics)
+	}
 }
 
 func TestAnalyzeLintContentTypesRules(t *testing.T) {
@@ -137,6 +149,9 @@ func TestAnalyzeLintContentTypesRules(t *testing.T) {
 	}
 	if !hasCode(diagnostics, CodeTypesQuantityRange) {
 		t.Fatalf("expected %s code in diagnostics", codeToken(CodeTypesQuantityRange))
+	}
+	if hasCode(diagnostics, CodeValidateInvalidIntRange) {
+		t.Fatalf("quantity diagnostics must not be duplicated by generic range code: %#v", diagnostics)
 	}
 }
 
@@ -191,6 +206,57 @@ func TestAnalyzeLintContentSpawnableRules(t *testing.T) {
 	}
 	if !hasCode(diagnostics, CodeSpawnableChanceRange) {
 		t.Fatalf("expected %s code in diagnostics", codeToken(CodeSpawnableChanceRange))
+	}
+}
+
+func TestAnalyzeLintContentSpawnableChanceUsesPerValueRange(t *testing.T) {
+	t.Parallel()
+
+	content := []byte(
+		`<?xml version="1.0"?>
+<spawnabletypes>
+	<type name="T1">
+		<cargo chance="0.5">
+			<item name="Rag" chance="50"/>
+		</cargo>
+	</type>
+</spawnabletypes>`,
+	)
+
+	diagnostics := AnalyzeLintContent("cfgspawnabletypes.xml", content)
+	if got := countCode(diagnostics, CodeSpawnableChanceRange); got != 1 {
+		t.Fatalf("chance diagnostics = %d, want 1; diagnostics: %#v", got, diagnostics)
+	}
+}
+
+func TestAnalyzeLintContentNonFiniteFloatValues(t *testing.T) {
+	t.Parallel()
+
+	spawnable := AnalyzeLintContent(
+		"cfgspawnabletypes.xml",
+		[]byte(`<spawnabletypes><type name="T1"><damage min="NaN" max="1"/><cargo chance="NaN"/></type></spawnabletypes>`),
+	)
+	if !hasCode(spawnable, CodeSpawnableDamageRange) {
+		t.Fatalf("expected non-finite damage diagnostic, got %#v", spawnable)
+	}
+	if !hasCode(spawnable, CodeSpawnableChanceRange) {
+		t.Fatalf("expected non-finite chance diagnostic, got %#v", spawnable)
+	}
+
+	globals := AnalyzeLintContent(
+		"db/globals.xml",
+		[]byte(`<variables><var name="LootDamageMin" type="1" value="NaN"/></variables>`),
+	)
+	if !hasCode(globals, CodeGlobalsValueTypeMismatch) {
+		t.Fatalf("expected non-finite globals diagnostic, got %#v", globals)
+	}
+
+	defaults := AnalyzeLintContent(
+		"cfgeconomycore.xml",
+		[]byte(`<economycore><defaults><default name="dyn_radius" value="NaN"/></defaults></economycore>`),
+	)
+	if !hasCode(defaults, CodeEconomyCoreDefaultOutOfRange) {
+		t.Fatalf("expected non-finite default diagnostic, got %#v", defaults)
 	}
 }
 
@@ -288,6 +354,50 @@ func TestAnalyzeLintContentEventsLimitWindow(t *testing.T) {
 	}
 }
 
+func TestAnalyzeLintContentEventsZeroSentinels(t *testing.T) {
+	t.Parallel()
+
+	content := []byte(
+		`<?xml version="1.0"?>
+<events>
+	<event name="AnimalBear">
+		<nominal>0</nominal>
+		<min>5</min>
+		<max>8</max>
+	</event>
+	<event name="StaticContainerLocked">
+		<nominal>13</nominal>
+		<min>11</min>
+		<max>0</max>
+	</event>
+</events>`,
+	)
+
+	diagnostics := AnalyzeLintContent("db/events.xml", content)
+	if hasCode(diagnostics, CodeEventsInvalidLimitWindow) {
+		t.Fatalf("zero sentinel values should not trigger limit-window diagnostics: %#v", diagnostics)
+	}
+}
+
+func TestAnalyzeLintContentTypesZeroNominal(t *testing.T) {
+	t.Parallel()
+
+	content := []byte(
+		`<?xml version="1.0"?>
+<types>
+	<type name="ExampleType">
+		<nominal>0</nominal>
+		<min>1</min>
+	</type>
+</types>`,
+	)
+
+	diagnostics := AnalyzeLintContent("db/types.xml", content)
+	if hasCode(diagnostics, CodeTypesMinGreaterThanNominal) {
+		t.Fatalf("min > nominal should be ignored when nominal is zero: %#v", diagnostics)
+	}
+}
+
 func TestAnalyzeLintContentSpawnableDuplicateChild(t *testing.T) {
 	t.Parallel()
 
@@ -332,17 +442,21 @@ func TestAnalyzeLintContentValidateCodes(t *testing.T) {
 			codeToken(CodeValidateEmptyRequiredAttr),
 		)
 	}
-	if !hasCode(eventsDiagnostics, CodeValidateInvalidBool) {
+	if !hasCode(eventsDiagnostics, CodeEventsFlagNonCanonical) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
-			codeToken(CodeValidateInvalidBool),
+			codeToken(CodeEventsFlagNonCanonical),
 		)
 	}
-	if !hasCode(eventsDiagnostics, CodeValidateUnknownEnum) {
+	if !hasCode(eventsDiagnostics, CodeEventsUnknownPosition) ||
+		!hasCode(eventsDiagnostics, CodeEventsUnknownLimit) {
 		t.Fatalf(
-			"expected %s code in diagnostics",
-			codeToken(CodeValidateUnknownEnum),
+			"expected specialized enum diagnostics in diagnostics",
 		)
+	}
+	if hasCode(eventsDiagnostics, CodeValidateInvalidBool) ||
+		hasCode(eventsDiagnostics, CodeValidateUnknownEnum) {
+		t.Fatalf("specific event diagnostics must not be duplicated by generic codes: %#v", eventsDiagnostics)
 	}
 
 	typesContent := []byte(
@@ -354,11 +468,22 @@ func TestAnalyzeLintContentValidateCodes(t *testing.T) {
 </types>`,
 	)
 	typesDiagnostics := AnalyzeLintContent("db/types.xml", typesContent)
-	if !hasCode(typesDiagnostics, CodeValidateInvalidIntRange) {
+	if !hasCode(typesDiagnostics, CodeTypesNominalNegative) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
-			codeToken(CodeValidateInvalidIntRange),
+			codeToken(CodeTypesNominalNegative),
 		)
+	}
+	if hasCode(typesDiagnostics, CodeValidateInvalidIntRange) {
+		t.Fatalf("nominal diagnostic must not be duplicated by generic range code: %#v", typesDiagnostics)
+	}
+
+	minDiagnostics := AnalyzeLintContent(
+		"db/types.xml",
+		[]byte(`<types><type name="A"><min>-1</min></type></types>`),
+	)
+	if !hasCode(minDiagnostics, CodeValidateInvalidIntRange) {
+		t.Fatalf("expected generic range code for negative min: %#v", minDiagnostics)
 	}
 }
 
@@ -401,6 +526,19 @@ func hasCode(diagnostics []lint.Diagnostic, code lint.Code) bool {
 	}
 
 	return false
+}
+
+// countCode returns the number of diagnostics with one public code token.
+func countCode(diagnostics []lint.Diagnostic, code lint.Code) int {
+	needle := codeToken(code)
+	count := 0
+	for index := range diagnostics {
+		if diagnostics[index].Code == needle {
+			count++
+		}
+	}
+
+	return count
 }
 
 // codeToken renders public code token for dzce diagnostics.

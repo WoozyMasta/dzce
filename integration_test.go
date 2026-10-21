@@ -61,8 +61,6 @@ func TestDecodeRealWorldFixtures(t *testing.T) {
 		{kind: KindMapGroupCluster, rel: "mapgroupcluster.xml"},
 	}
 
-	roots := strings.Split(raw, string(os.PathListSeparator))
-
 	for _, root := range roots {
 		root = strings.TrimSpace(root)
 		if root == "" {

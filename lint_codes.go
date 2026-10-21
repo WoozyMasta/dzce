@@ -34,6 +34,9 @@ const (
 
 	// CodeParseUnknownRoot reports unsupported XML root tag.
 	CodeParseUnknownRoot lint.Code = 1002
+
+	// CodeParseInvalidJSON reports malformed JSON payload.
+	CodeParseInvalidJSON lint.Code = 1003
 )
 
 const (

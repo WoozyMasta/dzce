@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 
@@ -180,6 +181,14 @@ func AnalyzeLintContent(path string, data []byte) []lint.Diagnostic {
 
 	value, err := Decode(kind, data)
 	if err != nil {
+		if isJSONKind(kind) {
+			return append(diagnostics, newDiagnostic(
+				CodeParseInvalidJSON,
+				normalizedPath,
+				fmt.Sprintf("failed to decode JSON kind %s: %v", kind, err),
+			))
+		}
+
 		if !isXMLKind(kind) {
 			return diagnostics
 		}
@@ -275,11 +284,6 @@ func analyzeTypesFile(path string, file *TypesFile) []lint.Diagnostic {
 				path,
 				fmt.Sprintf("type %q has negative nominal=%d", item.Name, *item.Nominal),
 			))
-			diagnostics = append(diagnostics, newDiagnostic(
-				CodeValidateInvalidIntRange,
-				path,
-				fmt.Sprintf("type %q has nominal=%d outside expected range", item.Name, *item.Nominal),
-			))
 		}
 
 		if item.Min != nil && *item.Min < 0 {
@@ -290,7 +294,8 @@ func analyzeTypesFile(path string, file *TypesFile) []lint.Diagnostic {
 			))
 		}
 
-		if item.Min != nil && item.Nominal != nil && *item.Min > *item.Nominal {
+		if item.Min != nil && item.Nominal != nil &&
+			*item.Nominal > 0 && *item.Min > *item.Nominal {
 			diagnostics = append(diagnostics, newDiagnostic(
 				CodeTypesMinGreaterThanNominal,
 				path,
@@ -362,11 +367,6 @@ func checkTypeQuantity(
 			path,
 			fmt.Sprintf("type %q has invalid quantmin=%d", typeName, *quantityMin),
 		))
-		diagnostics = append(diagnostics, newDiagnostic(
-			CodeValidateInvalidIntRange,
-			path,
-			fmt.Sprintf("type %q has quantmin=%d outside expected range", typeName, *quantityMin),
-		))
 	}
 
 	if quantityMax != nil && !isValidQuantityValue(*quantityMax) {
@@ -374,11 +374,6 @@ func checkTypeQuantity(
 			CodeTypesQuantityRange,
 			path,
 			fmt.Sprintf("type %q has invalid quantmax=%d", typeName, *quantityMax),
-		))
-		diagnostics = append(diagnostics, newDiagnostic(
-			CodeValidateInvalidIntRange,
-			path,
-			fmt.Sprintf("type %q has quantmax=%d outside expected range", typeName, *quantityMax),
 		))
 	}
 
@@ -432,11 +427,6 @@ func analyzeEventsFile(path string, file *EventsFile) []lint.Diagnostic {
 				path,
 				fmt.Sprintf("event %q has non-canonical active=%d", item.Name, *item.Active),
 			))
-			diagnostics = append(diagnostics, newDiagnostic(
-				CodeValidateInvalidBool,
-				path,
-				fmt.Sprintf("event %q has invalid bool active=%d", item.Name, *item.Active),
-			))
 		}
 
 		if item.Flags != nil {
@@ -463,11 +453,6 @@ func analyzeEventsFile(path string, file *EventsFile) []lint.Diagnostic {
 						path,
 						fmt.Sprintf("event %q has unknown position=%q", item.Name, *item.Position),
 					))
-					diagnostics = append(diagnostics, newDiagnostic(
-						CodeValidateUnknownEnum,
-						path,
-						fmt.Sprintf("event %q has unknown enum position=%q", item.Name, *item.Position),
-					))
 				}
 			}
 		}
@@ -481,16 +466,12 @@ func analyzeEventsFile(path string, file *EventsFile) []lint.Diagnostic {
 						path,
 						fmt.Sprintf("event %q has unknown limit=%q", item.Name, *item.Limit),
 					))
-					diagnostics = append(diagnostics, newDiagnostic(
-						CodeValidateUnknownEnum,
-						path,
-						fmt.Sprintf("event %q has unknown enum limit=%q", item.Name, *item.Limit),
-					))
 				}
 			}
 		}
 
-		if item.Min != nil && item.Nominal != nil && *item.Min > *item.Nominal {
+		if item.Min != nil && item.Nominal != nil &&
+			*item.Nominal > 0 && *item.Min > *item.Nominal {
 			diagnostics = append(diagnostics, newDiagnostic(
 				CodeEventsInvalidLimitWindow,
 				path,
@@ -503,7 +484,8 @@ func analyzeEventsFile(path string, file *EventsFile) []lint.Diagnostic {
 			))
 		}
 
-		if item.Min != nil && item.Max != nil && *item.Max < *item.Min {
+		if item.Min != nil && item.Max != nil &&
+			*item.Max > 0 && *item.Max < *item.Min {
 			diagnostics = append(diagnostics, newDiagnostic(
 				CodeEventsInvalidLimitWindow,
 				path,
@@ -537,16 +519,6 @@ func checkEventFlag(
 			path,
 			fmt.Sprintf(
 				"event %q has non-canonical flags.%s=%d",
-				eventName,
-				flagName,
-				*value,
-			),
-		),
-		newDiagnostic(
-			CodeValidateInvalidBool,
-			path,
-			fmt.Sprintf(
-				"event %q has invalid bool flags.%s=%d",
 				eventName,
 				flagName,
 				*value,
@@ -591,12 +563,12 @@ func analyzeGlobalsFile(path string, file *GlobalsFile) []lint.Diagnostic {
 
 		case VariableTypeFloat:
 			parsed, err := strconv.ParseFloat(rawValue, 64)
-			if err != nil {
+			if err != nil || !isFiniteFloat64(parsed) {
 				diagnostics = append(diagnostics, newDiagnostic(
 					CodeGlobalsValueTypeMismatch,
 					path,
 					fmt.Sprintf(
-						"globals var %q has type=1 but value %q is not float",
+						"globals var %q has type=1 but value %q is not a finite float",
 						item.Name,
 						item.Value,
 					),
@@ -638,7 +610,6 @@ func analyzeSpawnableTypesFile(
 	}
 
 	diagnostics := make([]lint.Diagnostic, 0, 16)
-	chanceValues := make([]float64, 0, 64)
 
 	for index := range file.Types {
 		item := file.Types[index]
@@ -652,7 +623,12 @@ func analyzeSpawnableTypesFile(
 
 		for cargoIndex := range item.Cargo {
 			if item.Cargo[cargoIndex].Chance != nil {
-				chanceValues = append(chanceValues, *item.Cargo[cargoIndex].Chance)
+				diagnostics = append(diagnostics, checkSpawnableChance(
+					path,
+					item.Name,
+					"cargo",
+					*item.Cargo[cargoIndex].Chance,
+				)...)
 			}
 			diagnostics = append(
 				diagnostics,
@@ -666,20 +642,24 @@ func analyzeSpawnableTypesFile(
 
 			for childIndex := range item.Cargo[cargoIndex].Items {
 				if item.Cargo[cargoIndex].Items[childIndex].Chance != nil {
-					chanceValues = append(
-						chanceValues,
+					diagnostics = append(diagnostics, checkSpawnableChance(
+						path,
+						item.Name,
+						fmt.Sprintf("cargo item %q", item.Cargo[cargoIndex].Items[childIndex].Name),
 						*item.Cargo[cargoIndex].Items[childIndex].Chance,
-					)
+					)...)
 				}
 			}
 		}
 
 		for attachmentIndex := range item.Attachments {
 			if item.Attachments[attachmentIndex].Chance != nil {
-				chanceValues = append(
-					chanceValues,
+				diagnostics = append(diagnostics, checkSpawnableChance(
+					path,
+					item.Name,
+					"attachments",
 					*item.Attachments[attachmentIndex].Chance,
-				)
+				)...)
 			}
 			diagnostics = append(
 				diagnostics,
@@ -693,16 +673,16 @@ func analyzeSpawnableTypesFile(
 
 			for childIndex := range item.Attachments[attachmentIndex].Items {
 				if item.Attachments[attachmentIndex].Items[childIndex].Chance != nil {
-					chanceValues = append(
-						chanceValues,
+					diagnostics = append(diagnostics, checkSpawnableChance(
+						path,
+						item.Name,
+						fmt.Sprintf("attachment item %q", item.Attachments[attachmentIndex].Items[childIndex].Name),
 						*item.Attachments[attachmentIndex].Items[childIndex].Chance,
-					)
+					)...)
 				}
 			}
 		}
 	}
-
-	diagnostics = append(diagnostics, checkSpawnableChance(path, chanceValues)...)
 
 	return diagnostics
 }
@@ -781,7 +761,8 @@ func checkSpawnableMinMax(
 	}
 
 	diagnostics := make([]lint.Diagnostic, 0, 3)
-	if value.Min != nil && (*value.Min < 0 || *value.Min > 1) {
+	if value.Min != nil &&
+		(!isFiniteFloat64(*value.Min) || *value.Min < 0 || *value.Min > 1) {
 		diagnostics = append(diagnostics, newDiagnostic(
 			CodeSpawnableDamageRange,
 			path,
@@ -794,7 +775,8 @@ func checkSpawnableMinMax(
 		))
 	}
 
-	if value.Max != nil && (*value.Max < 0 || *value.Max > 1) {
+	if value.Max != nil &&
+		(!isFiniteFloat64(*value.Max) || *value.Max < 0 || *value.Max > 1) {
 		diagnostics = append(diagnostics, newDiagnostic(
 			CodeSpawnableDamageRange,
 			path,
@@ -825,44 +807,29 @@ func checkSpawnableMinMax(
 	return diagnostics
 }
 
-// checkSpawnableChance validates chance values in 0..1 or 0..100 mode.
-func checkSpawnableChance(path string, values []float64) []lint.Diagnostic {
-	if len(values) == 0 {
+// checkSpawnableChance validates one spawn probability in the inclusive 0..1 range.
+func checkSpawnableChance(
+	path string,
+	typeName string,
+	field string,
+	value float64,
+) []lint.Diagnostic {
+	if isFiniteFloat64(value) && value >= 0 && value <= 1 {
 		return nil
 	}
 
-	percentMode := false
-	for index := range values {
-		if values[index] > 1 {
-			percentMode = true
-			break
-		}
-	}
-
-	maxAllowed := 1.0
-	if percentMode {
-		maxAllowed = 100
-	}
-
-	diagnostics := make([]lint.Diagnostic, 0, 2)
-	for index := range values {
-		value := values[index]
-		if value >= 0 && value <= maxAllowed {
-			continue
-		}
-
-		diagnostics = append(diagnostics, newDiagnostic(
+	return []lint.Diagnostic{
+		newDiagnostic(
 			CodeSpawnableChanceRange,
 			path,
 			fmt.Sprintf(
-				"chance value %v is outside allowed range 0..%v",
+				"type %q has %s chance=%v outside finite range 0..1",
+				typeName,
+				field,
 				value,
-				maxAllowed,
 			),
-		))
+		),
 	}
-
-	return diagnostics
 }
 
 // checkGlobalsRange validates one parsed globals value against baseline range.
@@ -875,6 +842,15 @@ func checkGlobalsRange(
 	spec, ok := globalsRangeBaseline[nameKey]
 	if !ok {
 		return nil
+	}
+	if !isFiniteFloat64(value) {
+		return []lint.Diagnostic{
+			newDiagnostic(
+				CodeGlobalsOutOfRange,
+				path,
+				fmt.Sprintf("globals var %q value %v is not finite", name, value),
+			),
+		}
 	}
 
 	if spec.hasMin && value < spec.min {
@@ -1000,6 +976,16 @@ func checkEconomyCoreDefaultRange(
 	nameKey string,
 	value float64,
 ) []lint.Diagnostic {
+	if !isFiniteFloat64(value) {
+		return []lint.Diagnostic{
+			newDiagnostic(
+				CodeEconomyCoreDefaultOutOfRange,
+				path,
+				fmt.Sprintf("%s=%v must be finite", nameKey, value),
+			),
+		}
+	}
+
 	switch nameKey {
 	case economyCoreDefaultBackupPeriod:
 		if value < 15 {
@@ -1165,16 +1151,6 @@ func checkEconomySectionFlags(
 			path,
 			fmt.Sprintf(
 				"economy section <%s> has non-canonical @%s=%d",
-				sectionName,
-				item.name,
-				*item.value,
-			),
-		))
-		diagnostics = append(diagnostics, newDiagnostic(
-			CodeValidateInvalidBool,
-			path,
-			fmt.Sprintf(
-				"economy section <%s> has invalid bool @%s=%d",
 				sectionName,
 				item.name,
 				*item.value,
@@ -1404,6 +1380,25 @@ func isXMLKind(kind Kind) bool {
 	}
 }
 
+// isJSONKind reports whether one CE kind is JSON-based.
+func isJSONKind(kind Kind) bool {
+	switch kind {
+	case
+		KindUndergroundTriggers,
+		KindEffectArea,
+		KindGameplay,
+		KindBunkerBroadcast,
+		KindExternalLocks,
+		KindGameplayGearPresets,
+		KindObjectSpawner,
+		KindPlayerRestrictedArea:
+		return true
+
+	default:
+		return false
+	}
+}
+
 // fileExt extracts file extension from path in lower-level helper style.
 func fileExt(path string) string {
 	for index := len(path) - 1; index >= 0; index-- {
@@ -1427,6 +1422,11 @@ func isValidQuantityValue(value int) bool {
 // isCanonicalBool reports whether value is canonical numeric boolean.
 func isCanonicalBool(value int) bool {
 	return value == 0 || value == 1
+}
+
+// isFiniteFloat64 reports whether value is neither NaN nor infinite.
+func isFiniteFloat64(value float64) bool {
+	return !math.IsNaN(value) && !math.IsInf(value, 0)
 }
 
 // newDiagnostic builds one shared lint diagnostic for dzce code token.
