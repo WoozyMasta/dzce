@@ -54,6 +54,12 @@ const (
 
 	// CodeValidateUnknownEnum reports unsupported enum values.
 	CodeValidateUnknownEnum lint.Code = 2005
+
+	// CodeValidateNumericRange reports values outside inclusive numeric bounds.
+	CodeValidateNumericRange lint.Code = 2006
+
+	// CodeValidateInvalidLength reports arrays or strings with an unsupported length.
+	CodeValidateInvalidLength lint.Code = 2007
 )
 
 const (

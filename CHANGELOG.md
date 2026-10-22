@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning][].
   and ranked search with weighted aliases for common and technical terms.
 * Models current official mission JSON and XML schemas and validates
   `areaflags.map` files in integration tests.
+* Validates declared numeric, enum, and length constraints in modeled
+  CE configuration files.
 
 ### Changed
 

@@ -246,7 +246,7 @@ rules:
   - id: dzce.validate.missing-required-attribute
     module: dzce
     scope: validate
-    scope_description: Validation diagnostics for CE XML shape and values.
+    scope_description: Validation diagnostics for CE configuration shapes and values.
     code: DZCE2001
     message: missing required attribute
     description: Required XML attribute is missing. Add the attribute so CE can interpret this element deterministically.
@@ -254,7 +254,7 @@ rules:
   - id: dzce.validate.empty-required-attribute
     module: dzce
     scope: validate
-    scope_description: Validation diagnostics for CE XML shape and values.
+    scope_description: Validation diagnostics for CE configuration shapes and values.
     code: DZCE2002
     message: empty required attribute
     description: Required XML attribute is present but empty. Provide a non-empty value.
@@ -262,7 +262,7 @@ rules:
   - id: dzce.validate.invalid-bool-value
     module: dzce
     scope: validate
-    scope_description: Validation diagnostics for CE XML shape and values.
+    scope_description: Validation diagnostics for CE configuration shapes and values.
     code: DZCE2003
     message: invalid bool value
     description: Boolean-like field uses a non-canonical value. Use 0 or 1 for CE XML boolean fields.
@@ -270,7 +270,7 @@ rules:
   - id: dzce.validate.invalid-integer-range
     module: dzce
     scope: validate
-    scope_description: Validation diagnostics for CE XML shape and values.
+    scope_description: Validation diagnostics for CE configuration shapes and values.
     code: DZCE2004
     message: invalid integer range
     description: Integer value is outside expected range for this field.
@@ -278,8 +278,24 @@ rules:
   - id: dzce.validate.unknown-enum-value
     module: dzce
     scope: validate
-    scope_description: Validation diagnostics for CE XML shape and values.
+    scope_description: Validation diagnostics for CE configuration shapes and values.
     code: DZCE2005
     message: unknown enum value
     description: Enum field contains unsupported token for this CE context.
+    default_severity: warning
+  - id: dzce.validate.value-outside-allowed-range
+    module: dzce
+    scope: validate
+    scope_description: Validation diagnostics for CE configuration shapes and values.
+    code: DZCE2006
+    message: value outside allowed range
+    description: Numeric value is outside the inclusive bounds declared for this field.
+    default_severity: warning
+  - id: dzce.validate.value-length-is-invalid
+    module: dzce
+    scope: validate
+    scope_description: Validation diagnostics for CE configuration shapes and values.
+    code: DZCE2007
+    message: value length is invalid
+    description: Array or string length does not match the constraint declared for its CE field.
     default_severity: warning

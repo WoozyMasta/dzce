@@ -81,6 +81,22 @@ var diagnosticCatalog = []lint.CodeSpec{
 	),
 	withDescription(
 		lint.WarningCodeSpec(
+			CodeValidateNumericRange,
+			StageValidate,
+			"value outside allowed range",
+		),
+		"Numeric value is outside the inclusive bounds declared for this field.",
+	),
+	withDescription(
+		lint.WarningCodeSpec(
+			CodeValidateInvalidLength,
+			StageValidate,
+			"value length is invalid",
+		),
+		"Array or string length does not match the constraint declared for its CE field.",
+	),
+	withDescription(
+		lint.WarningCodeSpec(
 			CodeTypesDuplicateName,
 			StageSemantic,
 			"duplicate type name",

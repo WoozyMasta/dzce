@@ -27,5 +27,5 @@ type ObjectSpawnerEntry struct {
 	// Pos is the object's world position as an X/Y/Z vector in meters; Y is the vertical coordinate.
 	Pos []float64 `json:"pos,omitempty" yaml:"pos,omitempty" jsonschema:"minItems=3,maxItems=3"`
 	// YPR is the object's rotation in yaw, pitch, and roll order, in degrees. An empty vector leaves rotation unspecified.
-	YPR []float64 `json:"ypr,omitempty" yaml:"ypr,omitempty" jsonschema:"minItems=3,maxItems=3"`
+	YPR []float64 `json:"ypr,omitempty" yaml:"ypr,omitempty" jsonschema:"maxItems=3"`
 }

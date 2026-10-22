@@ -205,18 +205,47 @@ func AnalyzeLintContent(path string, data []byte) []lint.Diagnostic {
 	switch typed := value.(type) {
 	case *TypesFile:
 		diagnostics = append(diagnostics, analyzeTypesFile(normalizedPath, typed)...)
+
 	case *EventsFile:
 		diagnostics = append(diagnostics, analyzeEventsFile(normalizedPath, typed)...)
+
+	case *MessagesFile:
+		diagnostics = append(diagnostics, analyzeMessagesFile(normalizedPath, typed)...)
+
 	case *GlobalsFile:
 		diagnostics = append(diagnostics, analyzeGlobalsFile(normalizedPath, typed)...)
+
 	case *EconomyCoreFile:
 		diagnostics = append(diagnostics, analyzeEconomyCoreFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeEconomyCoreEnums(normalizedPath, typed)...)
+
 	case *EconomyFile:
 		diagnostics = append(diagnostics, analyzeEconomyFile(normalizedPath, typed)...)
+
 	case *SpawnableTypesFile:
 		diagnostics = append(diagnostics, analyzeSpawnableTypesFile(normalizedPath, typed)...)
+
 	case *RandomPresetsFile:
 		diagnostics = append(diagnostics, analyzeRandomPresetsFile(normalizedPath, typed)...)
+
+	case *GameplayFile:
+		diagnostics = append(diagnostics, analyzeGameplayFile(normalizedPath, typed)...)
+
+	case *BunkerBroadcastFile:
+		diagnostics = append(diagnostics, analyzeBunkerBroadcastFile(normalizedPath, typed)...)
+
+	case *EffectAreaFile:
+		diagnostics = append(diagnostics, analyzeEffectAreaFile(normalizedPath, typed)...)
+
+	case *UndergroundTriggersFile:
+		diagnostics = append(diagnostics, analyzeUndergroundTriggersFile(normalizedPath, typed)...)
+
+	case *ObjectSpawnerFile:
+		diagnostics = append(diagnostics, analyzeObjectSpawnerFile(normalizedPath, typed)...)
+
+	case *GameplayGearPresetsFile:
+		diagnostics = append(diagnostics, analyzeGameplayGearPresetsFile(normalizedPath, typed)...)
+
 	default:
 		return diagnostics
 	}
@@ -648,6 +677,11 @@ func analyzeSpawnableTypesFile(
 					item.Cargo[cargoIndex].Items,
 				)...,
 			)
+			diagnostics = append(diagnostics, checkNestedSpawnableChances(
+				path,
+				item.Name,
+				item.Cargo[cargoIndex].Items,
+			)...)
 		}
 
 		for attachmentIndex := range item.Attachments {
@@ -678,6 +712,11 @@ func analyzeSpawnableTypesFile(
 					item.Attachments[attachmentIndex].Items,
 				)...,
 			)
+			diagnostics = append(diagnostics, checkNestedSpawnableChances(
+				path,
+				item.Name,
+				item.Attachments[attachmentIndex].Items,
+			)...)
 		}
 	}
 
@@ -713,7 +752,8 @@ func checkRandomPresetGroup(
 	diagnostics := make([]lint.Diagnostic, 0, 4)
 
 	for index := range presets {
-		nameKey := strings.ToLower(strings.TrimSpace(presets[index].Name))
+		preset := &presets[index]
+		nameKey := strings.ToLower(strings.TrimSpace(preset.Name))
 		if nameKey != "" {
 			if _, exists := seen[nameKey]; exists {
 				diagnostics = append(diagnostics, newDiagnostic(
@@ -722,7 +762,7 @@ func checkRandomPresetGroup(
 					fmt.Sprintf(
 						"randompresets %s has duplicate preset name %q",
 						group,
-						presets[index].Name,
+						preset.Name,
 					),
 				))
 			} else {
@@ -730,17 +770,38 @@ func checkRandomPresetGroup(
 			}
 		}
 
-		if len(presets[index].Items) == 0 {
+		if preset.Chance != nil &&
+			(!isFiniteFloat64(*preset.Chance) || *preset.Chance < 0 || *preset.Chance > 1) {
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeSpawnableChanceRange,
+				path,
+				fmt.Sprintf(
+					"randompresets %s preset %q chance=%v outside finite range 0..1",
+					group,
+					preset.Name,
+					*preset.Chance,
+				),
+			))
+		}
+
+		if len(preset.Items) == 0 {
 			diagnostics = append(diagnostics, newDiagnostic(
 				CodeRandomPresetsEmptyItems,
 				path,
 				fmt.Sprintf(
 					"randompresets %s preset %q has no items",
 					group,
-					presets[index].Name,
+					preset.Name,
 				),
 			))
 		}
+
+		diagnostics = append(diagnostics, checkRandomPresetItemChances(
+			path,
+			group,
+			preset.Name,
+			preset.Items,
+		)...)
 	}
 
 	return diagnostics

@@ -4,7 +4,7 @@
 
 This document contains the current registry of lint rules.
 
-Total rules: 35.
+Total rules: 37.
 
 ## dzce
 
@@ -498,7 +498,7 @@ Random preset has no items
 
 ### validate
 
-> Validation diagnostics for CE XML shape and values.
+> Validation diagnostics for CE configuration shapes and values.
 
 Codes:
 [DZCE2001](#dzce2001),
@@ -506,6 +506,8 @@ Codes:
 [DZCE2003](#dzce2003),
 [DZCE2004](#dzce2004),
 [DZCE2005](#dzce2005),
+[DZCE2006](#dzce2006),
+[DZCE2007](#dzce2007),
 
 #### `DZCE2001`
 
@@ -570,6 +572,33 @@ Unknown enum value
 | Field | Value |
 | --- | --- |
 | Rule ID | `dzce.validate.unknown-enum-value` |
+| Scope | `validate` |
+| Severity | `warning` |
+| Enabled | `true` (implicit) |
+
+#### `DZCE2006`
+
+Value outside allowed range
+
+> Numeric value is outside the inclusive bounds declared for this field.
+
+| Field | Value |
+| --- | --- |
+| Rule ID | `dzce.validate.value-outside-allowed-range` |
+| Scope | `validate` |
+| Severity | `warning` |
+| Enabled | `true` (implicit) |
+
+#### `DZCE2007`
+
+Value length is invalid
+
+> Array or string length does not match the constraint declared for its CE
+> field.
+
+| Field | Value |
+| --- | --- |
+| Rule ID | `dzce.validate.value-length-is-invalid` |
 | Scope | `validate` |
 | Severity | `warning` |
 | Enabled | `true` (implicit) |

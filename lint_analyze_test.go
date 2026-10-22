@@ -605,6 +605,205 @@ func TestAnalyzeLintContentRandomPresetsRules(t *testing.T) {
 	}
 }
 
+func TestAnalyzeLintContentSchemaConstraints(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name     string
+		path     string
+		content  string
+		wantCode lint.Code
+	}{
+		{
+			name:     "gameplay numeric minimum",
+			path:     "cfggameplay.json",
+			content:  `{"PlayerData":{"MovementData":{"timeToSprint":0}}}`,
+			wantCode: CodeValidateNumericRange,
+		},
+		{
+			name:     "gameplay enum",
+			path:     "cfggameplay.json",
+			content:  `{"PlayerData":{"WeaponObstructionData":{"staticMode":3}}}`,
+			wantCode: CodeValidateUnknownEnum,
+		},
+		{
+			name:     "gameplay fixed array length",
+			path:     "cfggameplay.json",
+			content:  `{"WorldsData":{"environmentMinTemps":[1]}}`,
+			wantCode: CodeValidateInvalidLength,
+		},
+		{
+			name:     "underground trigger vector length",
+			path:     "cfgundergroundtriggers.json",
+			content:  `{"Triggers":[{"Position":[1,2]}]}`,
+			wantCode: CodeValidateInvalidLength,
+		},
+		{
+			name:     "underground accommodation range",
+			path:     "cfgundergroundtriggers.json",
+			content:  `{"Triggers":[{"EyeAccommodation":1.1}]}`,
+			wantCode: CodeValidateNumericRange,
+		},
+		{
+			name:     "effect area position length",
+			path:     "cfgeffectarea.json",
+			content:  `{"Areas":[{"Data":{"Pos":[1,2]}}]}`,
+			wantCode: CodeValidateInvalidLength,
+		},
+		{
+			name:     "bunker setting range",
+			path:     "cfgbunkerbroadcast.json",
+			content:  `{"bunkerSettings":{"numberOfActive":31}}`,
+			wantCode: CodeValidateInvalidIntRange,
+		},
+		{
+			name:     "object spawner position length",
+			path:     "object-spawner.json",
+			content:  `{"Objects":[{"pos":[1,2]}]}`,
+			wantCode: CodeValidateInvalidLength,
+		},
+		{
+			name:     "bunker broadcast time length",
+			path:     "cfgbunkerbroadcast.json",
+			content:  `{"schedulerSettings":{"periods":[{"startTime":"700","endTime":"1200"}]}}`,
+			wantCode: CodeValidateInvalidLength,
+		},
+		{
+			name:     "gear preset minimum weight",
+			path:     "gameplay-gear-presets.json",
+			content:  `[{"spawnWeight":0}]`,
+			wantCode: CodeValidateInvalidIntRange,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			diagnostics := AnalyzeLintContent(test.path, []byte(test.content))
+			if !hasCode(diagnostics, test.wantCode) {
+				t.Fatalf("expected %s in diagnostics, got %#v", codeToken(test.wantCode), diagnostics)
+			}
+		})
+	}
+}
+
+func TestAnalyzeLintContentEconomyCoreStringEnums(t *testing.T) {
+	t.Parallel()
+
+	diagnostics := AnalyzeLintContent(
+		"cfgeconomycore.xml",
+		[]byte(`<economycore><classes><rootclass name="ItemBase" reportMemoryLOD="sometimes" act="zombie"/></classes></economycore>`),
+	)
+	if got := countCode(diagnostics, CodeValidateUnknownEnum); got != 2 {
+		t.Fatalf("economycore enum diagnostics = %d, want 2; diagnostics: %#v", got, diagnostics)
+	}
+}
+
+func TestAnalyzeLintContentGearPresetBounds(t *testing.T) {
+	t.Parallel()
+
+	diagnostics := AnalyzeLintContent(
+		"gameplay-gear-presets.json",
+		[]byte(`[{
+  "attachmentSlotItemSets": [{
+    "discreteItemSets": [{
+      "quickBarSlot": -2,
+      "complexChildrenTypes": [{
+        "quickBarSlot": -2
+      }]
+    }]
+  }],
+  "discreteUnsortedItemSets": [{
+    "spawnWeight": 0
+  }]
+}]`),
+	)
+	if got := countCode(diagnostics, CodeValidateInvalidIntRange); got != 3 {
+		t.Fatalf("gear preset bound diagnostics = %d, want 3; diagnostics: %#v", got, diagnostics)
+	}
+}
+
+func TestAnalyzeLintContentObjectSpawnerOptionalYPR(t *testing.T) {
+	t.Parallel()
+
+	for _, ypr := range []string{"[]", "[1,2,3]"} {
+		diagnostics := AnalyzeLintContent(
+			"object-spawner.json",
+			[]byte(`{"Objects":[{"pos":[1,2,3],"ypr":`+ypr+`}]}`),
+		)
+		if hasCode(diagnostics, CodeValidateInvalidLength) {
+			t.Errorf("valid ypr %s produced length diagnostic: %#v", ypr, diagnostics)
+		}
+	}
+
+	diagnostics := AnalyzeLintContent(
+		"object-spawner.json",
+		[]byte(`{"Objects":[{"pos":[1,2,3],"ypr":[1,2]}]}`),
+	)
+	if !hasCode(diagnostics, CodeValidateInvalidLength) {
+		t.Fatalf("expected invalid optional YPR vector length: %#v", diagnostics)
+	}
+}
+
+func TestAnalyzeLintContentSchemaConstraintsInXML(t *testing.T) {
+	t.Parallel()
+
+	messages := AnalyzeLintContent(
+		"db/messages.xml",
+		[]byte(`<messages>
+	<message>
+		<deadline>-1</deadline>
+		<shutdown>2</shutdown>
+		<delay>-1</delay>
+		<repeat>-2</repeat>
+		<onconnect>3</onconnect>
+</message></messages>`),
+	)
+	if got := countCode(messages, CodeValidateInvalidIntRange); got != 3 {
+		t.Fatalf("message range diagnostics = %d, want 3; diagnostics: %#v", got, messages)
+	}
+	if got := countCode(messages, CodeValidateUnknownEnum); got != 2 {
+		t.Fatalf("message enum diagnostics = %d, want 2; diagnostics: %#v", got, messages)
+	}
+
+	weather := AnalyzeLintContent(
+		"cfgweather.xml",
+		[]byte(`<weather reset="2" enable="1"></weather>`),
+	)
+	if !hasCode(weather, CodeParseInvalidXML) {
+		t.Fatalf("expected decoder to reject unsupported weather toggle: %#v", weather)
+	}
+}
+
+func TestAnalyzeLintContentRandomPresetChanceConstraints(t *testing.T) {
+	t.Parallel()
+
+	invalid := AnalyzeLintContent(
+		"cfgrandompresets.xml",
+		[]byte(`<randompresets><cargo name="p" chance="1.1"><item name="A" chance="-0.1"/></cargo></randompresets>`),
+	)
+	if got := countCode(invalid, CodeSpawnableChanceRange); got != 2 {
+		t.Fatalf("random preset chance diagnostics = %d, want 2; diagnostics: %#v", got, invalid)
+	}
+
+	validWeight := AnalyzeLintContent(
+		"cfgrandompresets.xml",
+		[]byte(`<randompresets><cargo name="p"><item name="A" chance="1.2"/></cargo></randompresets>`),
+	)
+	if hasCode(validWeight, CodeSpawnableChanceRange) {
+		t.Fatalf("unbounded candidate chance was rejected: %#v", validWeight)
+	}
+
+	nested := AnalyzeLintContent(
+		"cfgspawnabletypes.xml",
+		[]byte(`<spawnabletypes>
+	<type name="T"><cargo chance="0.5"><item name="A" chance="0.5"><cargo chance="1.1"><item name="B" chance="-0.1"/></cargo></item></cargo></type>
+</spawnabletypes>`),
+	)
+	if got := countCode(nested, CodeSpawnableChanceRange); got != 2 {
+		t.Fatalf("nested chance diagnostics = %d, want 2; diagnostics: %#v", got, nested)
+	}
+}
+
 // hasCode checks whether diagnostic list contains one numeric code.
 func hasCode(diagnostics []lint.Diagnostic, code lint.Code) bool {
 	needle := codeToken(code)
