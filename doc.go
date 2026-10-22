@@ -14,6 +14,12 @@ element when the filename is not recognized. Use [LoadFileAs] when a format
 uses arbitrary filenames. [SaveFile] can infer the kind for CEProject
 configurations and area-flags maps from their value types.
 
+[ValidateContent] and [ValidateFile] decode a supported file
+and run its existing DZCE structural and semantic checks.
+They return diagnostics for check findings and an error
+when the kind is unknown or decoding fails.
+They do not validate against generated JSON Schemas or reject unknown JSON fields.
+
 [CEPipeline.Forward] builds areaflags.map and territory XML files from a
 CEProject configuration and its source layers. [CEPipeline.Restore] recreates
 the configuration and layer masks from compiled map data. The lower-level

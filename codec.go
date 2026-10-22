@@ -777,8 +777,12 @@ func decodeXML[T any](data []byte) (*T, error) {
 	return &value, nil
 }
 
-// decodeJSON decodes JSON payload into type T.
+// decodeJSON decodes a non-null JSON payload into type T.
 func decodeJSON[T any](data []byte) (*T, error) {
+	if bytes.Equal(bytes.TrimSpace(data), []byte("null")) {
+		return nil, ErrInvalidJSONRoot
+	}
+
 	var value T
 
 	if err := json.Unmarshal(data, &value); err != nil {

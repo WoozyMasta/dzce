@@ -20,6 +20,18 @@ var (
 	// ErrUnknownFileKind reports an unknown CE file kind by path.
 	ErrUnknownFileKind = errors.New("unknown ce file kind")
 
+	// ErrInvalidJSONRoot reports JSON that does not represent a CE model root.
+	ErrInvalidJSONRoot = errors.New("top-level JSON null is not a CE model")
+
+	// ErrXMLMultipleRootElements reports an XML document with multiple roots.
+	ErrXMLMultipleRootElements = errors.New("XML document has multiple root elements")
+
+	// ErrXMLTextOutsideRoot reports non-whitespace text outside the XML root.
+	ErrXMLTextOutsideRoot = errors.New("XML document has text outside its root element")
+
+	// ErrXMLRootCount reports an XML document without exactly one root element.
+	ErrXMLRootCount = errors.New("XML document must have exactly one root element")
+
 	// ErrEconomyCoreCycle reports recursive economycore include cycle.
 	ErrEconomyCoreCycle = errors.New("economycore include cycle")
 

@@ -75,6 +75,15 @@ func ExampleLoadFileAs() {
 	// Output: 1 Survivor
 }
 
+func ExampleValidateContent() {
+	diagnostics, err := dzce.ValidateContent(
+		"cfgGameplay.json",
+		[]byte(`{"version":`),
+	)
+	fmt.Println(err != nil, len(diagnostics) > 0)
+	// Output: true true
+}
+
 func ExampleBuildAreaFlagsFromCEProjectMasks() {
 	config := &dzce.CEProjectConfigFile{
 		Global: &dzce.CEProjectGlobal{

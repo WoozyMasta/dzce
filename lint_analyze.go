@@ -7,8 +7,11 @@ package dzce
 import (
 	"bytes"
 	"encoding/xml"
+	"errors"
 	"fmt"
+	"io"
 	"math"
+	"os"
 	"strconv"
 	"strings"
 
@@ -159,8 +162,11 @@ var (
 	}
 )
 
-// AnalyzeLintContent runs first-pass CE lint checks for one file payload.
-func AnalyzeLintContent(path string, data []byte) []lint.Diagnostic {
+// ValidateContent decodes one supported CE file and runs its existing structural and semantic checks.
+// XML inputs must be well-formed single-root documents and receive required-attribute checks.
+// JSON is decoded into its Go model, without strict unknown-field or generated JSON Schema validation.
+// Diagnostics report lint findings, while a non-nil error means the kind was unknown or decoding failed.
+func ValidateContent(path string, data []byte) ([]lint.Diagnostic, error) {
 	normalizedPath := strings.TrimSpace(path)
 	kind := DetectKind(normalizedPath)
 	if kind == KindUnknown {
@@ -168,83 +174,123 @@ func AnalyzeLintContent(path string, data []byte) []lint.Diagnostic {
 	}
 
 	if kind == KindUnknown {
-		return analyzeUnknownKindXML(normalizedPath, data)
+		return analyzeUnknownKindXML(normalizedPath, data), fmt.Errorf(
+			"%w: %s",
+			ErrUnknownFileKind,
+			normalizedPath,
+		)
 	}
 
 	diagnostics := make([]lint.Diagnostic, 0, 16)
 	if isXMLKind(kind) {
-		diagnostics = append(
-			diagnostics,
-			checkRequiredAttributes(normalizedPath, kind, data)...,
-		)
+		var err error
+		diagnostics, err = checkRequiredAttributes(normalizedPath, kind, data)
+		if err != nil {
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeParseInvalidXML,
+				normalizedPath,
+				fmt.Sprintf("failed to decode XML kind %s: %v", kind, err),
+			))
+			return diagnostics, fmt.Errorf("decode CE content %q as %s: %w", normalizedPath, kind, err)
+		}
 	}
 
 	value, err := Decode(kind, data)
 	if err != nil {
 		if isJSONKind(kind) {
-			return append(diagnostics, newDiagnostic(
+			diagnostics = append(diagnostics, newDiagnostic(
 				CodeParseInvalidJSON,
 				normalizedPath,
 				fmt.Sprintf("failed to decode JSON kind %s: %v", kind, err),
 			))
 		}
 
-		if !isXMLKind(kind) {
-			return diagnostics
-		}
-
-		return append(diagnostics, []lint.Diagnostic{
-			newDiagnostic(
+		if isXMLKind(kind) {
+			diagnostics = append(diagnostics, newDiagnostic(
 				CodeParseInvalidXML,
 				normalizedPath,
 				fmt.Sprintf("failed to decode XML kind %s: %v", kind, err),
-			),
-		}...)
+			))
+		}
+
+		return diagnostics, fmt.Errorf(
+			"decode CE content %q as %s: %w",
+			normalizedPath,
+			kind,
+			err,
+		)
 	}
+
+	diagnostics = append(diagnostics, analyzeDecodedValue(normalizedPath, value)...)
+
+	return diagnostics, nil
+}
+
+// ValidateFile reads and validates one supported CE file.
+func ValidateFile(path string) ([]lint.Diagnostic, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil, fmt.Errorf("read CE file %q: %w", path, err)
+	}
+
+	return ValidateContent(path, data)
+}
+
+// AnalyzeLintContent returns diagnostics from CE checks without decode status.
+// Use [ValidateContent] when callers need to distinguish successful decoding
+// from an unsupported kind or malformed payload.
+func AnalyzeLintContent(path string, data []byte) []lint.Diagnostic {
+	diagnostics, _ := ValidateContent(path, data)
+	return diagnostics
+}
+
+// analyzeDecodedValue applies the existing kind-specific CE checks.
+func analyzeDecodedValue(path string, value any) []lint.Diagnostic {
+	diagnostics := make([]lint.Diagnostic, 0, 16)
 
 	switch typed := value.(type) {
 	case *TypesFile:
-		diagnostics = append(diagnostics, analyzeTypesFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeTypesFile(path, typed)...)
 
 	case *EventsFile:
-		diagnostics = append(diagnostics, analyzeEventsFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeEventsFile(path, typed)...)
 
 	case *MessagesFile:
-		diagnostics = append(diagnostics, analyzeMessagesFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeMessagesFile(path, typed)...)
 
 	case *GlobalsFile:
-		diagnostics = append(diagnostics, analyzeGlobalsFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeGlobalsFile(path, typed)...)
 
 	case *EconomyCoreFile:
-		diagnostics = append(diagnostics, analyzeEconomyCoreFile(normalizedPath, typed)...)
-		diagnostics = append(diagnostics, analyzeEconomyCoreEnums(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeEconomyCoreFile(path, typed)...)
+		diagnostics = append(diagnostics, analyzeEconomyCoreEnums(path, typed)...)
 
 	case *EconomyFile:
-		diagnostics = append(diagnostics, analyzeEconomyFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeEconomyFile(path, typed)...)
 
 	case *SpawnableTypesFile:
-		diagnostics = append(diagnostics, analyzeSpawnableTypesFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeSpawnableTypesFile(path, typed)...)
 
 	case *RandomPresetsFile:
-		diagnostics = append(diagnostics, analyzeRandomPresetsFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeRandomPresetsFile(path, typed)...)
 
 	case *GameplayFile:
-		diagnostics = append(diagnostics, analyzeGameplayFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeGameplayFile(path, typed)...)
 
 	case *BunkerBroadcastFile:
-		diagnostics = append(diagnostics, analyzeBunkerBroadcastFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeBunkerBroadcastFile(path, typed)...)
 
 	case *EffectAreaFile:
-		diagnostics = append(diagnostics, analyzeEffectAreaFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeEffectAreaFile(path, typed)...)
 
 	case *UndergroundTriggersFile:
-		diagnostics = append(diagnostics, analyzeUndergroundTriggersFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeUndergroundTriggersFile(path, typed)...)
 
 	case *ObjectSpawnerFile:
-		diagnostics = append(diagnostics, analyzeObjectSpawnerFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeObjectSpawnerFile(path, typed)...)
 
 	case *GameplayGearPresetsFile:
-		diagnostics = append(diagnostics, analyzeGameplayGearPresetsFile(normalizedPath, typed)...)
+		diagnostics = append(diagnostics, analyzeGameplayGearPresetsFile(path, typed)...)
 
 	default:
 		return diagnostics
@@ -1340,62 +1386,86 @@ func checkEconomySectionFlags(
 	return diagnostics
 }
 
-// checkRequiredAttributes validates required XML attributes by element.
-func checkRequiredAttributes(path string, kind Kind, data []byte) []lint.Diagnostic {
+// checkRequiredAttributes validates XML document shape and required attributes.
+func checkRequiredAttributes(path string, kind Kind, data []byte) ([]lint.Diagnostic, error) {
 	decoder := xml.NewDecoder(bytes.NewReader(data))
 	diagnostics := make([]lint.Diagnostic, 0, 4)
+	rootCount := 0
+	depth := 0
 
 	for {
 		token, err := decoder.Token()
-		if err != nil {
+		if errors.Is(err, io.EOF) {
 			break
 		}
-
-		start, ok := token.(xml.StartElement)
-		if !ok {
-			continue
+		if err != nil {
+			return diagnostics, err
 		}
 
-		required := requiredAttrsForElement(kind, strings.ToLower(start.Name.Local))
-		if len(required) == 0 {
-			continue
-		}
+		switch element := token.(type) {
+		case xml.StartElement:
+			if depth == 0 {
+				rootCount++
+				if rootCount > 1 {
+					return diagnostics, ErrXMLMultipleRootElements
+				}
+			}
+			depth++
 
-		attributes := make(map[string]string, len(start.Attr))
-		for index := range start.Attr {
-			attributes[strings.ToLower(start.Attr[index].Name.Local)] = strings.TrimSpace(start.Attr[index].Value)
-		}
-
-		for index := range required {
-			value, exists := attributes[required[index]]
-			if !exists {
-				diagnostics = append(diagnostics, newDiagnostic(
-					CodeValidateMissingRequiredAttr,
-					path,
-					fmt.Sprintf(
-						"<%s> is missing required attribute @%s",
-						start.Name.Local,
-						required[index],
-					),
-				))
+			required := requiredAttrsForElement(kind, strings.ToLower(element.Name.Local))
+			if len(required) == 0 {
 				continue
 			}
 
-			if value == "" {
-				diagnostics = append(diagnostics, newDiagnostic(
-					CodeValidateEmptyRequiredAttr,
-					path,
-					fmt.Sprintf(
-						"<%s> has empty required attribute @%s",
-						start.Name.Local,
-						required[index],
-					),
-				))
+			attributes := make(map[string]string, len(element.Attr))
+			for index := range element.Attr {
+				attributes[strings.ToLower(element.Attr[index].Name.Local)] = strings.TrimSpace(element.Attr[index].Value)
+			}
+
+			for index := range required {
+				value, exists := attributes[required[index]]
+				if !exists {
+					diagnostics = append(diagnostics, newDiagnostic(
+						CodeValidateMissingRequiredAttr,
+						path,
+						fmt.Sprintf(
+							"<%s> is missing required attribute @%s",
+							element.Name.Local,
+							required[index],
+						),
+					))
+
+					continue
+				}
+
+				if value == "" {
+					diagnostics = append(diagnostics, newDiagnostic(
+						CodeValidateEmptyRequiredAttr,
+						path,
+						fmt.Sprintf(
+							"<%s> has empty required attribute @%s",
+							element.Name.Local,
+							required[index],
+						),
+					))
+				}
+			}
+
+		case xml.EndElement:
+			depth--
+
+		case xml.CharData:
+			if depth == 0 && strings.TrimSpace(string(element)) != "" {
+				return diagnostics, ErrXMLTextOutsideRoot
 			}
 		}
 	}
 
-	return diagnostics
+	if rootCount != 1 {
+		return diagnostics, ErrXMLRootCount
+	}
+
+	return diagnostics, nil
 }
 
 // requiredAttrsForElement returns required attributes for one kind/element.
