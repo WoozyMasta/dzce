@@ -41,6 +41,14 @@ var diagnosticCatalog = []lint.CodeSpec{
 	),
 	withDescription(
 		lint.ErrorCodeSpec(
+			CodeParseInvalidContent,
+			StageParse,
+			"content decode failed",
+		),
+		"Recognized CE content is malformed and cannot be decoded.",
+	),
+	withDescription(
+		lint.ErrorCodeSpec(
 			CodeValidateMissingRequiredAttr,
 			StageValidate,
 			"missing required attribute",

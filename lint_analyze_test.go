@@ -6,11 +6,16 @@ import (
 	"github.com/woozymasta/lintkit/lint"
 )
 
+// analyzeLintDiagnostics keeps individual rule tests focused on finding contents.
+func analyzeLintDiagnostics(path string, data []byte) []lint.Diagnostic {
+	return AnalyzeLintContent(path, data).Diagnostics
+}
+
 func TestAnalyzeLintContentUnknownRoot(t *testing.T) {
 	t.Parallel()
 
 	content := []byte(`<?xml version="1.0"?><config></config>`)
-	diagnostics := AnalyzeLintContent("unknown.xml", content)
+	diagnostics := analyzeLintDiagnostics("unknown.xml", content)
 	if !hasCode(diagnostics, CodeParseUnknownRoot) {
 		t.Fatalf("expected %s code in diagnostics", codeToken(CodeParseUnknownRoot))
 	}
@@ -19,7 +24,7 @@ func TestAnalyzeLintContentUnknownRoot(t *testing.T) {
 func TestAnalyzeLintContentJSONDecodeError(t *testing.T) {
 	t.Parallel()
 
-	diagnostics := AnalyzeLintContent("cfggameplay.json", []byte(`{"version":`))
+	diagnostics := analyzeLintDiagnostics("cfggameplay.json", []byte(`{"version":`))
 	if !hasCode(diagnostics, CodeParseInvalidJSON) {
 		t.Fatalf("expected %s code in diagnostics", codeToken(CodeParseInvalidJSON))
 	}
@@ -36,7 +41,7 @@ func TestAnalyzeLintContentGlobalsTypeAndRange(t *testing.T) {
 </variables>`,
 	)
 
-	diagnostics := AnalyzeLintContent("db/globals.xml", content)
+	diagnostics := analyzeLintDiagnostics("db/globals.xml", content)
 	if !hasCode(diagnostics, CodeGlobalsOutOfRange) {
 		t.Fatalf("expected %s code in diagnostics", codeToken(CodeGlobalsOutOfRange))
 	}
@@ -61,7 +66,7 @@ func TestAnalyzeLintContentEconomyCoreDuplicateDefaults(t *testing.T) {
 </economycore>`,
 	)
 
-	diagnostics := AnalyzeLintContent("cfgeconomycore.xml", content)
+	diagnostics := analyzeLintDiagnostics("cfgeconomycore.xml", content)
 	if !hasCode(diagnostics, CodeEconomyCoreDuplicateDefaultName) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -84,7 +89,7 @@ func TestAnalyzeLintContentEconomyCoreRange(t *testing.T) {
 </economycore>`,
 	)
 
-	diagnostics := AnalyzeLintContent("cfgeconomycore.xml", content)
+	diagnostics := analyzeLintDiagnostics("cfgeconomycore.xml", content)
 	if !hasCode(diagnostics, CodeEconomyCoreDefaultOutOfRange) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -109,7 +114,7 @@ func TestAnalyzeLintContentEconomySectionFlags(t *testing.T) {
 </economy>`,
 	)
 
-	diagnostics := AnalyzeLintContent("db/economy.xml", content)
+	diagnostics := analyzeLintDiagnostics("db/economy.xml", content)
 	if !hasCode(diagnostics, CodeEconomyIncompleteSection) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -140,7 +145,7 @@ func TestAnalyzeLintContentTypesRules(t *testing.T) {
 </types>`,
 	)
 
-	diagnostics := AnalyzeLintContent("db/types.xml", content)
+	diagnostics := analyzeLintDiagnostics("db/types.xml", content)
 	if !hasCode(diagnostics, CodeTypesDuplicateName) {
 		t.Fatalf("expected %s code in diagnostics", codeToken(CodeTypesDuplicateName))
 	}
@@ -170,7 +175,7 @@ func TestAnalyzeLintContentEventsRules(t *testing.T) {
 </events>`,
 	)
 
-	diagnostics := AnalyzeLintContent("db/events.xml", content)
+	diagnostics := analyzeLintDiagnostics("db/events.xml", content)
 	if !hasCode(diagnostics, CodeEventsDuplicateName) {
 		t.Fatalf("expected %s code in diagnostics", codeToken(CodeEventsDuplicateName))
 	}
@@ -200,7 +205,7 @@ func TestAnalyzeLintContentSpawnableRules(t *testing.T) {
 </spawnabletypes>`,
 	)
 
-	diagnostics := AnalyzeLintContent("cfgspawnabletypes.xml", content)
+	diagnostics := analyzeLintDiagnostics("cfgspawnabletypes.xml", content)
 	if !hasCode(diagnostics, CodeSpawnableDamageRange) {
 		t.Fatalf("expected %s code in diagnostics", codeToken(CodeSpawnableDamageRange))
 	}
@@ -282,7 +287,7 @@ func TestAnalyzeLintContentSpawnableChanceModes(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			diagnostics := AnalyzeLintContent(
+			diagnostics := analyzeLintDiagnostics(
 				"cfgspawnabletypes.xml",
 				[]byte(test.content),
 			)
@@ -312,7 +317,7 @@ func TestAnalyzeLintContentSpawnableItemChanceRejectsNonFiniteValues(t *testing.
 </spawnabletypes>`,
 	)
 
-	diagnostics := AnalyzeLintContent("cfgspawnabletypes.xml", content)
+	diagnostics := analyzeLintDiagnostics("cfgspawnabletypes.xml", content)
 	if !hasCode(diagnostics, CodeSpawnableChanceRange) {
 		t.Fatalf("expected %s code in diagnostics", codeToken(CodeSpawnableChanceRange))
 	}
@@ -321,7 +326,7 @@ func TestAnalyzeLintContentSpawnableItemChanceRejectsNonFiniteValues(t *testing.
 func TestAnalyzeLintContentNonFiniteFloatValues(t *testing.T) {
 	t.Parallel()
 
-	spawnable := AnalyzeLintContent(
+	spawnable := analyzeLintDiagnostics(
 		"cfgspawnabletypes.xml",
 		[]byte(`<spawnabletypes><type name="T1"><damage min="NaN" max="1"/><cargo chance="NaN"/></type></spawnabletypes>`),
 	)
@@ -332,7 +337,7 @@ func TestAnalyzeLintContentNonFiniteFloatValues(t *testing.T) {
 		t.Fatalf("expected non-finite chance diagnostic, got %#v", spawnable)
 	}
 
-	globals := AnalyzeLintContent(
+	globals := analyzeLintDiagnostics(
 		"db/globals.xml",
 		[]byte(`<variables><var name="LootDamageMin" type="1" value="NaN"/></variables>`),
 	)
@@ -340,7 +345,7 @@ func TestAnalyzeLintContentNonFiniteFloatValues(t *testing.T) {
 		t.Fatalf("expected non-finite globals diagnostic, got %#v", globals)
 	}
 
-	defaults := AnalyzeLintContent(
+	defaults := analyzeLintDiagnostics(
 		"cfgeconomycore.xml",
 		[]byte(`<economycore><defaults><default name="dyn_radius" value="NaN"/></defaults></economycore>`),
 	)
@@ -361,7 +366,7 @@ func TestAnalyzeLintContentValidateRequiredAttrs(t *testing.T) {
 </types>`,
 	)
 
-	diagnostics := AnalyzeLintContent("db/types.xml", content)
+	diagnostics := analyzeLintDiagnostics("db/types.xml", content)
 	if !hasCode(diagnostics, CodeValidateMissingRequiredAttr) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -384,7 +389,7 @@ func TestAnalyzeLintContentNewSemanticRules(t *testing.T) {
 </types>`,
 	)
 
-	diagnostics := AnalyzeLintContent("db/types.xml", content)
+	diagnostics := analyzeLintDiagnostics("db/types.xml", content)
 	if !hasCode(diagnostics, CodeTypesMinGreaterThanNominal) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -411,7 +416,7 @@ func TestAnalyzeLintContentEconomyCoreUnknownAndBool(t *testing.T) {
 </economycore>`,
 	)
 
-	diagnostics := AnalyzeLintContent("cfgeconomycore.xml", content)
+	diagnostics := analyzeLintDiagnostics("cfgeconomycore.xml", content)
 	if !hasCode(diagnostics, CodeEconomyCoreDefaultInvalidBool) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -434,7 +439,7 @@ func TestAnalyzeLintContentEventsLimitWindow(t *testing.T) {
 </events>`,
 	)
 
-	diagnostics := AnalyzeLintContent("db/events.xml", content)
+	diagnostics := analyzeLintDiagnostics("db/events.xml", content)
 	if !hasCode(diagnostics, CodeEventsInvalidLimitWindow) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -462,7 +467,7 @@ func TestAnalyzeLintContentEventsZeroSentinels(t *testing.T) {
 </events>`,
 	)
 
-	diagnostics := AnalyzeLintContent("db/events.xml", content)
+	diagnostics := analyzeLintDiagnostics("db/events.xml", content)
 	if hasCode(diagnostics, CodeEventsInvalidLimitWindow) {
 		t.Fatalf("zero sentinel values should not trigger limit-window diagnostics: %#v", diagnostics)
 	}
@@ -481,7 +486,7 @@ func TestAnalyzeLintContentTypesZeroNominal(t *testing.T) {
 </types>`,
 	)
 
-	diagnostics := AnalyzeLintContent("db/types.xml", content)
+	diagnostics := analyzeLintDiagnostics("db/types.xml", content)
 	if hasCode(diagnostics, CodeTypesMinGreaterThanNominal) {
 		t.Fatalf("min > nominal should be ignored when nominal is zero: %#v", diagnostics)
 	}
@@ -502,7 +507,7 @@ func TestAnalyzeLintContentSpawnableDuplicateChild(t *testing.T) {
 </spawnabletypes>`,
 	)
 
-	diagnostics := AnalyzeLintContent("cfgspawnabletypes.xml", content)
+	diagnostics := analyzeLintDiagnostics("cfgspawnabletypes.xml", content)
 	if !hasCode(diagnostics, CodeSpawnableDuplicateChild) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -524,7 +529,7 @@ func TestAnalyzeLintContentValidateCodes(t *testing.T) {
 	</event>
 </events>`,
 	)
-	eventsDiagnostics := AnalyzeLintContent("db/events.xml", eventsContent)
+	eventsDiagnostics := analyzeLintDiagnostics("db/events.xml", eventsContent)
 	if !hasCode(eventsDiagnostics, CodeValidateEmptyRequiredAttr) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -556,7 +561,7 @@ func TestAnalyzeLintContentValidateCodes(t *testing.T) {
 	</type>
 </types>`,
 	)
-	typesDiagnostics := AnalyzeLintContent("db/types.xml", typesContent)
+	typesDiagnostics := analyzeLintDiagnostics("db/types.xml", typesContent)
 	if !hasCode(typesDiagnostics, CodeTypesNominalNegative) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -567,7 +572,7 @@ func TestAnalyzeLintContentValidateCodes(t *testing.T) {
 		t.Fatalf("nominal diagnostic must not be duplicated by generic range code: %#v", typesDiagnostics)
 	}
 
-	minDiagnostics := AnalyzeLintContent(
+	minDiagnostics := analyzeLintDiagnostics(
 		"db/types.xml",
 		[]byte(`<types><type name="A"><min>-1</min></type></types>`),
 	)
@@ -590,7 +595,7 @@ func TestAnalyzeLintContentRandomPresetsRules(t *testing.T) {
 </randompresets>`,
 	)
 
-	diagnostics := AnalyzeLintContent("cfgrandompresets.xml", content)
+	diagnostics := analyzeLintDiagnostics("cfgrandompresets.xml", content)
 	if !hasCode(diagnostics, CodeRandomPresetsDuplicateName) {
 		t.Fatalf(
 			"expected %s code in diagnostics",
@@ -678,7 +683,7 @@ func TestAnalyzeLintContentSchemaConstraints(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			diagnostics := AnalyzeLintContent(test.path, []byte(test.content))
+			diagnostics := analyzeLintDiagnostics(test.path, []byte(test.content))
 			if !hasCode(diagnostics, test.wantCode) {
 				t.Fatalf("expected %s in diagnostics, got %#v", codeToken(test.wantCode), diagnostics)
 			}
@@ -689,7 +694,7 @@ func TestAnalyzeLintContentSchemaConstraints(t *testing.T) {
 func TestAnalyzeLintContentEconomyCoreStringEnums(t *testing.T) {
 	t.Parallel()
 
-	diagnostics := AnalyzeLintContent(
+	diagnostics := analyzeLintDiagnostics(
 		"cfgeconomycore.xml",
 		[]byte(`<economycore><classes><rootclass name="ItemBase" reportMemoryLOD="sometimes" act="zombie"/></classes></economycore>`),
 	)
@@ -701,7 +706,7 @@ func TestAnalyzeLintContentEconomyCoreStringEnums(t *testing.T) {
 func TestAnalyzeLintContentGearPresetBounds(t *testing.T) {
 	t.Parallel()
 
-	diagnostics := AnalyzeLintContent(
+	diagnostics := analyzeLintDiagnostics(
 		"gameplay-gear-presets.json",
 		[]byte(`[{
   "attachmentSlotItemSets": [{
@@ -726,7 +731,7 @@ func TestAnalyzeLintContentObjectSpawnerOptionalYPR(t *testing.T) {
 	t.Parallel()
 
 	for _, ypr := range []string{"[]", "[1,2,3]"} {
-		diagnostics := AnalyzeLintContent(
+		diagnostics := analyzeLintDiagnostics(
 			"object-spawner.json",
 			[]byte(`{"Objects":[{"pos":[1,2,3],"ypr":`+ypr+`}]}`),
 		)
@@ -735,7 +740,7 @@ func TestAnalyzeLintContentObjectSpawnerOptionalYPR(t *testing.T) {
 		}
 	}
 
-	diagnostics := AnalyzeLintContent(
+	diagnostics := analyzeLintDiagnostics(
 		"object-spawner.json",
 		[]byte(`{"Objects":[{"pos":[1,2,3],"ypr":[1,2]}]}`),
 	)
@@ -747,7 +752,7 @@ func TestAnalyzeLintContentObjectSpawnerOptionalYPR(t *testing.T) {
 func TestAnalyzeLintContentSchemaConstraintsInXML(t *testing.T) {
 	t.Parallel()
 
-	messages := AnalyzeLintContent(
+	messages := analyzeLintDiagnostics(
 		"db/messages.xml",
 		[]byte(`<messages>
 	<message>
@@ -765,7 +770,7 @@ func TestAnalyzeLintContentSchemaConstraintsInXML(t *testing.T) {
 		t.Fatalf("message enum diagnostics = %d, want 2; diagnostics: %#v", got, messages)
 	}
 
-	weather := AnalyzeLintContent(
+	weather := analyzeLintDiagnostics(
 		"cfgweather.xml",
 		[]byte(`<weather reset="2" enable="1"></weather>`),
 	)
@@ -777,7 +782,7 @@ func TestAnalyzeLintContentSchemaConstraintsInXML(t *testing.T) {
 func TestAnalyzeLintContentRandomPresetChanceConstraints(t *testing.T) {
 	t.Parallel()
 
-	invalid := AnalyzeLintContent(
+	invalid := analyzeLintDiagnostics(
 		"cfgrandompresets.xml",
 		[]byte(`<randompresets><cargo name="p" chance="1.1"><item name="A" chance="-0.1"/></cargo></randompresets>`),
 	)
@@ -785,7 +790,7 @@ func TestAnalyzeLintContentRandomPresetChanceConstraints(t *testing.T) {
 		t.Fatalf("random preset chance diagnostics = %d, want 2; diagnostics: %#v", got, invalid)
 	}
 
-	validWeight := AnalyzeLintContent(
+	validWeight := analyzeLintDiagnostics(
 		"cfgrandompresets.xml",
 		[]byte(`<randompresets><cargo name="p"><item name="A" chance="1.2"/></cargo></randompresets>`),
 	)
@@ -793,7 +798,7 @@ func TestAnalyzeLintContentRandomPresetChanceConstraints(t *testing.T) {
 		t.Fatalf("unbounded candidate chance was rejected: %#v", validWeight)
 	}
 
-	nested := AnalyzeLintContent(
+	nested := analyzeLintDiagnostics(
 		"cfgspawnabletypes.xml",
 		[]byte(`<spawnabletypes>
 	<type name="T"><cargo chance="0.5"><item name="A" chance="0.5"><cargo chance="1.1"><item name="B" chance="-0.1"/></cargo></item></cargo></type>

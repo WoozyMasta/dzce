@@ -162,11 +162,34 @@ var (
 	}
 )
 
-// ValidateContent decodes one supported CE file and runs its existing structural and semantic checks.
-// XML inputs must be well-formed single-root documents and receive required-attribute checks.
-// JSON is decoded into its Go model, without strict unknown-field or generated JSON Schema validation.
-// Diagnostics report lint findings, while a non-nil error means the kind was unknown or decoding failed.
-func ValidateContent(path string, data []byte) ([]lint.Diagnostic, error) {
+// AnalysisStatus reports whether content was recognized and passed CE checks.
+type AnalysisStatus string
+
+const (
+	// AnalysisStatusOK means the content was checked without error-severity findings.
+	AnalysisStatusOK AnalysisStatus = "ok"
+	// AnalysisStatusInvalid means parsing or checks produced an error-severity finding.
+	AnalysisStatusInvalid AnalysisStatus = "invalid"
+	// AnalysisStatusUnsupported means the content kind could not be identified.
+	AnalysisStatusUnsupported AnalysisStatus = "unsupported"
+)
+
+// AnalysisResult contains the status, error count, and diagnostics for CE content.
+type AnalysisResult struct {
+	// Status reports whether the content was recognized and passed checks.
+	Status AnalysisStatus `json:"status" yaml:"status"`
+	// Diagnostics contains parse, structural, and semantic findings.
+	Diagnostics []lint.Diagnostic `json:"diagnostics" yaml:"diagnostics"`
+	// ErrorCount is the number of diagnostics with error severity.
+	ErrorCount int `json:"errorCount" yaml:"errorCount"`
+}
+
+// ValidateContent decodes one CE file and runs its structural and semantic checks.
+// XML must be well formed and have one root.
+// JSON decodes into its Go model without strict unknown-field or generated JSON Schema validation.
+// Parse and check failures appear in the returned result;
+// unsupported kinds have status [AnalysisStatusUnsupported].
+func ValidateContent(path string, data []byte) AnalysisResult {
 	normalizedPath := strings.TrimSpace(path)
 	kind := DetectKind(normalizedPath)
 	if kind == KindUnknown {
@@ -174,11 +197,16 @@ func ValidateContent(path string, data []byte) ([]lint.Diagnostic, error) {
 	}
 
 	if kind == KindUnknown {
-		return analyzeUnknownKindXML(normalizedPath, data), fmt.Errorf(
-			"%w: %s",
-			ErrUnknownFileKind,
-			normalizedPath,
-		)
+		diagnostics := analyzeUnknownKindXML(normalizedPath, data)
+		result := makeAnalysisResult(diagnostics)
+		for _, diagnostic := range diagnostics {
+			if diagnostic.Code == lint.ApplyCodePrefix("DZCE", CodeParseInvalidXML) {
+				return result
+			}
+		}
+		result.Status = AnalysisStatusUnsupported
+
+		return result
 	}
 
 	diagnostics := make([]lint.Diagnostic, 0, 16)
@@ -191,57 +219,74 @@ func ValidateContent(path string, data []byte) ([]lint.Diagnostic, error) {
 				normalizedPath,
 				fmt.Sprintf("failed to decode XML kind %s: %v", kind, err),
 			))
-			return diagnostics, fmt.Errorf("decode CE content %q as %s: %w", normalizedPath, kind, err)
+			return makeAnalysisResult(diagnostics)
 		}
 	}
 
 	value, err := Decode(kind, data)
 	if err != nil {
-		if isJSONKind(kind) {
+		switch {
+		case isJSONKind(kind):
 			diagnostics = append(diagnostics, newDiagnostic(
 				CodeParseInvalidJSON,
 				normalizedPath,
 				fmt.Sprintf("failed to decode JSON kind %s: %v", kind, err),
 			))
-		}
-
-		if isXMLKind(kind) {
+		case isXMLKind(kind):
 			diagnostics = append(diagnostics, newDiagnostic(
 				CodeParseInvalidXML,
 				normalizedPath,
 				fmt.Sprintf("failed to decode XML kind %s: %v", kind, err),
 			))
+		default:
+			diagnostics = append(diagnostics, newDiagnostic(
+				CodeParseInvalidContent,
+				normalizedPath,
+				fmt.Sprintf("failed to decode content kind %s: %v", kind, err),
+			))
 		}
 
-		return diagnostics, fmt.Errorf(
-			"decode CE content %q as %s: %w",
-			normalizedPath,
-			kind,
-			err,
-		)
+		return makeAnalysisResult(diagnostics)
 	}
 
 	diagnostics = append(diagnostics, analyzeDecodedValue(normalizedPath, value)...)
 
-	return diagnostics, nil
+	return makeAnalysisResult(diagnostics)
 }
 
-// ValidateFile reads and validates one supported CE file.
-func ValidateFile(path string) ([]lint.Diagnostic, error) {
+// ValidateFile reads and validates one CE file.
+func ValidateFile(path string) (AnalysisResult, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("read CE file %q: %w", path, err)
+		return AnalysisResult{}, fmt.Errorf("read CE file %q: %w", path, err)
 	}
 
+	return ValidateContent(path, data), nil
+}
+
+// AnalyzeLintContent returns the complete analysis result for CE content.
+func AnalyzeLintContent(path string, data []byte) AnalysisResult {
 	return ValidateContent(path, data)
 }
 
-// AnalyzeLintContent returns diagnostics from CE checks without decode status.
-// Use [ValidateContent] when callers need to distinguish successful decoding
-// from an unsupported kind or malformed payload.
-func AnalyzeLintContent(path string, data []byte) []lint.Diagnostic {
-	diagnostics, _ := ValidateContent(path, data)
-	return diagnostics
+// makeAnalysisResult derives the result status and error count from lintkit severities.
+func makeAnalysisResult(diagnostics []lint.Diagnostic) AnalysisResult {
+	result := AnalysisResult{
+		Status:      AnalysisStatusOK,
+		Diagnostics: diagnostics,
+	}
+
+	for _, diagnostic := range diagnostics {
+		if diagnostic.Severity == lint.SeverityError {
+			result.ErrorCount++
+		}
+	}
+
+	if result.ErrorCount > 0 {
+		result.Status = AnalysisStatusInvalid
+	}
+
+	return result
 }
 
 // analyzeDecodedValue applies the existing kind-specific CE checks.
@@ -1680,9 +1725,14 @@ func isFiniteFloat64(value float64) bool {
 
 // newDiagnostic builds one shared lint diagnostic for dzce code token.
 func newDiagnostic(code lint.Code, path string, message string) lint.Diagnostic {
-	return lint.Diagnostic{
+	diagnostic := lint.Diagnostic{
 		Code:    lint.ApplyCodePrefix("DZCE", code),
 		Path:    path,
 		Message: strings.TrimSpace(message),
 	}
+	if spec, ok := DiagnosticByCode(code); ok {
+		diagnostic.Severity = spec.Severity
+	}
+
+	return diagnostic
 }

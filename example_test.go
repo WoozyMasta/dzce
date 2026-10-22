@@ -76,12 +76,12 @@ func ExampleLoadFileAs() {
 }
 
 func ExampleValidateContent() {
-	diagnostics, err := dzce.ValidateContent(
+	result := dzce.ValidateContent(
 		"cfgGameplay.json",
 		[]byte(`{"version":`),
 	)
-	fmt.Println(err != nil, len(diagnostics) > 0)
-	// Output: true true
+	fmt.Println(result.Status, result.ErrorCount, len(result.Diagnostics) > 0)
+	// Output: invalid 1 true
 }
 
 func ExampleBuildAreaFlagsFromCEProjectMasks() {

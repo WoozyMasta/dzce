@@ -37,6 +37,9 @@ const (
 
 	// CodeParseInvalidJSON reports malformed JSON payload.
 	CodeParseInvalidJSON lint.Code = 1003
+
+	// CodeParseInvalidContent reports a failure to decode a recognized non-XML/JSON format.
+	CodeParseInvalidContent lint.Code = 1004
 )
 
 const (
