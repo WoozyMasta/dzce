@@ -5,8 +5,8 @@
 
 Mission file: `cfgweather.xml`.
 
-* Source file: [`schemas/weather.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/weather.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/weather.schema.json)
+* Source file: [`schemas/data/weather.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/weather.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/weather.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/weather-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

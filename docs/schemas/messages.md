@@ -5,8 +5,8 @@
 
 Mission file: `db/messages.xml`.
 
-* Source file: [`schemas/messages.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/messages.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/messages.schema.json)
+* Source file: [`schemas/data/messages.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/messages.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/messages.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/messages-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

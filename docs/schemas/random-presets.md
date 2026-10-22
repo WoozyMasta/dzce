@@ -5,8 +5,8 @@
 
 Mission file: `cfgrandompresets.xml`.
 
-* Source file: [`schemas/random-presets.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/random-presets.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/random-presets.schema.json)
+* Source file: [`schemas/data/random-presets.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/random-presets.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/random-presets.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/random-presets-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

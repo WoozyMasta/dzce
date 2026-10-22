@@ -5,8 +5,8 @@
 
 Mission file: `cfgeconomycore.xml`.
 
-* Source file: [`schemas/economy-core.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/economy-core.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/economy-core.schema.json)
+* Source file: [`schemas/data/economy-core.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/economy-core.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/economy-core.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/economy-core-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

@@ -5,8 +5,8 @@
 
 Mission file: `cfgplayerspawnpoints.xml`.
 
-* Source file: [`schemas/player-spawn-points.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/player-spawn-points.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/player-spawn-points.schema.json)
+* Source file: [`schemas/data/player-spawn-points.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/player-spawn-points.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/player-spawn-points.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/player-spawn-points-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

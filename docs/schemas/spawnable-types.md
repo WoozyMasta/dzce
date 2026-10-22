@@ -5,8 +5,8 @@
 
 Mission file: `cfgspawnabletypes.xml`.
 
-* Source file: [`schemas/spawnable-types.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/spawnable-types.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/spawnable-types.schema.json)
+* Source file: [`schemas/data/spawnable-types.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/spawnable-types.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/spawnable-types.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/spawnable-types-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

@@ -5,8 +5,8 @@
 
 Mission file: `cfgignorelist.xml`.
 
-* Source file: [`schemas/ignore-list.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/ignore-list.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/ignore-list.schema.json)
+* Source file: [`schemas/data/ignore-list.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/ignore-list.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/ignore-list.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/ignore-list-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

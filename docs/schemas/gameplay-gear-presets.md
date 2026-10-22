@@ -5,8 +5,8 @@
 
 Mission-relative JSON files listed in `cfggameplay.json` under `PlayerData.spawnGearPresetFiles`.
 
-* Source file: [`schemas/gameplay-gear-presets.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/gameplay-gear-presets.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/gameplay-gear-presets.schema.json)
+* Source file: [`schemas/data/gameplay-gear-presets.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/gameplay-gear-presets.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/gameplay-gear-presets.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/gameplay-gear-presets-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

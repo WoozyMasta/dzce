@@ -5,8 +5,8 @@
 
 Mission file: `mapgroupproto.xml`.
 
-* Source file: [`schemas/map-group-proto.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/map-group-proto.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/map-group-proto.schema.json)
+* Source file: [`schemas/data/map-group-proto.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/map-group-proto.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/map-group-proto.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/map-group-proto-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

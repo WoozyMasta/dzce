@@ -5,8 +5,8 @@
 
 Mission file: `cfgbunkerbroadcast.json`; enabled by `bunkerBroadcastEnabled` in `cfggameplay.json`.
 
-* Source file: [`schemas/bunker-broadcast.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/bunker-broadcast.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/bunker-broadcast.schema.json)
+* Source file: [`schemas/data/bunker-broadcast.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/bunker-broadcast.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/bunker-broadcast.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/bunker-broadcast-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

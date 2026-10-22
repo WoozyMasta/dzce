@@ -5,8 +5,8 @@
 
 Mission file: `mapgroupdirt.xml`.
 
-* Source file: [`schemas/map-group-dirt.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/map-group-dirt.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/map-group-dirt.schema.json)
+* Source file: [`schemas/data/map-group-dirt.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/map-group-dirt.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/map-group-dirt.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/map-group-dirt-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

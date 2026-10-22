@@ -5,8 +5,8 @@
 
 Mission file: `cfggameplay.json`.
 
-* Source file: [`schemas/gameplay.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/gameplay.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/gameplay.schema.json)
+* Source file: [`schemas/data/gameplay.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/gameplay.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/gameplay.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/gameplay-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

@@ -5,8 +5,8 @@
 
 Mission file: `cfglimitsdefinitionuser.xml`.
 
-* Source file: [`schemas/limits-definition-user.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/limits-definition-user.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/limits-definition-user.schema.json)
+* Source file: [`schemas/data/limits-definition-user.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/limits-definition-user.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/limits-definition-user.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/limits-definition-user-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

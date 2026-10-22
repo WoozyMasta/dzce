@@ -5,8 +5,8 @@
 
 Mission files matching `mapgroupcluster*.xml`.
 
-* Source file: [`schemas/map-group-cluster.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/map-group-cluster.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/map-group-cluster.schema.json)
+* Source file: [`schemas/data/map-group-cluster.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/map-group-cluster.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/map-group-cluster.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/map-group-cluster-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

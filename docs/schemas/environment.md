@@ -5,8 +5,8 @@
 
 Mission file: `cfgenvironment.xml`.
 
-* Source file: [`schemas/environment.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/environment.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/environment.schema.json)
+* Source file: [`schemas/data/environment.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/environment.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/environment.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/environment-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

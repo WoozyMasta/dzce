@@ -5,8 +5,8 @@
 
 Mission-relative JSON files listed in `cfggameplay.json` under `WorldsData.playerRestrictedAreaFiles`.
 
-* Source file: [`schemas/player-restricted-area.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/player-restricted-area.schema.json)
-* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/player-restricted-area.schema.json)
+* Source file: [`schemas/data/player-restricted-area.schema.json`](https://github.com/woozymasta/dzce/blob/HEAD/schemas/data/player-restricted-area.schema.json)
+* Source URL: [Raw schema URL](https://raw.githubusercontent.com/woozymasta/dzce/HEAD/schemas/data/player-restricted-area.schema.json)
 * Schema identifier: `https://github.com/woozymasta/dzce/player-restricted-area-file`
 * JSON Schema version: `https://json-schema.org/draft/2020-12/schema`
 * Version support: `supported (2020-12)`

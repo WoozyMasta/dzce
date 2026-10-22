@@ -17,8 +17,20 @@ import (
 
 const schemaSuffix = ".schema.json"
 
-//go:embed *.schema.json
-var files embed.FS
+// embeddedFiles stores the schema documents under the data directory.
+//
+//go:embed data/*.schema.json
+var embeddedFiles embed.FS
+
+// files exposes embedded schema documents at the package filesystem root.
+var files = func() fs.FS {
+	sub, err := fs.Sub(embeddedFiles, "data")
+	if err != nil {
+		panic(err)
+	}
+
+	return sub
+}()
 
 var (
 	// ErrFieldNotFound reports that an exact schema field key was not found.
