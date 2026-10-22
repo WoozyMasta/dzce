@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning][].
 ### Removed
 -->
 
-## Unreleased
+## [0.3.0][] - 2026-10-22
 
 ### Added
 
@@ -37,6 +37,8 @@ and this project adheres to [Semantic Versioning][].
 ### Fixed
 
 * Rejects overflowing `areaflags.map` section sizes before allocating layers.
+
+[0.3.0]: https://github.com/WoozyMasta/dzce/compare/v0.2.0...v0.3.0
 
 ## [0.2.0][] - 2026-04-07
 
