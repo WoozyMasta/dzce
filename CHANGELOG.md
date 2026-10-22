@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning][].
 
 ### Changed
 
+* Saves individual CE files atomically and preserves existing file permissions.
 * Validates spawnable candidate chances as probabilities
   or percentage weights within each cargo or attachment group.
 

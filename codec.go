@@ -216,7 +216,7 @@ func SaveFile(path string, value any) error {
 		return fmt.Errorf("encode ce file %q: %w", path, err)
 	}
 
-	if err := writeFile600(path, data); err != nil {
+	if err := writeFileAtomic(path, data); err != nil {
 		return fmt.Errorf("write ce file %q: %w", path, err)
 	}
 
@@ -324,7 +324,7 @@ func SaveFileAs(kind Kind, path string, value any) error {
 		return fmt.Errorf("encode ce file %q: %w", path, err)
 	}
 
-	if err := writeFile600(path, data); err != nil {
+	if err := writeFileAtomic(path, data); err != nil {
 		return fmt.Errorf("write ce file %q: %w", path, err)
 	}
 
