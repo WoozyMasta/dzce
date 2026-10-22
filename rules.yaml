@@ -67,6 +67,14 @@ rules:
     message: json decode failed
     description: CE JSON file is malformed and cannot be parsed. Check JSON syntax and field values.
     default_severity: error
+  - id: dzce.parse.content-decode-failed
+    module: dzce
+    scope: parse
+    scope_description: Parse diagnostics for CE input payloads.
+    code: DZCE1004
+    message: content decode failed
+    description: Recognized CE content is malformed and cannot be decoded.
+    default_severity: error
   - id: dzce.semantic.duplicate-type-name
     module: dzce
     scope: semantic

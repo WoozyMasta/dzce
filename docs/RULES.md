@@ -4,7 +4,7 @@
 
 This document contains the current registry of lint rules.
 
-Total rules: 37.
+Total rules: 38.
 
 ## dzce
 
@@ -116,6 +116,7 @@ Codes:
 [DZCE1001](#dzce1001),
 [DZCE1002](#dzce1002),
 [DZCE1003](#dzce1003),
+[DZCE1004](#dzce1004),
 
 #### `DZCE1001`
 
@@ -155,6 +156,19 @@ Json decode failed
 | Field | Value |
 | --- | --- |
 | Rule ID | `dzce.parse.json-decode-failed` |
+| Scope | `parse` |
+| Severity | `error` |
+| Enabled | `true` (implicit) |
+
+#### `DZCE1004`
+
+Content decode failed
+
+> Recognized CE content is malformed and cannot be decoded.
+
+| Field | Value |
+| --- | --- |
+| Rule ID | `dzce.parse.content-decode-failed` |
 | Scope | `parse` |
 | Severity | `error` |
 | Enabled | `true` (implicit) |
